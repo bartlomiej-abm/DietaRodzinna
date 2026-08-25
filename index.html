@@ -113,6 +113,12 @@ h2.section-h{font-size:24px;font-weight:700;margin-bottom:4px}
 .recipe-h{display:flex;align-items:center;gap:10px;font-weight:700;font-size:16px;margin-bottom:2px}
 .recipe-id{font-size:11px;font-weight:700;color:var(--slate);background:var(--mist);border:1px solid var(--line);padding:2px 8px;border-radius:6px}
 .recipe-use{font-size:12px;color:var(--slate);margin-bottom:10px}
+.filter-bar{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:20px}
+.filter-chip{background:var(--paper);border:1px solid var(--line);border-radius:20px;padding:7px 15px;font-size:13px;font-weight:600;color:var(--steel);display:flex;align-items:center;gap:6px}
+.filter-chip:hover{background:var(--mist)}
+.filter-chip.active{background:var(--steel);color:#fff;border-color:var(--steel)}
+.fc-count{font-size:11px;font-weight:700;opacity:.7}
+.filter-chip.active .fc-count{opacity:.85}
 .recipe-sec{font-size:11px;text-transform:uppercase;letter-spacing:.4px;color:var(--slate);font-weight:700;margin:8px 0 3px}
 .recipe-txt{font-size:13.5px;color:var(--navy);line-height:1.55}
 
@@ -128,6 +134,19 @@ h2.section-h{font-size:24px;font-weight:700;margin-bottom:4px}
 .shop-item.done .shop-name{text-decoration:line-through;color:var(--slate)}
 .shop-name{flex:1}
 .shop-q{font-weight:700;color:var(--steel);font-size:13px}
+.shopday-picker{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:16px}
+.shopday-btn{background:var(--paper);border:1px solid var(--line);border-radius:8px;padding:6px 0;font-size:13px;font-weight:700;color:var(--steel);width:42px;text-align:center;line-height:1.1}
+.shopday-btn small{display:block;font-size:9px;color:var(--slate);font-weight:500;text-transform:uppercase}
+.shopday-btn.active{background:var(--steel);color:#fff;border-color:var(--steel)}
+.shopday-btn.active small{color:#cdd8e6}
+.shop-sel-label{font-weight:700;font-size:15px;margin-bottom:12px;color:var(--navy)}
+.shop-note{background:#f6efe0;border-left:3px solid var(--warn);padding:10px 14px;border-radius:0 9px 9px 0;font-size:13px;color:#7a5b1f;margin-bottom:14px}
+.shop-note div{margin:3px 0}
+.batch-buy{border:1px solid var(--line);border-left:3px solid var(--syn);border-radius:8px;padding:12px 14px;margin:8px 0;background:#f5fafa}
+.batch-buy-h{font-weight:700;font-size:14px;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.batch-buy-days{font-size:11px;font-weight:700;color:var(--syn);background:#e2eef0;border:1px solid #c7e0e2;padding:1px 8px;border-radius:20px}
+.batch-buy-warn{font-size:11px;font-weight:700;color:var(--warn);text-transform:uppercase;letter-spacing:.3px;margin:5px 0}
+.batch-buy-ingr{font-size:13px;color:var(--navy);line-height:1.5}
 
 .note{background:#e7eef6;border-left:3px solid var(--steel);padding:12px 16px;border-radius:0 9px 9px 0;font-size:13px;color:var(--steel);margin:16px 0}
 .empty{text-align:center;color:var(--slate);padding:50px 20px;font-size:15px}
@@ -476,16 +495,50 @@ function renderPlan(){
 function setWeekPlan(w){state.activeWeek=w;save();renderPlan();}
 
 // ---- PRZEPISY ----
+// kategoria przepisu na podstawie pola "use"
+function recipeCat(use){
+  const u=(use||'').toLowerCase();
+  if(u.includes('śniad'))return 'sniadanie';
+  if(u.includes('obiad'))return 'obiad';
+  if(u.includes('kolacj'))return 'kolacja';
+  if(u.includes('sos'))return 'sos';
+  if(u.includes('posiłek 2')||u.includes('paliwo')||u.includes('long run'))return 'posilek2';
+  return 'inne';
+}
+const RECIPE_FILTERS=[
+  {id:'all',label:'Wszystkie'},
+  {id:'sniadanie',label:'Śniadania'},
+  {id:'posilek2',label:'Posiłek 2'},
+  {id:'obiad',label:'Obiady'},
+  {id:'kolacja',label:'Kolacje'},
+  {id:'sos',label:'Sosy'}
+];
+let recipeFilter='all';
+
 function renderPrzepisy(){
   const el=document.getElementById('przepisy');
-  const r=curPlan().recipes.map(x=>`<div class="recipe">
+  const all=curPlan().recipes;
+  // policz ile w kazdej kategorii (do etykiet i chowania pustych filtrow)
+  const counts={};all.forEach(x=>{const c=recipeCat(x.use);counts[c]=(counts[c]||0)+1;});
+  const filtered=recipeFilter==='all'?all:all.filter(x=>recipeCat(x.use)===recipeFilter);
+
+  const chips=RECIPE_FILTERS.filter(f=>f.id==='all'||counts[f.id]).map(f=>{
+    const n=f.id==='all'?all.length:counts[f.id];
+    return `<button class="filter-chip ${recipeFilter===f.id?'active':''}" onclick="setRecipeFilter('${f.id}')">${f.label} <span class="fc-count">${n}</span></button>`;
+  }).join('');
+
+  const r=filtered.map(x=>`<div class="recipe">
     <div class="recipe-h"><span class="recipe-id">${x.id}</span>${x.name}</div>
     <div class="recipe-use">${x.use}</div>
     <div class="recipe-sec">Składniki</div><div class="recipe-txt">${x.ingr}</div>
     <div class="recipe-sec">Przygotowanie</div><div class="recipe-txt">${x.prep}</div></div>`).join('');
+
   el.innerHTML=`<h2 class="section-h">Przepisy</h2>
-    <div class="section-sub">Pełne bazy dań z sosami. Dokładne porcje osobowe są w zakładce Plan 14 dni.</div>${r}`;
+    <div class="section-sub">Pełne bazy dań z sosami. Dokładne porcje osobowe są w zakładce Plan 14 dni.</div>
+    <div class="filter-bar">${chips}</div>
+    ${r||'<div class="empty">Brak przepisów w tej kategorii.</div>'}`;
 }
+function setRecipeFilter(f){recipeFilter=f;renderPrzepisy();}
 
 // ---- BATCH ----
 function renderBatch(){
@@ -500,8 +553,91 @@ function renderBatch(){
 }
 
 // ---- ZAKUPY ----
+// ---- ZAKUPY PER DZIEŃ ----
+// parser skladnika z tekstu: "100 g chleba" -> {name:'chleb', qty:100, unit:'g'}
+// normalizacja dopelniacza -> mianownik dla grupowania
+const INGR_NORM={
+  'płatków':'płatki','banan':'banan','banana':'banan','jajko':'jajko','jajka':'jajka',
+  'mleka':'mleko','jogurtu':'jogurt','masła orzechowego':'masło orzechowe','chleba':'chleb',
+  'pieczywa':'pieczywo','szynki':'szynka','sera':'ser żółty','tuńczyka':'tuńczyk',
+  'kurczaka':'kurczak','indyka':'indyk','łososia':'łosoś','mozzarelli':'mozzarella',
+  'twarogu':'twaróg','miodu':'miód','oliwy':'oliwa','sosu':'sos','warzyw':'warzywa',
+  'warzywa':'warzywa','pomidor':'pomidor','bułki':'bułka','hummusu':'hummus',
+  'ryżu':'ryż','makaronu':'makaron','ziemniaków':'ziemniaki','wołowiny':'wołowina',
+  'mięsa':'mięso mielone','serka':'serek','tortilla':'tortilla','tortille':'tortilla',
+  'tortilli':'tortilla','wafle':'wafle ryżowe','wafli':'wafle ryżowe','mango':'mango',
+  'owoce':'owoc','owoc':'owoc','banan':'banan','fasoli':'fasola','passata':'passata',
+  'kukurydza':'kukurydza','szpinak':'szpinak','papryka':'papryka'
+};
+function normIngr(raw){
+  const w=raw.trim().toLowerCase();
+  if(INGR_NORM[w])return INGR_NORM[w];
+  // sprobuj usunac koncowke dopelniacza pojedynczych slow
+  return raw.trim();
+}
+function parseIngr(part){
+  let p=part.trim();
+  if(!p)return null;
+  // odetnij ogony typu "+ 30-45 g węgli/h biegu", "i warzywa", "z cienką..."
+  p=p.replace(/\s*\+.*/,'').replace(/\s+i\s+.*/,'').replace(/\s+z\s+.*/,'').trim();
+  // "100 g chleba" / "100 ml mleka"
+  let m=p.match(/^(\d+)\s*(g|ml)\s+(.+)$/i);
+  if(m)return {name:normIngr(m[3]),qty:+m[1],unit:m[2].toLowerCase()};
+  // "1 banan" / "2 jajka" / "3 wafle" / "1 tortilla"
+  m=p.match(/^(\d+)\s+(.+)$/);
+  if(m)return {name:normIngr(m[2]),qty:+m[1],unit:'szt'};
+  // "½ banana", "½ tortilli" -> traktuj jako 0.5 szt
+  m=p.match(/^[½]\s+(.+)$/);
+  if(m)return {name:normIngr(m[1]),qty:0.5,unit:'szt'};
+  // sama nazwa: "warzywa", "pomidor", "banan"
+  if(p.length>1 && !/^\d/.test(p))return {name:normIngr(p),unit:'wg potrzeb'};
+  return null;
+}
+// ktory batch obejmuje obiad danego dnia + ktory dzien jest "dniem zakupu"
+function batchInfoForDay(gd){
+  const meals=mealsForDay(gd);
+  const obiad=meals.find(m=>m.slot===3);
+  if(!obiad)return null;
+  const bm=(obiad.uwagi||'').match(/B(\d)/i);
+  // znajdz pierwszy dzien tego dania obiadowego (dzien zakupu batcha)
+  const sameName=curPlan().meals.filter(m=>m.slot===3 && m.name===obiad.name);
+  const firstDay=Math.min(...sameName.map(m=>m.day));
+  const lastDay=Math.max(...sameName.map(m=>m.day));
+  const batch=curPlan().batches.find(b=>bm && b.id==='B'+bm[1]) ||
+              curPlan().batches.find(b=>b.name.toLowerCase().includes(obiad.name.toLowerCase().split(' ')[0]));
+  return {obiad,batch,firstDay,lastDay,isFirstDay:gd===firstDay};
+}
+// zbierz skladniki sniadania/pos2/kolacji dla dnia (surowe, zsumowane, bez osob)
+function daySnbcIngredients(gd){
+  const meals=mealsForDay(gd).filter(m=>m.slot!==3); // bez obiadu
+  const totals={}; // name -> {qty, unit}
+  meals.forEach(m=>{
+    // bierzemy wersje Bartka jako "pelna" referencje surowych skladnikow dnia
+    // (chodzi o liste produktow, nie o dokladny gram per osoba)
+    (m.bartek||'').split(',').forEach(part=>{
+      const ing=parseIngr(part);
+      if(!ing)return;
+      const key=ing.name;
+      if(!totals[key])totals[key]={qty:0,unit:ing.unit,hasNum:false};
+      if(ing.qty!=null){totals[key].qty+=ing.qty;totals[key].hasNum=true;totals[key].unit=ing.unit;}
+    });
+  });
+  return totals;
+}
+
 function renderZakupy(){
-  const el=document.getElementById('zakupy');const shop=curPlan().shop;
+  const el=document.getElementById('zakupy');
+  if(!state.shopMode)state.shopMode='tydzien';
+  const modeTabs=`<div class="week-tabs">
+    <button class="week-tab ${state.shopMode==='tydzien'?'active':''}" onclick="setShopMode('tydzien')">Cały tydzień</button>
+    <button class="week-tab ${state.shopMode==='dzien'?'active':''}" onclick="setShopMode('dzien')">Wg dni</button></div>`;
+
+  if(state.shopMode==='dzien'){el.innerHTML=`<h2 class="section-h">Lista zakupów</h2>
+    <div class="section-sub">Zakupy na wybrany dzień lub zakres. Obiady liczone raz — w dniu gotowania batcha.</div>
+    ${modeTabs}${renderShopDays()}`;return;}
+
+  // --- TRYB TYGODNIOWY (jak dotad) ---
+  const shop=curPlan().shop;
   const wk=state.activeWeek===2?shop.w2:shop.w1;
   const cats={};wk.forEach(i=>{(cats[i.cat]=cats[i.cat]||[]).push(i);});
   let html='';
@@ -516,12 +652,92 @@ function renderZakupy(){
         <span class="shop-q">${i.qty} ${i.unit}</span></div>`;
     });
   }
-  const weekTabs=`<div class="week-tabs">
+  const weekTabs=`<div class="week-tabs" style="margin-top:10px">
     <button class="week-tab ${state.activeWeek===1?'active':''}" onclick="setWeekShop(1)">Tydzień 1</button>
     <button class="week-tab ${state.activeWeek===2?'active':''}" onclick="setWeekShop(2)">Tydzień 2</button></div>`;
   el.innerHTML=`<h2 class="section-h">Lista zakupów</h2>
     <div class="section-sub">Orientacyjne ilości z niewielkim zapasem. Produkty sypkie przechodzą na kolejny tydzień.</div>
-    ${weekTabs}<div class="card">${html}</div>`;
+    ${modeTabs}${weekTabs}<div class="card">${html}</div>`;
+}
+
+// wybor dni + render zakupow dla wybranego zakresu
+function renderShopDays(){
+  if(!state.shopDays)state.shopDays=[globalDay()];
+  const sel=state.shopDays;
+  // przyciski wyboru dni 1-14
+  const dayBtns=Array.from({length:14},(_,i)=>i+1).map(d=>{
+    const inf=dayInfo(d);
+    return `<button class="shopday-btn ${sel.includes(d)?'active':''}" onclick="toggleShopDay(${d})">${d}<small>${inf?inf.name.slice(0,2):''}</small></button>`;
+  }).join('');
+
+  if(!sel.length)return `<div class="shopday-picker">${dayBtns}</div><div class="empty">Zaznacz dzień lub kilka dni powyżej.</div>`;
+
+  // zbierz skladniki sniadania/pos2/kolacji ze wszystkich wybranych dni
+  const snbc={};
+  sel.forEach(gd=>{
+    const t=daySnbcIngredients(gd);
+    for(const[name,v]of Object.entries(t)){
+      if(!snbc[name])snbc[name]={qty:0,unit:v.unit,hasNum:false};
+      if(v.hasNum){snbc[name].qty+=v.qty;snbc[name].hasNum=true;snbc[name].unit=v.unit;}
+    }
+  });
+
+  // obiady: dla kazdego wybranego dnia sprawdz batch
+  const batchIncluded=[];   // batche kupowane (pierwszy dzien batcha jest zaznaczony)
+  const batchNotes=[];      // komunikaty "juz w zakupach z dnia X"
+  const seenBatch={};
+  sel.slice().sort((a,b)=>a-b).forEach(gd=>{
+    const bi=batchInfoForDay(gd);
+    if(!bi||!bi.batch)return;
+    const bid=bi.batch.id;
+    if(seenBatch[bid])return; seenBatch[bid]=true;
+    if(bi.isFirstDay){
+      batchIncluded.push(bi);
+    }else{
+      const inf=dayInfo(bi.firstDay);
+      const where=sel.includes(bi.firstDay)
+        ? `w tych zakupach (dzień ${bi.firstDay})`
+        : `w zakupach z dnia ${bi.firstDay} (${inf?inf.name:''})`;
+      batchNotes.push(`<b>${bi.obiad.name}</b> — gotowane raz na dni ${bi.firstDay}–${bi.lastDay}, składniki ${where}.`);
+    }
+  });
+
+  // render skladnikow sniadania/pos2/kolacji
+  let snbcHtml=Object.entries(snbc).sort((a,b)=>a[0].localeCompare(b[0])).map(([name,v])=>{
+    const q=v.hasNum?`${Math.round(v.qty)} ${v.unit==='szt'?'szt':v.unit}`:v.unit;
+    const id='d_'+sel.join('-')+'_'+name;
+    const done=state.shopChecked[id];
+    return `<div class="shop-item ${done?'done':''}">
+      <input type="checkbox" ${done?'checked':''} onchange="toggleShop('${id.replace(/'/g,"\\'")}')">
+      <span class="shop-name">${name}</span><span class="shop-q">${q}</span></div>`;
+  }).join('');
+
+  // render obiadow-batchy do kupienia
+  let batchHtml=batchIncluded.map(bi=>`
+    <div class="batch-buy">
+      <div class="batch-buy-h">🍲 ${bi.batch.name} <span class="batch-buy-days">dni ${bi.firstDay}–${bi.lastDay}</span></div>
+      <div class="batch-buy-warn">UWAGA: składniki na całą partię (${bi.lastDay-bi.firstDay+1} dni obiadów)</div>
+      <div class="batch-buy-ingr">${bi.batch.ingr}</div>
+    </div>`).join('');
+
+  const notesHtml=batchNotes.length?`<div class="shop-note">${batchNotes.map(n=>`<div>ℹ️ ${n}</div>`).join('')}</div>`:'';
+
+  const label=sel.length===1?`dzień ${sel[0]}`:`dni ${sel.slice().sort((a,b)=>a-b).join(', ')}`;
+  return `<div class="shopday-picker">${dayBtns}</div>
+    <div class="shop-sel-label">Zakupy na ${label}</div>
+    ${notesHtml}
+    <div class="card">
+      <div class="shop-cat">Śniadania, posiłek 2, kolacje</div>
+      ${snbcHtml||'<div class="section-sub">brak</div>'}
+      ${batchHtml?`<div class="shop-cat" style="margin-top:18px">Obiady — duże gotowania</div>${batchHtml}`:''}
+    </div>`;
+}
+function setShopMode(m){state.shopMode=m;save();renderZakupy();}
+function toggleShopDay(d){
+  if(!state.shopDays)state.shopDays=[];
+  const i=state.shopDays.indexOf(d);
+  if(i>=0)state.shopDays.splice(i,1);else state.shopDays.push(d);
+  save();renderZakupy();
 }
 function setWeekShop(w){state.activeWeek=w;save();renderZakupy();}
 function toggleShop(id){
