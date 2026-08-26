@@ -153,6 +153,30 @@ h2.section-h{font-size:24px;font-weight:700;margin-bottom:4px}
 .toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(80px);background:var(--navy);color:#fff;padding:12px 22px;border-radius:10px;font-size:14px;font-weight:600;box-shadow:0 6px 24px rgba(0,0,0,.3);transition:.3s;z-index:200;opacity:0}
 .toast.show{transform:translateX(-50%) translateY(0);opacity:1}
 
+/* klikalne danie */
+.mname.mclick{cursor:pointer;transition:color .12s}
+.mname.mclick:hover{color:var(--steel)}
+.recipe-arrow{color:var(--slate);font-weight:700;font-size:16px;opacity:.6}
+.mname.mclick:hover .recipe-arrow{opacity:1;color:var(--steel)}
+
+/* modal */
+.modal-overlay{position:fixed;inset:0;background:rgba(20,27,46,.55);backdrop-filter:blur(2px);display:none;align-items:flex-start;justify-content:center;z-index:300;padding:40px 16px;overflow-y:auto}
+.modal-overlay.open{display:flex;animation:fade .2s}
+.modal-box{background:var(--paper);border-radius:16px;max-width:560px;width:100%;padding:24px;box-shadow:0 20px 60px rgba(20,27,46,.4);position:relative;margin:auto}
+.modal-close{position:absolute;top:14px;right:16px;background:var(--mist);border:1px solid var(--line);border-radius:8px;width:32px;height:32px;font-size:20px;line-height:1;color:var(--slate);font-weight:600}
+.modal-close:hover{background:var(--line)}
+.modal-title{font-size:20px;font-weight:700;padding-right:40px;line-height:1.25}
+.modal-sub{display:block;font-size:12px;font-weight:600;color:var(--slate);text-transform:uppercase;letter-spacing:.4px;margin-top:3px}
+.modal-body{margin-top:16px}
+.modal-sec{font-size:11px;text-transform:uppercase;letter-spacing:.4px;color:var(--slate);font-weight:700;margin:16px 0 5px}
+.modal-txt{font-size:14px;color:var(--navy);line-height:1.6}
+.modal-portions{background:var(--mist);border-radius:10px;padding:12px 14px;font-size:13.5px;line-height:1.9}
+.modal-portions .dot{display:inline-block;vertical-align:middle;margin-right:2px}
+.modal-kcal{font-size:12px;color:var(--slate);margin-top:6px;text-align:right}
+.modal-note{background:#eef0f4;border-left:3px solid var(--slate);padding:11px 14px;border-radius:0 9px 9px 0;font-size:13px;color:var(--steel);margin-top:14px}
+.modal-sos{background:#f5fafa;border:1px solid #d7e8e8;border-radius:9px;padding:10px 13px;margin:7px 0;font-size:13.5px}
+.modal-sos b{color:var(--syn)}
+
 .macro-row{display:flex;justify-content:space-between;align-items:center;padding:7px 0;border-bottom:1px dashed var(--line);font-size:14px}
 .macro-row:last-child{border-bottom:none}
 .macro-row label{color:var(--steel);font-weight:500}
@@ -194,6 +218,13 @@ h2.section-h{font-size:24px;font-weight:700;margin-bottom:4px}
   <section id="profile" class="view"></section>
 </div>
 <div class="toast" id="toast"></div>
+<div class="modal-overlay" id="modal" onclick="if(event.target===this)closeModal()">
+  <div class="modal-box">
+    <button class="modal-close" onclick="closeModal()">×</button>
+    <div class="modal-title" id="modalTitle"></div>
+    <div class="modal-body" id="modalBody"></div>
+  </div>
+</div>
 
 <script>
 // ============ STAŁE ============
@@ -379,6 +410,61 @@ function toggleSnack(personId,gd){
   save();renderDzis();
 }
 
+// ---- PRZEPIS W POP-UPIE ----
+function normName(s){return (s||'').toLowerCase().replace(/[^a-ząćęłńóśźż0-9 ]/g,'').trim();}
+// znajdz przepis dla dania (konserwatywnie - bez ryzykownych trafien)
+function findRecipe(danie){
+  const recs=curPlan().recipes;
+  const dn=normName(danie);
+  for(const r of recs)if(normName(r.name)===dn)return r;         // dokladne
+  for(const r of recs){const rn=normName(r.name);if(dn.length>=5&&(dn.includes(rn)||rn.includes(dn)))return r;} // zawiera
+  if(dn.includes('wrap'))return recs.find(r=>/wrap/i.test(r.name))||null;
+  return null;
+}
+// znajdz sos powiazany z daniem (dania z tortilla/quesadilla/wrap)
+function findSos(danie){
+  const dn=normName(danie);
+  if(!/tortilla|quesadilla|wrap|pizza/.test(dn))return null;
+  // sosy to R16-R18
+  return curPlan().recipes.filter(r=>/sos/i.test(r.name));
+}
+// otworz modal z przepisem dla dania danego dnia
+function openRecipe(gd,slot){
+  const meals=mealsForDay(gd);
+  const m=meals.find(x=>x.slot===slot);
+  if(!m)return;
+  const rec=findRecipe(m.name);
+  const sosy=findSos(m.name);
+  const di=dayInfo(gd);
+
+  let body='';
+  // porcje O/B/S zawsze
+  body+=`<div class="modal-sec">Porcje na ten dzień</div>
+    <div class="modal-portions">
+      <div><span class="dot d-oliwia"></span> <b>Oliwia:</b> ${m.oliwia}</div>
+      <div><span class="dot d-bartek"></span> <b>Bartek:</b> ${m.bartek}</div>
+      <div><span class="dot d-syn"></span> <b>Syn:</b> ${m.syn}</div>
+    </div>`;
+  if(m.kcal){body+=`<div class="modal-kcal">${m.kcal.oliwia} / ${m.kcal.bartek} / ${m.kcal.syn} kcal (O/B/S)</div>`;}
+
+  if(rec){
+    body+=`<div class="modal-sec">Składniki</div><div class="modal-txt">${rec.ingr}</div>
+      <div class="modal-sec">Przygotowanie</div><div class="modal-txt">${rec.prep}</div>`;
+  }else{
+    body+=`<div class="modal-note">To danie nie ma osobnego przepisu — składasz je z porcji powyżej.</div>`;
+  }
+  if(sosy&&sosy.length){
+    body+=`<div class="modal-sec">Pasujące sosy</div>`;
+    sosy.forEach(s=>{body+=`<div class="modal-sos"><b>${s.name}</b><div class="modal-txt">${s.ingr}${s.prep&&s.prep!=='nan'?' — '+s.prep:''}</div></div>`;});
+  }
+
+  const batchFlag=/Batch B\d/i.test(m.uwagi)?` · ${m.uwagi.match(/B\d/i)[0]}`:'';
+  document.getElementById('modalTitle').innerHTML=`${m.name}<span class="modal-sub">${SLOT_NAMES[slot-1]}${batchFlag}${rec?' · '+rec.id:''}</span>`;
+  document.getElementById('modalBody').innerHTML=body;
+  document.getElementById('modal').classList.add('open');
+}
+function closeModal(){document.getElementById('modal').classList.remove('open');}
+
 // ---- DZIŚ ----
 function renderDzis(){
   const el=document.getElementById('dzis');
@@ -412,7 +498,7 @@ function renderDzis(){
       const mealRow=`<div class="meal-item ${done?'done':''}">
         <input type="checkbox" class="chk" ${done?'checked':''} onchange="toggleMeal('${p.id}',${m.day},${m.slot})">
         <div class="mbody"><span class="mslot">${SLOT_NAMES[m.slot-1]}</span>
-        <div class="mname">${m.name}${batchFlag}</div>
+        <div class="mname mclick" onclick="openRecipe(${gd},${m.slot})">${m.name}${batchFlag} <span class="recipe-arrow">›</span></div>
         <div class="mportion">${portion}</div></div>
         <span class="mkcal">${kcal} kcal</span></div>`;
       // po posilku 2 wstaw przekaske przedtreningowa (jesli trening dnia ja uzasadnia)
@@ -781,6 +867,7 @@ function importData(e){
 }
 
 // ============ NAV ============
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeModal();});
 document.querySelectorAll('.tab').forEach(tab=>{
   tab.onclick=()=>{
     document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
