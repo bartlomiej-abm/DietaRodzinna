@@ -38,6 +38,28 @@ input,select,textarea{font-family:inherit}
 .sync-badge.syncing{background:#3a3f2e;color:#d8c98a}
 .sync-badge.synced{background:#22402f;color:#7fce9f}
 .sync-badge.error{background:#40262e;color:#e09ca0}
+
+/* who badge */
+.who-badge{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12);color:var(--mist);font-size:12px;font-weight:600;padding:4px 12px;border-radius:20px;display:flex;align-items:center;gap:6px}
+.who-badge:hover{background:rgba(255,255,255,.14)}
+.who-badge .dot{width:9px;height:9px}
+
+/* lock screen */
+.lock-screen{position:fixed;inset:0;background:var(--navy);z-index:500;display:none;align-items:center;justify-content:center;padding:20px}
+.lock-box{background:var(--paper);border-radius:18px;padding:36px 32px;width:100%;max-width:360px;text-align:center;box-shadow:0 20px 60px rgba(0,0,0,.4)}
+.lock-brand{font-weight:800;font-size:24px;margin-bottom:28px;color:var(--navy)}
+.lock-brand span{color:var(--slate);font-weight:500}
+.lock-label{font-size:14px;color:var(--slate);font-weight:600;margin-bottom:14px}
+.lock-input{width:100%;text-align:center;font-size:28px;letter-spacing:8px;border:2px solid var(--line);border-radius:12px;padding:12px;font-weight:700;color:var(--navy);background:#fff}
+.lock-input:focus{outline:none;border-color:var(--steel)}
+.lock-err{color:var(--over);font-size:13px;font-weight:600;min-height:20px;margin:8px 0}
+.lock-btn{width:100%;margin-top:6px}
+.lock-people{display:flex;flex-direction:column;gap:12px}
+.lock-person{display:flex;align-items:center;justify-content:center;gap:10px;padding:16px;border-radius:12px;border:2px solid var(--line);background:#fff;font-size:17px;font-weight:700;color:var(--navy);transition:.15s}
+.lock-person:hover{border-color:var(--steel);background:var(--mist)}
+.lock-person .dot{width:14px;height:14px}
+.lock-person.p-oliwia:hover{border-color:var(--oliwia)}
+.lock-person.p-bartek:hover{border-color:var(--bartek)}
 .tabs{display:flex;gap:4px;margin-left:auto;flex-wrap:wrap}
 .tab{background:transparent;border:none;color:var(--slate);padding:8px 15px;border-radius:8px;font-size:14px;font-weight:600;transition:.15s}
 .tab:hover{background:rgba(255,255,255,.06);color:var(--mist)}
@@ -197,9 +219,28 @@ h2.section-h{font-size:24px;font-weight:700;margin-bottom:4px}
 </style>
 </head>
 <body>
+<div class="lock-screen" id="lockScreen">
+  <div class="lock-box">
+    <div class="lock-brand">Dieta<span> rodzinna</span></div>
+    <div id="lockPin">
+      <div class="lock-label">Wpisz PIN</div>
+      <input type="password" inputmode="numeric" class="lock-input" id="pinInput" maxlength="8" placeholder="••••" onkeydown="if(event.key==='Enter')checkPin()">
+      <div class="lock-err" id="pinErr"></div>
+      <button class="btn lock-btn" onclick="checkPin()">Dalej</button>
+    </div>
+    <div id="lockPerson" style="display:none">
+      <div class="lock-label">Kto korzysta?</div>
+      <div class="lock-people">
+        <button class="lock-person p-oliwia" onclick="pickPerson('oliwia')"><span class="dot d-oliwia"></span>Oliwia</button>
+        <button class="lock-person p-bartek" onclick="pickPerson('bartek')"><span class="dot d-bartek"></span>Bartek</button>
+      </div>
+    </div>
+  </div>
+</div>
 <div class="topbar">
   <div class="brand">Dieta<span> rodzinna</span></div>
   <span class="sync-badge local" id="syncBadge">lokalnie</span>
+  <button class="who-badge" id="whoBadge" onclick="switchPerson()" title="Zmień osobę"></button>
   <nav class="tabs">
     <button class="tab active" data-view="dzis">Dziś</button>
     <button class="tab" data-view="plan">Plan 14 dni</button>
@@ -257,80 +298,77 @@ const DEFAULT_TARGETS={
 const SUPABASE_URL='https://tztafspexolcqrhjpiqd.supabase.co';      // np. https://abcdefgh.supabase.co
 const SUPABASE_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InR6dGFmc3BleG9sY3FyaGpwaXFkIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODc2NTU4ODEsImV4cCI6MjEwMzIzMTg4MX0.7rbfAgq-xY_p6Pz3XvIuzeX48NMxZERM_VBnvjWGxrE';         // klucz "anon public"
 const SHARED_ID='rodzina-galek';            // wspólny identyfikator "przestrzeni" dla Ciebie i Oliwii
+const APP_PIN='2024';                       // >>> wspólny PIN wejścia — zmień na swój <<<
 // Jeśli powyższe zostaną niewypełnione, apka działa lokalnie (localStorage) jak dotąd.
 const SB_READY = SUPABASE_URL.startsWith('http') && SUPABASE_KEY.length>20;
 
 // ============ STATE + STORAGE ============
-const KEY='abm_dieta_v2';
-const SCHEMA=1;
+// PODZIAŁ DANYCH:
+//  • LIBRARY   — plany z pliku, ZAWSZE z kodu, nigdy z chmury (aktualizacja pliku = nowy plan)
+//  • state     — WSPÓLNE dane (cele, odhaczenia, treningi) → Supabase, synchronizowane
+//  • nav       — LOKALNA nawigacja (dzień, tydzień, zakładka) → tylko to urządzenie
+const KEY='abm_dieta_v2';          // wspólny stan (cache lokalny)
+const NAV_KEY='abm_dieta_nav';     // lokalna nawigacja (osobna per urządzenie)
+const SCHEMA=2;
 let sbClient=null;
-let syncState='local';  // 'local' | 'syncing' | 'synced' | 'error'
+let syncState='local';
 
+// biblioteka planów — zawsze świeża z pliku
+const LIBRARY=structuredClone(PLAN_LIBRARY);
+function curPlanId(){return nav.activePlan||'plan1';}
+function curPlan(){return LIBRARY.find(p=>p.id===curPlanId())||LIBRARY[0];}
+
+// --- STAN WSPÓLNY (bez biblioteki, bez nawigacji) ---
 function freshState(){
-  return {
-    schema:SCHEMA,
-    targets:structuredClone(DEFAULT_TARGETS),
-    library:structuredClone(PLAN_LIBRARY),
-    activePlan:'plan1',
-    activeWeek:1,
-    activeDay:1,
-    log:{},
-    shopChecked:{},
-    trainOverride:{},
-    snackLog:{}
-  };
+  return {schema:SCHEMA,targets:structuredClone(DEFAULT_TARGETS),
+    log:{},shopChecked:{},trainOverride:{},snackLog:{}};
+}
+function normalizeShared(s){
+  if(!s||typeof s!=='object')return freshState();
+  const f=freshState();
+  return {schema:SCHEMA,
+    targets:s.targets||f.targets,
+    log:s.log||{},shopChecked:s.shopChecked||{},
+    trainOverride:s.trainOverride||{},snackLog:s.snackLog||{}};
 }
 
-// normalizacja wczytanego stanu (migracje pol)
-function normalize(s){
-  if(!s||!s.schema||!s.library||!Array.isArray(s.library)){
-    const fresh=freshState();
-    if(s&&s.targets)fresh.targets=s.targets;
-    fresh._migrated=true;return fresh;
-  }
-  if(!s.library.find(p=>p.id==='plan1'))s.library.unshift(structuredClone(PLAN_LIBRARY[0]));
-  if(!s.shopChecked)s.shopChecked={};
-  if(!s.trainOverride)s.trainOverride={};
-  if(!s.snackLog)s.snackLog={};
-  return s;
+// --- NAWIGACJA LOKALNA ---
+function freshNav(){return {activePlan:'plan1',activeWeek:1,activeDay:1,activeTab:'dzis',shopMode:'tydzien',shopDays:[1],person:null,unlocked:false};}
+function loadNav(){
+  try{const r=localStorage.getItem(NAV_KEY);if(r){const n=JSON.parse(r);return Object.assign(freshNav(),n);}}catch(e){}
+  return freshNav();
 }
+function saveNav(){try{localStorage.setItem(NAV_KEY,JSON.stringify(nav))}catch(e){}}
 
 function loadLocal(){
   let raw;try{raw=localStorage.getItem(KEY);}catch(e){return freshState();}
   if(!raw)return freshState();
   let s;try{s=JSON.parse(raw);}catch(e){return freshState();}
-  return normalize(s);
+  return normalizeShared(s);
 }
 
-// zapis: zawsze lokalnie od razu (szybko), i do chmury w tle jesli skonfigurowana
 let saveTimer=null;
 function save(){
   try{localStorage.setItem(KEY,JSON.stringify(state))}catch(e){}
-  if(sbClient){
-    // debounce, zeby nie wysylac przy kazdym klikniecu
-    clearTimeout(saveTimer);
-    saveTimer=setTimeout(saveCloud,600);
-  }
+  if(sbClient){clearTimeout(saveTimer);saveTimer=setTimeout(saveCloud,600);}
 }
 async function saveCloud(){
   if(!sbClient)return;
   try{
     setSync('syncing');
     const payload=JSON.parse(JSON.stringify(state));
-    delete payload._migrated;
     const {error}=await sbClient.from('dieta_state')
       .upsert({id:SHARED_ID,data:payload,updated_at:new Date().toISOString()});
     if(error)throw error;
     setSync('synced');
   }catch(e){console.error('Sync error:',e);setSync('error');}
 }
-
 function setSync(s){syncState=s;const b=document.getElementById('syncBadge');if(b)b.className='sync-badge '+s,b.textContent=SYNC_LABEL[s];}
 const SYNC_LABEL={local:'lokalnie',syncing:'zapisywanie…',synced:'zsynchronizowane',error:'błąd synch.'};
 
-let state=loadLocal();  // start z lokalnego natychmiast; chmura dociaga sie w init
+let state=loadLocal();
+let nav=loadNav();
 
-// pobierz z chmury na starcie i scal (chmura wygrywa jesli nowsza)
 async function initCloud(){
   if(!SB_READY)return;
   try{
@@ -339,24 +377,22 @@ async function initCloud(){
     const {data,error}=await sbClient.from('dieta_state').select('data').eq('id',SHARED_ID).maybeSingle();
     if(error)throw error;
     if(data&&data.data){
-      state=normalize(data.data);
+      state=normalizeShared(data.data);  // TYLKO wspólne dane — biblioteka zostaje z pliku
       render();
       setSync('synced');
     }else{
-      // pierwszy raz - wgraj obecny stan lokalny do chmury
       await saveCloud();
     }
     subscribeCloud();
   }catch(e){console.error('Init cloud error:',e);setSync('error');}
 }
-// nasłuch zmian z drugiego urządzenia (Oliwia) w czasie rzeczywistym
 function subscribeCloud(){
   if(!sbClient)return;
   sbClient.channel('dieta_sync')
     .on('postgres_changes',{event:'*',schema:'public',table:'dieta_state',filter:'id=eq.'+SHARED_ID},
       payload=>{
         if(payload.new&&payload.new.data){
-          state=normalize(payload.new.data);
+          state=normalizeShared(payload.new.data);
           render();
           setSync('synced');
           toast('Zaktualizowano z drugiego urządzenia');
@@ -365,8 +401,7 @@ function subscribeCloud(){
 }
 
 function toast(m){const t=document.getElementById('toast');t.textContent=m;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2200);}
-function curPlan(){return state.library.find(p=>p.id===state.activePlan)||state.library[0];}
-function globalDay(){return (state.activeWeek-1)*7+state.activeDay;}
+function globalDay(){return (nav.activeWeek-1)*7+nav.activeDay;}
 function dayInfo(gd){return curPlan().days.find(d=>d.day===gd);}
 function mealsForDay(gd){return curPlan().meals.filter(m=>m.day===gd).sort((a,b)=>a.slot-b.slot);}
 
@@ -381,12 +416,12 @@ function planTrain(personId,gd){
 }
 // aktualny trening (uwzglednia przelozenie)
 function trainFor(personId,gd){
-  const ov=state.trainOverride[state.activePlan];
+  const ov=state.trainOverride[nav.activePlan];
   if(ov&&ov[gd]&&ov[gd][personId]!==undefined)return ov[gd][personId];
   return planTrain(personId,gd);
 }
 function setTrain(personId,gd,val){
-  const pid=state.activePlan;
+  const pid=nav.activePlan;
   if(!state.trainOverride[pid])state.trainOverride[pid]={};
   if(!state.trainOverride[pid][gd])state.trainOverride[pid][gd]={};
   // jesli wrocil do domyslnego z planu, usun override (czysto)
@@ -402,7 +437,7 @@ function trainHasSnack(t){
   return true; // kazdy trening (bieg/long/silownia/tempo/easy) dostaje przekaske
 }
 function toggleSnack(personId,gd){
-  const pid=state.activePlan;
+  const pid=nav.activePlan;
   if(!state.snackLog[pid])state.snackLog[pid]={};
   if(!state.snackLog[pid][gd])state.snackLog[pid][gd]={};
   if(state.snackLog[pid][gd][personId])delete state.snackLog[pid][gd][personId];
@@ -473,22 +508,22 @@ function renderDzis(){
   const meals=mealsForDay(gd);
   if(!di){el.innerHTML='<div class="empty">Brak danych dla tego dnia.</div>';return;}
   const weekTabs=`<div class="week-tabs">
-    <button class="week-tab ${state.activeWeek===1?'active':''}" onclick="setWeek(1)">Tydzień 1</button>
-    <button class="week-tab ${state.activeWeek===2?'active':''}" onclick="setWeek(2)">Tydzień 2</button></div>`;
+    <button class="week-tab ${nav.activeWeek===1?'active':''}" onclick="setWeek(1)">Tydzień 1</button>
+    <button class="week-tab ${nav.activeWeek===2?'active':''}" onclick="setWeek(2)">Tydzień 2</button></div>`;
   const dayBtns=[1,2,3,4,5,6,7].map(d=>{
-    const g=(state.activeWeek-1)*7+d;const inf=dayInfo(g);
-    return `<button class="day-btn ${state.activeDay===d?'active':''}" onclick="setDay(${d})">
+    const g=(nav.activeWeek-1)*7+d;const inf=dayInfo(g);
+    return `<button class="day-btn ${nav.activeDay===d?'active':''}" onclick="setDay(${d})">
       D${g}<small>${inf?inf.name.slice(0,3):''}</small></button>`;
   }).join('');
   const prep=di.prep&&di.prep!=='nan'?`<div class="prep-banner">🍲 <b>Przygotowanie:</b> ${di.prep}</div>`:'';
-  const log=(state.log[state.activePlan]&&state.log[state.activePlan][gd])||{};
+  const log=(state.log[nav.activePlan]&&state.log[nav.activePlan][gd])||{};
   const people=PEOPLE.map(p=>{
     const t=state.targets[p.id];
     let eaten={kcal:0};
     const plog=log[p.id]||{};
     const curTrain=trainFor(p.id,gd);
     const showSnack = p.id!=='syn' && trainHasSnack(curTrain);
-    const snackDone = state.snackLog[state.activePlan]&&state.snackLog[state.activePlan][gd]&&state.snackLog[state.activePlan][gd][p.id];
+    const snackDone = state.snackLog[nav.activePlan]&&state.snackLog[nav.activePlan][gd]&&state.snackLog[nav.activePlan][gd][p.id];
 
     const mealsHtml=meals.map(m=>{
       const key=m.day+'_'+m.slot;const done=plog[key];const kcal=m.kcal[p.id]||0;
@@ -540,10 +575,10 @@ function bar(label,val,target,unit){
   return `<div class="bar-wrap"><div class="bar-label"><span>${label}</span><b>${val} / ${target} ${unit}</b></div>
     <div class="bar"><div class="bar-fill ${cls}" style="width:${pct}%"></div></div></div>`;
 }
-function setWeek(w){state.activeWeek=w;state.activeDay=1;save();renderDzis();}
-function setDay(d){state.activeDay=d;save();renderDzis();}
+function setWeek(w){nav.activeWeek=w;nav.activeDay=1;saveNav();renderDzis();}
+function setDay(d){nav.activeDay=d;saveNav();renderDzis();}
 function toggleMeal(person,day,slot){
-  const pid=state.activePlan;
+  const pid=nav.activePlan;
   if(!state.log[pid])state.log[pid]={};
   if(!state.log[pid][day])state.log[pid][day]={};
   if(!state.log[pid][day][person])state.log[pid][day][person]={};
@@ -557,9 +592,9 @@ function toggleMeal(person,day,slot){
 function renderPlan(){
   const el=document.getElementById('plan');const plan=curPlan();
   const weekTabs=`<div class="week-tabs">
-    <button class="week-tab ${state.activeWeek===1?'active':''}" onclick="setWeekPlan(1)">Tydzień 1</button>
-    <button class="week-tab ${state.activeWeek===2?'active':''}" onclick="setWeekPlan(2)">Tydzień 2</button></div>`;
-  const start=(state.activeWeek-1)*7+1,end=start+6;let daysHtml='';
+    <button class="week-tab ${nav.activeWeek===1?'active':''}" onclick="setWeekPlan(1)">Tydzień 1</button>
+    <button class="week-tab ${nav.activeWeek===2?'active':''}" onclick="setWeekPlan(2)">Tydzień 2</button></div>`;
+  const start=(nav.activeWeek-1)*7+1,end=start+6;let daysHtml='';
   for(let gd=start;gd<=end;gd++){
     const di=dayInfo(gd);if(!di)continue;const meals=mealsForDay(gd);
     const mealRows=meals.map(m=>`<div class="meal-item" style="padding:8px 0">
@@ -578,7 +613,7 @@ function renderPlan(){
     <div class="section-sub">${plan.name} — stały plan z batch cookingiem. Gramatury per osoba (O / B / S).</div>
     ${weekTabs}${daysHtml}`;
 }
-function setWeekPlan(w){state.activeWeek=w;save();renderPlan();}
+function setWeekPlan(w){nav.activeWeek=w;saveNav();renderPlan();}
 
 // ---- PRZEPISY ----
 // kategoria przepisu na podstawie pola "use"
@@ -713,24 +748,24 @@ function daySnbcIngredients(gd){
 
 function renderZakupy(){
   const el=document.getElementById('zakupy');
-  if(!state.shopMode)state.shopMode='tydzien';
+  if(!nav.shopMode)nav.shopMode='tydzien';
   const modeTabs=`<div class="week-tabs">
-    <button class="week-tab ${state.shopMode==='tydzien'?'active':''}" onclick="setShopMode('tydzien')">Cały tydzień</button>
-    <button class="week-tab ${state.shopMode==='dzien'?'active':''}" onclick="setShopMode('dzien')">Wg dni</button></div>`;
+    <button class="week-tab ${nav.shopMode==='tydzien'?'active':''}" onclick="setShopMode('tydzien')">Cały tydzień</button>
+    <button class="week-tab ${nav.shopMode==='dzien'?'active':''}" onclick="setShopMode('dzien')">Wg dni</button></div>`;
 
-  if(state.shopMode==='dzien'){el.innerHTML=`<h2 class="section-h">Lista zakupów</h2>
+  if(nav.shopMode==='dzien'){el.innerHTML=`<h2 class="section-h">Lista zakupów</h2>
     <div class="section-sub">Zakupy na wybrany dzień lub zakres. Obiady liczone raz — w dniu gotowania batcha.</div>
     ${modeTabs}${renderShopDays()}`;return;}
 
   // --- TRYB TYGODNIOWY (jak dotad) ---
   const shop=curPlan().shop;
-  const wk=state.activeWeek===2?shop.w2:shop.w1;
+  const wk=nav.activeWeek===2?shop.w2:shop.w1;
   const cats={};wk.forEach(i=>{(cats[i.cat]=cats[i.cat]||[]).push(i);});
   let html='';
   for(const[cat,items]of Object.entries(cats)){
     html+=`<div class="shop-cat">${cat}</div>`;
     items.forEach((i,idx)=>{
-      const id=state.activeWeek+'_'+cat+'_'+idx;
+      const id=nav.activeWeek+'_'+cat+'_'+idx;
       const done=state.shopChecked[id];
       html+=`<div class="shop-item ${done?'done':''}">
         <input type="checkbox" ${done?'checked':''} onchange="toggleShop('${id.replace(/'/g,"\\'")}')">
@@ -739,8 +774,8 @@ function renderZakupy(){
     });
   }
   const weekTabs=`<div class="week-tabs" style="margin-top:10px">
-    <button class="week-tab ${state.activeWeek===1?'active':''}" onclick="setWeekShop(1)">Tydzień 1</button>
-    <button class="week-tab ${state.activeWeek===2?'active':''}" onclick="setWeekShop(2)">Tydzień 2</button></div>`;
+    <button class="week-tab ${nav.activeWeek===1?'active':''}" onclick="setWeekShop(1)">Tydzień 1</button>
+    <button class="week-tab ${nav.activeWeek===2?'active':''}" onclick="setWeekShop(2)">Tydzień 2</button></div>`;
   el.innerHTML=`<h2 class="section-h">Lista zakupów</h2>
     <div class="section-sub">Orientacyjne ilości z niewielkim zapasem. Produkty sypkie przechodzą na kolejny tydzień.</div>
     ${modeTabs}${weekTabs}<div class="card">${html}</div>`;
@@ -748,8 +783,8 @@ function renderZakupy(){
 
 // wybor dni + render zakupow dla wybranego zakresu
 function renderShopDays(){
-  if(!state.shopDays)state.shopDays=[globalDay()];
-  const sel=state.shopDays;
+  if(!nav.shopDays)nav.shopDays=[globalDay()];
+  const sel=nav.shopDays;
   // przyciski wyboru dni 1-14
   const dayBtns=Array.from({length:14},(_,i)=>i+1).map(d=>{
     const inf=dayInfo(d);
@@ -818,14 +853,14 @@ function renderShopDays(){
       ${batchHtml?`<div class="shop-cat" style="margin-top:18px">Obiady — duże gotowania</div>${batchHtml}`:''}
     </div>`;
 }
-function setShopMode(m){state.shopMode=m;save();renderZakupy();}
+function setShopMode(m){nav.shopMode=m;saveNav();renderZakupy();}
 function toggleShopDay(d){
-  if(!state.shopDays)state.shopDays=[];
-  const i=state.shopDays.indexOf(d);
-  if(i>=0)state.shopDays.splice(i,1);else state.shopDays.push(d);
-  save();renderZakupy();
+  if(!nav.shopDays)nav.shopDays=[];
+  const i=nav.shopDays.indexOf(d);
+  if(i>=0)nav.shopDays.splice(i,1);else nav.shopDays.push(d);
+  saveNav();renderZakupy();
 }
-function setWeekShop(w){state.activeWeek=w;save();renderZakupy();}
+function setWeekShop(w){nav.activeWeek=w;saveNav();renderZakupy();}
 function toggleShop(id){
   if(state.shopChecked[id])delete state.shopChecked[id];
   else state.shopChecked[id]=true;
@@ -868,26 +903,64 @@ function importData(e){
 
 // ============ NAV ============
 document.addEventListener('keydown',e=>{if(e.key==='Escape')closeModal();});
+function switchTab(view){
+  document.querySelectorAll('.tab').forEach(t=>t.classList.toggle('active',t.dataset.view===view));
+  document.querySelectorAll('.view').forEach(v=>v.classList.toggle('active',v.id===view));
+  nav.activeTab=view;saveNav();
+}
 document.querySelectorAll('.tab').forEach(tab=>{
-  tab.onclick=()=>{
-    document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
-    document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));
-    tab.classList.add('active');
-    document.getElementById(tab.dataset.view).classList.add('active');
-  };
+  tab.onclick=()=>switchTab(tab.dataset.view);
 });
+
+// ============ LOGOWANIE ============
+function checkPin(){
+  const v=document.getElementById('pinInput').value.trim();
+  if(v===APP_PIN){
+    nav.unlocked=true;saveNav();
+    document.getElementById('lockPin').style.display='none';
+    document.getElementById('lockPerson').style.display='block';
+  }else{
+    document.getElementById('pinErr').textContent='Błędny PIN';
+    document.getElementById('pinInput').value='';
+  }
+}
+function pickPerson(p){
+  nav.person=p;saveNav();
+  document.getElementById('lockScreen').style.display='none';
+  updateWhoBadge();
+}
+function switchPerson(){
+  // szybkie przełączenie osoby (bez PIN, bo już w środku)
+  nav.person = nav.person==='oliwia'?'bartek':'oliwia';
+  saveNav();updateWhoBadge();toast('Widok: '+(nav.person==='oliwia'?'Oliwia':'Bartek'));
+}
+function updateWhoBadge(){
+  const b=document.getElementById('whoBadge');if(!b)return;
+  if(nav.person){
+    const name=nav.person==='oliwia'?'Oliwia':'Bartek';
+    b.innerHTML=`<span class="dot d-${nav.person}"></span>${name}`;
+    b.style.display='';
+  }else b.style.display='none';
+}
+function showLock(){
+  const ls=document.getElementById('lockScreen');
+  if(nav.unlocked && nav.person){ls.style.display='none';updateWhoBadge();return;}
+  ls.style.display='flex';
+  if(nav.unlocked){document.getElementById('lockPin').style.display='none';document.getElementById('lockPerson').style.display='block';}
+}
 
 // ============ INIT ============
 function boot(){
   try{
     render();
-    if(state._migrated){delete state._migrated;save();setTimeout(()=>toast('Zaktualizowano do nowej wersji'),400);}
-    initCloud();  // dociąga dane z chmury i włącza synchronizację (jeśli skonfigurowana)
+    if(nav.activeTab&&nav.activeTab!=='dzis')switchTab(nav.activeTab);  // przywroc ostatnia zakladke
+    showLock();  // pokaz ekran logowania jesli nie odblokowane
+    initCloud();
   }catch(err){
     document.querySelector('.wrap').innerHTML=`<div class="card" style="max-width:520px;margin:40px auto;text-align:center">
       <h2 class="section-h">Coś się zacięło</h2>
       <p style="color:var(--slate);margin:12px 0 20px">Zwykle to stare dane w przeglądarce. Kliknij, aby wyczyścić i uruchomić od nowa.</p>
-      <button class="btn" onclick="localStorage.removeItem('${KEY}');location.reload()">Wyczyść i uruchom ponownie</button>
+      <button class="btn" onclick="localStorage.removeItem('${KEY}');localStorage.removeItem('${NAV_KEY}');location.reload()">Wyczyść i uruchom ponownie</button>
       <p style="color:var(--slate);font-size:11px;margin-top:16px">${(err&&err.message)||err}</p></div>`;
     console.error(err);
   }
