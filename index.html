@@ -60,10 +60,12 @@ input,select,textarea{font-family:inherit}
 .lock-person .dot{width:14px;height:14px}
 .lock-person.p-oliwia:hover{border-color:var(--oliwia)}
 .lock-person.p-bartek:hover{border-color:var(--bartek)}
-.tabs{display:flex;gap:4px;margin-left:auto;flex-wrap:wrap}
-.tab{background:transparent;border:none;color:var(--slate);padding:8px 15px;border-radius:8px;font-size:14px;font-weight:600;transition:.15s}
+.tabs{display:flex;gap:4px;margin-left:auto}
+.tab{background:transparent;border:none;color:var(--slate);padding:8px 14px;border-radius:8px;font-size:14px;font-weight:600;transition:.15s;display:flex;align-items:center;gap:6px}
 .tab:hover{background:rgba(255,255,255,.06);color:var(--mist)}
 .tab.active{background:var(--steel);color:#fff}
+.tab-ico{display:none;font-size:20px;line-height:1}
+.tab-txt{white-space:nowrap}
 
 .wrap{max-width:1120px;margin:0 auto;padding:24px 20px 80px}
 .view{display:none;animation:fade .25s}
@@ -78,6 +80,31 @@ h2.section-h{font-size:24px;font-weight:700;margin-bottom:4px}
 .g3{grid-template-columns:repeat(3,1fr)}
 .g2{grid-template-columns:repeat(2,1fr)}
 @media(max-width:860px){.g3,.g2{grid-template-columns:1fr}}
+
+/* MOBILE: nawigacja jako dolny pasek */
+@media(max-width:720px){
+  .topbar{padding:12px 16px;gap:10px}
+  .brand{font-size:17px}
+  .tabs{
+    position:fixed;left:0;right:0;bottom:0;margin:0;z-index:150;
+    background:var(--navy);border-top:1px solid rgba(255,255,255,.1);
+    padding:6px 4px;gap:0;justify-content:space-around;
+    box-shadow:0 -2px 16px rgba(20,27,46,.25);
+  }
+  .tab{flex-direction:column;gap:2px;padding:6px 4px;flex:1;border-radius:10px;font-size:0}
+  .tab-ico{display:block}
+  .tab-txt{font-size:10px;font-weight:600}
+  .tab.active{background:var(--steel)}
+  .tab:hover{background:transparent}
+  .tab.active:hover{background:var(--steel)}
+  .wrap{padding-bottom:80px}  /* miejsce na dolny pasek */
+  .who-badge{padding:4px 10px;font-size:11px}
+  .sync-badge{font-size:10px;padding:2px 8px}
+}
+@media(max-width:380px){
+  .brand span{display:none}  /* na bardzo waskich tylko "Dieta" */
+  .tab-txt{font-size:9px}
+}
 
 .btn{background:var(--steel);color:#fff;border:none;border-radius:9px;padding:11px 20px;font-size:14px;font-weight:600;transition:.15s}
 .btn:hover{background:var(--navy)}
@@ -116,6 +143,37 @@ h2.section-h{font-size:24px;font-weight:700;margin-bottom:4px}
 .meal-item .mslot{font-size:11px;text-transform:uppercase;letter-spacing:.4px;color:var(--slate);font-weight:700}
 .meal-item .mportion{font-size:12px;color:var(--slate);margin-top:2px}
 .meal-item .mkcal{color:var(--slate);font-size:12px;white-space:nowrap;font-weight:600}
+.mright{display:flex;align-items:center;gap:8px;flex-shrink:0}
+.swap-btn{background:var(--mist);border:1px solid var(--line);border-radius:7px;padding:3px 7px;font-size:14px;line-height:1;cursor:pointer}
+.swap-btn:hover{background:var(--line)}
+.day-nav{display:flex;gap:8px;margin-bottom:16px}
+.day-nav-btn{background:var(--paper);border:1px solid var(--line);border-radius:9px;padding:8px 16px;font-size:13px;font-weight:600;color:var(--steel);flex:1}
+.day-nav-btn.active{background:var(--steel);color:#fff;border-color:var(--steel)}
+.obiad-banner{background:#f0f7f7;border:1px solid #d7e8e8;border-left:3px solid var(--syn);padding:11px 15px;border-radius:0 9px 9px 0;font-size:14px;margin-bottom:14px}
+.obiad-sub{font-size:12px;color:var(--slate);font-weight:400}
+.link-btn{background:none;border:none;color:var(--steel);font-weight:600;font-size:12px;text-decoration:underline;cursor:pointer;padding:0}
+.batch-weight{font-size:13px;color:var(--navy);margin:6px 0 4px}
+.batch-portions{font-size:13px;color:var(--slate);margin-bottom:8px}
+.batch-portions .dot{display:inline-block;vertical-align:middle}
+/* widok tygodnia */
+.week-day.today{border:2px solid var(--steel)}
+.week-day-head{display:flex;align-items:center;gap:8px;font-size:15px;margin-bottom:10px;padding-bottom:8px;border-bottom:1px solid var(--line)}
+.today-tag{font-size:11px;font-weight:700;color:#fff;background:var(--steel);padding:1px 8px;border-radius:20px}
+.week-slot{display:flex;align-items:center;gap:8px;padding:6px 0;font-size:13.5px}
+.week-slot-label{font-size:11px;text-transform:uppercase;letter-spacing:.3px;color:var(--slate);font-weight:700;width:88px;flex-shrink:0}
+.week-slot-name{flex:1}
+.week-slot-name.mclick{cursor:pointer}
+.week-slot-name.mclick:hover{color:var(--steel)}
+/* zakres zakupow */
+.range-row{display:flex;gap:14px;flex-wrap:wrap;margin-bottom:10px}
+.range-row label{font-size:13px;color:var(--steel);font-weight:600;display:flex;flex-direction:column;gap:4px}
+.range-row input{border:1px solid var(--line);border-radius:7px;padding:6px 8px;font-size:13px;color:var(--navy)}
+.range-quick{display:flex;gap:8px;flex-wrap:wrap}
+.week-controls{display:flex;gap:10px;margin-bottom:16px;align-items:center;flex-wrap:wrap}
+.week-select{border:1px solid var(--line);border-radius:9px;padding:9px 12px;font-size:14px;font-weight:600;color:var(--navy);background:#fff}
+.shopday-picker{display:flex;gap:5px;flex-wrap:wrap}
+.shopday-btn{background:var(--paper);border:1px solid var(--line);border-radius:8px;padding:7px 0;font-size:13px;font-weight:700;color:var(--steel);width:44px;text-align:center}
+.shopday-btn.active{background:var(--steel);color:#fff;border-color:var(--steel)}
 .meal-item.done .mname{text-decoration:line-through;color:var(--slate)}
 .batch-flag{display:inline-block;font-size:10px;font-weight:700;background:#e7eef6;color:var(--steel);border:1px solid #cfddec;padding:1px 7px;border-radius:20px;margin-left:6px;text-transform:uppercase;letter-spacing:.3px}
 .train-switch{display:flex;gap:5px;flex-wrap:wrap;margin:2px 0 12px}
@@ -197,6 +255,29 @@ h2.section-h{font-size:24px;font-weight:700;margin-bottom:4px}
 .modal-kcal{font-size:12px;color:var(--slate);margin-top:6px;text-align:right}
 .modal-note{background:#eef0f4;border-left:3px solid var(--slate);padding:11px 14px;border-radius:0 9px 9px 0;font-size:13px;color:var(--steel);margin-top:14px}
 .modal-sos{background:#f5fafa;border:1px solid #d7e8e8;border-radius:9px;padding:10px 13px;margin:7px 0;font-size:13.5px}
+.card-tabs{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px}
+.card-modes{margin-bottom:14px}
+.card-tab{background:var(--mist);border:1px solid var(--line);border-radius:8px;padding:6px 12px;font-size:13px;font-weight:600;color:var(--steel);display:flex;align-items:center;gap:5px}
+.card-tab.active{background:var(--steel);color:#fff;border-color:var(--steel)}
+.card-tab .dot{width:8px;height:8px}
+.macro-table{display:flex;gap:8px;flex-wrap:wrap;margin:6px 0 14px}
+.macro-cell{flex:1;min-width:52px;background:var(--mist);border-radius:10px;padding:10px 6px;text-align:center}
+.macro-cell.hl{background:var(--steel);color:#fff}
+.mc-val{display:block;font-size:20px;font-weight:800;line-height:1.1}
+.mc-lbl{display:block;font-size:10px;text-transform:uppercase;letter-spacing:.3px;opacity:.7;margin-top:2px}
+.ingr-list{border:1px solid var(--line);border-radius:10px;overflow:hidden;margin-bottom:12px}
+.ingr-row{display:flex;justify-content:space-between;padding:8px 12px;font-size:13.5px;border-bottom:1px solid var(--line)}
+.ingr-row:last-child{border-bottom:none}
+.ingr-g{font-weight:700;color:var(--steel)}
+.macro-mini{display:block;font-size:11px;color:var(--slate);margin-top:2px}
+.cooked-box{background:#f5fafa;border:1px solid #d7e8e8;border-radius:10px;padding:14px;margin-bottom:14px}
+.cooked-input{display:flex;align-items:center;gap:8px;flex-wrap:wrap;font-size:14px;font-weight:600}
+.cooked-input input{width:90px;border:1px solid var(--line);border-radius:7px;padding:7px 9px;font-size:15px;font-weight:700;color:var(--navy)}
+.block-portion{font-size:13.5px;padding:5px 0;line-height:1.5}
+.block-portion .dot{display:inline-block;vertical-align:middle}
+.adj-tag{font-size:10px;font-weight:700;color:var(--warn);background:#f6efe0;padding:1px 6px;border-radius:10px;text-transform:uppercase}
+.batch-h.mclick{cursor:pointer}
+.batch-h.mclick:hover{color:var(--steel)}
 .modal-sos b{color:var(--syn)}
 
 .macro-row{display:flex;justify-content:space-between;align-items:center;padding:7px 0;border-bottom:1px dashed var(--line);font-size:14px}
@@ -242,12 +323,12 @@ h2.section-h{font-size:24px;font-weight:700;margin-bottom:4px}
   <span class="sync-badge local" id="syncBadge">lokalnie</span>
   <button class="who-badge" id="whoBadge" onclick="switchPerson()" title="Zmień osobę"></button>
   <nav class="tabs">
-    <button class="tab active" data-view="dzis">Dziś</button>
-    <button class="tab" data-view="plan">Plan 14 dni</button>
-    <button class="tab" data-view="przepisy">Przepisy</button>
-    <button class="tab" data-view="batch">Batch cooking</button>
-    <button class="tab" data-view="zakupy">Zakupy</button>
-    <button class="tab" data-view="profile">Profile</button>
+    <button class="tab active" data-view="dzis"><span class="tab-ico">📅</span><span class="tab-txt">Dziś</span></button>
+    <button class="tab" data-view="plan"><span class="tab-ico">🗓️</span><span class="tab-txt">Plan</span></button>
+    <button class="tab" data-view="przepisy"><span class="tab-ico">📖</span><span class="tab-txt">Przepisy</span></button>
+    <button class="tab" data-view="batch"><span class="tab-ico">🍲</span><span class="tab-txt">Batch</span></button>
+    <button class="tab" data-view="zakupy"><span class="tab-ico">🛒</span><span class="tab-txt">Zakupy</span></button>
+    <button class="tab" data-view="profile"><span class="tab-ico">👤</span><span class="tab-txt">Profile</span></button>
   </nav>
 </div>
 <div class="wrap">
@@ -276,22 +357,110 @@ const PEOPLE=[
 ];
 const SLOT_NAMES=['Śniadanie','Posiłek 2','Obiad','Kolacja'];
 
+// ===== MODEL ROTACYJNY =====
+// sloty per osoba (Bartek 5, Oliwia/syn 4 — bez lekkiego lunchu)
+const SLOTS_DEF=[
+  {key:'sniadanie',label:'Śniadanie',people:['oliwia','bartek','syn']},
+  {key:'ii_sniadanie',label:'II śniadanie',people:['oliwia','bartek','syn']},
+  {key:'lekki_lunch',label:'Lekki lunch',people:['bartek']},
+  {key:'obiad',label:'Obiad',people:['oliwia','bartek','syn'],isBlock:true},
+  {key:'kolacja',label:'Kolacja',people:['oliwia','bartek','syn']}
+];
+// domyslne II sniadanie dla Oliwii i Teosia (podmienialne z puli)
+const DEFAULT_II='Jogurt z płatkami i owocem';
+
+
 // typy treningu w przelaczniku
 const TRAIN_OPTS=['bieg','long run','siłownia/CrossFit','odpoczynek'];
-// ktore treningi maja sens z przekaska przedtreningowa
 const TRAIN_WITH_SNACK=['bieg','long run','siłownia/CrossFit'];
-// stala podpowiedz przekaski (0 kcal - paliwo juz wliczone w posilek 2)
-const PRE_SNACK={name:'Przekąska przedtreningowa',hint:'banan + wafle ryżowe + miód',kcal:0};
+const PRE_SNACK={name:'Przekąska przedtreningowa',hint:'owoc / banan / wafle',kcal:0};
 
 // ============ BIBLIOTEKA PLANÓW ============
-const PLAN_LIBRARY=[{"id": "plan1", "name": "Plan 1 (wytrawne śniadania)", "source": "Excel 14 dni v2", "days": [{"day": 1, "name": "Poniedziałek", "trO": "easy run", "trB": "easy run", "prep": "Śniadanie i bolognese także na dzień 2", "kcal": {"oliwia": 2170, "bartek": 2980, "syn": 1000}}, {"day": 2, "name": "Wtorek", "trO": "odpoczynek", "trB": "siłownia/CrossFit", "prep": "Ostatnia porcja bolognese", "kcal": {"oliwia": 2050, "bartek": 3130, "syn": 1000}}, {"day": 3, "name": "Środa", "trO": "long run", "trB": "long run", "prep": "Gotowanie curry także na dzień 4", "kcal": {"oliwia": 2400, "bartek": 3220, "syn": 980}}, {"day": 4, "name": "Czwartek", "trO": "odpoczynek", "trB": "siłownia/CrossFit", "prep": "Ostatnia porcja curry", "kcal": {"oliwia": 2020, "bartek": 3060, "syn": 1000}}, {"day": 5, "name": "Piątek", "trO": "tempo/interwały", "trB": "tempo/interwały", "prep": "Gotowanie łososia także na dzień 6", "kcal": {"oliwia": 2290, "bartek": 3140, "syn": 1000}}, {"day": 6, "name": "Sobota", "trO": "odpoczynek", "trB": "opcjonalny CrossFit", "prep": "Ostatnia porcja łososia", "kcal": {"oliwia": 2060, "bartek": 3130, "syn": 990}}, {"day": 7, "name": "Niedziela", "trO": "opcjonalny easy run", "trB": "odpoczynek", "prep": "Gotowanie pulpecików także na dzień 8", "kcal": {"oliwia": 2140, "bartek": 2860, "syn": 1000}}, {"day": 8, "name": "Poniedziałek", "trO": "easy run", "trB": "easy run", "prep": "Muffiny także na dzień 9; ostatnia porcja pulpecików", "kcal": {"oliwia": 2150, "bartek": 2960, "syn": 1000}}, {"day": 9, "name": "Wtorek", "trO": "odpoczynek", "trB": "siłownia/CrossFit", "prep": "Gotowanie chili także na dzień 10", "kcal": {"oliwia": 2040, "bartek": 3120, "syn": 990}}, {"day": 10, "name": "Środa", "trO": "long run", "trB": "long run", "prep": "Ostatnia porcja chili", "kcal": {"oliwia": 2400, "bartek": 3270, "syn": 990}}, {"day": 11, "name": "Czwartek", "trO": "odpoczynek", "trB": "siłownia/CrossFit", "prep": "Gotowanie gulaszu także na dzień 12", "kcal": {"oliwia": 2030, "bartek": 3080, "syn": 1000}}, {"day": 12, "name": "Piątek", "trO": "tempo/interwały", "trB": "tempo/interwały", "prep": "Ostatnia porcja gulaszu", "kcal": {"oliwia": 2260, "bartek": 3150, "syn": 990}}, {"day": 13, "name": "Sobota", "trO": "odpoczynek", "trB": "opcjonalny CrossFit", "prep": "Gotowanie makaronu z kurczakiem także na dzień 14", "kcal": {"oliwia": 2050, "bartek": 3120, "syn": 990}}, {"day": 14, "name": "Niedziela", "trO": "opcjonalny easy run", "trB": "odpoczynek", "prep": "Ostatnia porcja makaronu z kurczakiem", "kcal": {"oliwia": 2150, "bartek": 2890, "syn": 1010}}], "meals": [{"day": 1, "slot": 1, "name": "Zapiekana tortilla z jajkiem i indykiem", "oliwia": "1 tortilla, 2 jajka, 60 g indyka, 25 g sera, pomidor i szpinak", "bartek": "1½ tortilli, 3 jajka, 90 g indyka, 30 g sera, pomidor i szpinak", "syn": "½ tortilli, 1 jajko, 20 g indyka, 10 g sera, miękkie warzywa", "uwagi": "Upiec od razu 2 rodzinne porcje na dni 1–2", "kcal": {"oliwia": 520, "bartek": 710, "syn": 250}}, {"day": 1, "slot": 2, "name": "Koktajl + pieczywo z miodem", "oliwia": "25 g whey, 200 ml mleka, banan, 50 g pieczywa, 10 g miodu", "bartek": "30 g whey, 300 ml mleka, banan, 70 g pieczywa, 15 g miodu", "syn": "banan + 35 g pieczywa z cienką warstwą masła", "uwagi": "60–90 min przed biegiem", "kcal": {"oliwia": 390, "bartek": 570, "syn": 150}}, {"day": 1, "slot": 3, "name": "Bolognese", "oliwia": "80 g makaronu, 160 g mięsa i ½ sosu", "bartek": "120 g makaronu, 220 g mięsa i ½ sosu", "syn": "30 g makaronu, 50 g mięsa i łagodny sos", "uwagi": "Batch B1", "kcal": {"oliwia": 760, "bartek": 1050, "syn": 350}}, {"day": 1, "slot": 4, "name": "Quesadilla z kurczakiem", "oliwia": "1 tortilla, 120 g kurczaka, 30 g sera, warzywa, 40 g sosu", "bartek": "2 tortille, 170 g kurczaka, 45 g sera, warzywa, 60 g sosu", "syn": "½ tortilli, 40 g kurczaka, 10 g sera, warzywa", "uwagi": "Po treningu", "kcal": {"oliwia": 500, "bartek": 650, "syn": 250}}, {"day": 2, "slot": 1, "name": "Zapiekana tortilla z jajkiem i indykiem", "oliwia": "1 tortilla, 2 jajka, 60 g indyka, 25 g sera, pomidor i szpinak", "bartek": "1½ tortilli, 3 jajka, 90 g indyka, 30 g sera, pomidor i szpinak", "syn": "½ tortilli, 1 jajko, 20 g indyka, 10 g sera, miękkie warzywa", "uwagi": "Odgrzać w piekarniku lub na patelni", "kcal": {"oliwia": 520, "bartek": 710, "syn": 250}}, {"day": 2, "slot": 2, "name": "Kanapka z indykiem + owoc", "oliwia": "70 g chleba, 60 g szynki, warzywa, jabłko", "bartek": "120 g chleba, 90 g szynki, 20 g sera, warzywa, jabłko", "syn": "35 g chleba, 25 g indyka, miękki owoc", "uwagi": "Dla Bartka 1–2 h przed treningiem", "kcal": {"oliwia": 300, "bartek": 600, "syn": 130}}, {"day": 2, "slot": 3, "name": "Bolognese", "oliwia": "80 g makaronu, 160 g mięsa i ½ sosu", "bartek": "120 g makaronu, 220 g mięsa i ½ sosu", "syn": "30 g makaronu, 50 g mięsa i łagodny sos", "uwagi": "Ostatnia porcja", "kcal": {"oliwia": 760, "bartek": 1050, "syn": 350}}, {"day": 2, "slot": 4, "name": "Pasta z tuńczyka", "oliwia": "100 g chleba, 100 g tuńczyka, 50 g sosu jogurtowo-majonezowego, warzywa", "bartek": "160 g chleba, 140 g tuńczyka, 70 g sosu, warzywa", "syn": "45 g chleba, 25 g tuńczyka, 15 g sosu, warzywa", "uwagi": "Jogurt zblendowany", "kcal": {"oliwia": 470, "bartek": 770, "syn": 270}}, {"day": 3, "slot": 1, "name": "Kanapki z pastą z awokado i jajkiem", "oliwia": "100 g pieczywa, 2 jajka, 70 g awokado, pomidor", "bartek": "150 g pieczywa, 3 jajka, 100 g awokado, pomidor", "syn": "40 g pieczywa, 1 jajko, 20 g awokado, pomidor", "uwagi": "Awokado rozgnieść z jajkiem i sokiem z cytryny", "kcal": {"oliwia": 560, "bartek": 750, "syn": 230}}, {"day": 3, "slot": 2, "name": "Ryż na mleku + paliwo", "oliwia": "60 g ryżu, 250 ml mleka, banan, 10 g miodu + 30–45 g węgli/h biegu", "bartek": "90 g ryżu, 350 ml mleka, banan, 15 g miodu + 30–45 g węgli/h biegu", "syn": "30 g ryżu, 150 ml mleka, owoce", "uwagi": "Kalorie obejmują ok. 1 porcję paliwa podczas biegu", "kcal": {"oliwia": 500, "bartek": 650, "syn": 150}}, {"day": 3, "slot": 3, "name": "Kurczak curry", "oliwia": "70 g ryżu, 160 g kurczaka i ½ sosu", "bartek": "110 g ryżu, 220 g kurczaka i ½ sosu", "syn": "25 g ryżu, 50 g kurczaka i łagodny sos", "uwagi": "Batch B2", "kcal": {"oliwia": 740, "bartek": 1020, "syn": 350}}, {"day": 3, "slot": 4, "name": "Quesadilla z kurczakiem", "oliwia": "1 tortilla, 140 g kurczaka, 35 g sera, sos i warzywa", "bartek": "2 tortille, 200 g kurczaka, 50 g sera, sos i warzywa", "syn": "½ tortilli, 40 g kurczaka, 10 g sera, warzywa", "uwagi": "Posiłek regeneracyjny", "kcal": {"oliwia": 600, "bartek": 800, "syn": 250}}, {"day": 4, "slot": 1, "name": "Tortilla śniadaniowa", "oliwia": "1 tortilla, 2 jajka, 30 g sera, warzywa", "bartek": "2 tortille, 3 jajka, 40 g sera, warzywa", "syn": "½ tortilli, 1 jajko, 10 g sera, warzywa", "uwagi": "Łagodna salsa pomidorowa", "kcal": {"oliwia": 480, "bartek": 680, "syn": 250}}, {"day": 4, "slot": 2, "name": "Koktajl owocowo-owsiany", "oliwia": "20 g whey, 200 ml mleka, 30 g płatków, owoce", "bartek": "30 g whey, 300 ml mleka, 60 g płatków, banan", "syn": "mleko, banan i 10 g drobnych płatków, bez whey", "uwagi": "Dla Bartka przed treningiem", "kcal": {"oliwia": 300, "bartek": 600, "syn": 140}}, {"day": 4, "slot": 3, "name": "Kurczak curry", "oliwia": "70 g ryżu, 160 g kurczaka i ½ sosu", "bartek": "110 g ryżu, 220 g kurczaka i ½ sosu", "syn": "25 g ryżu, 50 g kurczaka i łagodny sos", "uwagi": "Ostatnia porcja", "kcal": {"oliwia": 740, "bartek": 1020, "syn": 350}}, {"day": 4, "slot": 4, "name": "Mozzarella + pieczywo", "oliwia": "90 g chleba, 100 g mozzarelli, pomidor, 5 g oliwy", "bartek": "150 g chleba, 125 g mozzarelli, pomidor, 10 g oliwy", "syn": "40 g chleba, 30 g mozzarelli, pomidor", "uwagi": "Bazylia i pieprz dla dorosłych", "kcal": {"oliwia": 500, "bartek": 760, "syn": 260}}, {"day": 5, "slot": 1, "name": "Tortilla śniadaniowa", "oliwia": "1 tortilla, 2 jajka, 30 g sera, warzywa", "bartek": "2 tortille, 3 jajka, 40 g sera, warzywa", "syn": "½ tortilli, 1 jajko, 10 g sera, warzywa", "uwagi": "", "kcal": {"oliwia": 520, "bartek": 700, "syn": 250}}, {"day": 5, "slot": 2, "name": "Bułka z miodem + banan", "oliwia": "80 g bułki, banan, 15 g miodu", "bartek": "120 g bułki, banan, 20 g miodu", "syn": "½ małej bułki, banan", "uwagi": "60–90 min przed treningiem", "kcal": {"oliwia": 420, "bartek": 600, "syn": 150}}, {"day": 5, "slot": 3, "name": "Łosoś z ziemniakami", "oliwia": "150 g łososia, 330 g ziemniaków, 250 g warzyw, 10 g oliwy", "bartek": "210 g łososia, 500 g ziemniaków, 300 g warzyw, 15 g oliwy", "syn": "50 g łososia, 130 g ziemniaków, miękkie warzywa, 5 g oliwy", "uwagi": "Batch B3", "kcal": {"oliwia": 780, "bartek": 1050, "syn": 350}}, {"day": 5, "slot": 4, "name": "Kanapki z łososiem", "oliwia": "100 g chleba, 70 g łososia, 30 g serka zblendowanego z koperkiem, warzywa", "bartek": "160 g chleba, 100 g łososia, 45 g serka, warzywa", "syn": "40 g chleba, 25 g pieczonej ryby lub jajka, warzywa", "uwagi": "Wędzonego łososia dla dziecka używać sporadycznie ze względu na sól", "kcal": {"oliwia": 570, "bartek": 790, "syn": 250}}, {"day": 6, "slot": 1, "name": "Wytrawne placuszki z cukinii i twarogu", "oliwia": "120 g twarogu, 1 jajko, 40 g płatków, 150 g cukinii, 15 g sera", "bartek": "180 g twarogu, 2 jajka, 60 g płatków, 200 g cukinii, 20 g sera", "syn": "50 g twarogu, ½ jajka, 20 g płatków, 60 g cukinii, 5 g sera", "uwagi": "Zblendować twaróg, cukinię dobrze odcisnąć", "kcal": {"oliwia": 500, "bartek": 700, "syn": 240}}, {"day": 6, "slot": 2, "name": "Kanapka z hummusem", "oliwia": "70 g chleba, 50 g hummusu, warzywa, owoc", "bartek": "130 g chleba, 80 g hummusu, warzywa, owoc", "syn": "35 g chleba, 20 g hummusu, miękki owoc", "uwagi": "", "kcal": {"oliwia": 300, "bartek": 600, "syn": 140}}, {"day": 6, "slot": 3, "name": "Łosoś z ziemniakami", "oliwia": "150 g łososia, 330 g ziemniaków, 250 g warzyw, 10 g oliwy", "bartek": "210 g łososia, 500 g ziemniaków, 300 g warzyw, 15 g oliwy", "syn": "50 g łososia, 130 g ziemniaków, miękkie warzywa, 5 g oliwy", "uwagi": "Ostatnia porcja", "kcal": {"oliwia": 780, "bartek": 1050, "syn": 350}}, {"day": 6, "slot": 4, "name": "Sałatka makaronowa z tuńczykiem", "oliwia": "65 g makaronu, 80 g tuńczyka, 100 g warzyw, 50 g sosu", "bartek": "110 g makaronu, 130 g tuńczyka, 150 g warzyw, 70 g sosu", "syn": "25 g makaronu, 25 g tuńczyka, warzywa, 15 g sosu", "uwagi": "Sos jogurtowo-majonezowy", "kcal": {"oliwia": 480, "bartek": 780, "syn": 260}}, {"day": 7, "slot": 1, "name": "Jajecznica", "oliwia": "2 jajka, 100 g chleba, 50 g szynki, warzywa", "bartek": "3 jajka, 150 g chleba, 70 g szynki, warzywa", "syn": "1 jajko, 40 g chleba, pomidor", "uwagi": "", "kcal": {"oliwia": 520, "bartek": 700, "syn": 250}}, {"day": 7, "slot": 2, "name": "Koktajl mango + wafle", "oliwia": "20 g whey, 200 ml mleka, mango, 3 wafle", "bartek": "30 g whey, 300 ml mleka, mango, 5 wafli, 15 g masła orzechowego", "syn": "mleko, mango, 1–2 wafle z cienko masłem", "uwagi": "Przed easy runem Oliwii", "kcal": {"oliwia": 380, "bartek": 450, "syn": 150}}, {"day": 7, "slot": 3, "name": "Pulpeciki z indyka", "oliwia": "75 g makaronu, 160 g indyka i ½ sosu", "bartek": "115 g makaronu, 220 g indyka i ½ sosu", "syn": "30 g makaronu, 50 g indyka i łagodny sos", "uwagi": "Batch B4", "kcal": {"oliwia": 740, "bartek": 1030, "syn": 350}}, {"day": 7, "slot": 4, "name": "Wrap z indykiem", "oliwia": "1 tortilla, 120 g indyka, 25 g sera, warzywa, sos", "bartek": "2 tortille, 170 g indyka, 40 g sera, warzywa, sos", "syn": "½ tortilli, 40 g indyka, 10 g sera, warzywa", "uwagi": "", "kcal": {"oliwia": 500, "bartek": 680, "syn": 250}}, {"day": 8, "slot": 1, "name": "Muffiny jajeczne z warzywami i pieczywem", "oliwia": "2 jajka, 100 g chleba, 50 g indyka, 20 g sera, warzywa", "bartek": "3 jajka, 150 g chleba, 70 g indyka, 30 g sera, warzywa", "syn": "1 jajko, 40 g chleba, 15 g indyka, 10 g sera, miękkie warzywa", "uwagi": "Upiec muffiny na 2 dni, pieczywo dodać świeże", "kcal": {"oliwia": 520, "bartek": 710, "syn": 250}}, {"day": 8, "slot": 2, "name": "Koktajl + pieczywo z miodem", "oliwia": "25 g whey, 200 ml mleka, banan, 50 g pieczywa, 10 g miodu", "bartek": "30 g whey, 300 ml mleka, banan, 70 g pieczywa, 15 g miodu", "syn": "banan + 35 g pieczywa z cienką warstwą masła", "uwagi": "Przed easy runem", "kcal": {"oliwia": 390, "bartek": 570, "syn": 150}}, {"day": 8, "slot": 3, "name": "Pulpeciki z indyka", "oliwia": "75 g makaronu, 160 g indyka i ½ sosu", "bartek": "115 g makaronu, 220 g indyka i ½ sosu", "syn": "30 g makaronu, 50 g indyka i łagodny sos", "uwagi": "Ostatnia porcja", "kcal": {"oliwia": 740, "bartek": 1030, "syn": 350}}, {"day": 8, "slot": 4, "name": "Tortilla pizza", "oliwia": "1 tortilla, 70 g szynki, 40 g mozzarelli, passata, warzywa", "bartek": "2 tortille, 100 g szynki, 70 g mozzarelli, passata, warzywa", "syn": "½ tortilli, 20 g szynki, 20 g mozzarelli, passata", "uwagi": "Zapiec 8–10 minut", "kcal": {"oliwia": 500, "bartek": 650, "syn": 250}}, {"day": 9, "slot": 1, "name": "Muffiny jajeczne z warzywami i pieczywem", "oliwia": "2 jajka, 100 g chleba, 50 g indyka, 20 g sera, warzywa", "bartek": "3 jajka, 150 g chleba, 70 g indyka, 30 g sera, warzywa", "syn": "1 jajko, 40 g chleba, 15 g indyka, 10 g sera, miękkie warzywa", "uwagi": "Muffiny podgrzać, pieczywo podać świeże", "kcal": {"oliwia": 520, "bartek": 710, "syn": 250}}, {"day": 9, "slot": 2, "name": "Kanapka z indykiem + owoc", "oliwia": "70 g chleba, 60 g szynki, warzywa, jabłko", "bartek": "120 g chleba, 90 g szynki, 20 g sera, warzywa, jabłko", "syn": "35 g chleba, 25 g indyka, miękki owoc", "uwagi": "Dla Bartka przed treningiem", "kcal": {"oliwia": 300, "bartek": 600, "syn": 130}}, {"day": 9, "slot": 3, "name": "Chili con carne", "oliwia": "70 g ryżu, 150 g wołowiny i ½ dodatków", "bartek": "110 g ryżu, 210 g wołowiny i ½ dodatków", "syn": "25 g ryżu, 45 g mięsa i łagodny sos", "uwagi": "Batch B5", "kcal": {"oliwia": 740, "bartek": 1030, "syn": 350}}, {"day": 9, "slot": 4, "name": "Pasta jajeczna", "oliwia": "2 jajka, 90 g chleba, 40 g sosu, warzywa", "bartek": "3 jajka, 150 g chleba, 60 g sosu, warzywa", "syn": "1 jajko, 40 g chleba, 10 g sosu, warzywa", "uwagi": "Jogurt zblendować z jajkiem", "kcal": {"oliwia": 480, "bartek": 780, "syn": 260}}, {"day": 10, "slot": 1, "name": "Omlet ze szpinakiem, fetą i indykiem", "oliwia": "2 jajka, 100 g chleba, 40 g fety, 40 g indyka, szpinak i pomidor", "bartek": "3 jajka, 140 g chleba, 60 g fety, 70 g indyka, szpinak i pomidor", "syn": "1 jajko, 40 g chleba, 15 g fety, 15 g indyka, warzywa", "uwagi": "Fetę i sól ograniczyć w porcji dziecka", "kcal": {"oliwia": 560, "bartek": 790, "syn": 240}}, {"day": 10, "slot": 2, "name": "Ryż na mleku + paliwo", "oliwia": "60 g ryżu, 250 ml mleka, banan, 10 g miodu + 30–45 g węgli/h biegu", "bartek": "90 g ryżu, 350 ml mleka, banan, 15 g miodu + 30–45 g węgli/h biegu", "syn": "30 g ryżu, 150 ml mleka, owoce", "uwagi": "Long run", "kcal": {"oliwia": 500, "bartek": 650, "syn": 150}}, {"day": 10, "slot": 3, "name": "Chili con carne", "oliwia": "70 g ryżu, 150 g wołowiny i ½ dodatków", "bartek": "110 g ryżu, 210 g wołowiny i ½ dodatków", "syn": "25 g ryżu, 45 g mięsa i łagodny sos", "uwagi": "Ostatnia porcja", "kcal": {"oliwia": 740, "bartek": 1030, "syn": 350}}, {"day": 10, "slot": 4, "name": "Quesadilla z kurczakiem", "oliwia": "1 tortilla, 140 g kurczaka, 35 g sera, sos i warzywa", "bartek": "2 tortille, 200 g kurczaka, 50 g sera, sos i warzywa", "syn": "½ tortilli, 40 g kurczaka, 10 g sera, warzywa", "uwagi": "Po biegu", "kcal": {"oliwia": 600, "bartek": 800, "syn": 250}}, {"day": 11, "slot": 1, "name": "Tortilla śniadaniowa", "oliwia": "1 tortilla, 2 jajka, 30 g sera, warzywa", "bartek": "2 tortille, 3 jajka, 40 g sera, warzywa", "syn": "½ tortilli, 1 jajko, 10 g sera, warzywa", "uwagi": "", "kcal": {"oliwia": 480, "bartek": 680, "syn": 250}}, {"day": 11, "slot": 2, "name": "Koktajl owocowo-owsiany", "oliwia": "20 g whey, 200 ml mleka, 30 g płatków, owoce", "bartek": "30 g whey, 300 ml mleka, 60 g płatków, banan", "syn": "mleko, banan i 10 g drobnych płatków, bez whey", "uwagi": "Przed treningiem Bartka", "kcal": {"oliwia": 300, "bartek": 600, "syn": 140}}, {"day": 11, "slot": 3, "name": "Gulasz wołowy z kaszą", "oliwia": "70 g kaszy, 160 g wołowiny i ½ sosu", "bartek": "110 g kaszy, 220 g wołowiny i ½ sosu", "syn": "25 g kaszy, 50 g mięsa, marchew i łagodny sos", "uwagi": "Batch B6", "kcal": {"oliwia": 750, "bartek": 1040, "syn": 350}}, {"day": 11, "slot": 4, "name": "Mozzarella + pieczywo", "oliwia": "90 g chleba, 100 g mozzarelli, pomidor, 5 g oliwy", "bartek": "150 g chleba, 125 g mozzarelli, pomidor, 10 g oliwy", "syn": "40 g chleba, 30 g mozzarelli, pomidor", "uwagi": "", "kcal": {"oliwia": 500, "bartek": 760, "syn": 260}}, {"day": 12, "slot": 1, "name": "Kanapki z pastą z awokado i jajkiem", "oliwia": "100 g pieczywa, 2 jajka, 70 g awokado, pomidor", "bartek": "150 g pieczywa, 3 jajka, 100 g awokado, pomidor", "syn": "40 g pieczywa, 1 jajko, 20 g awokado, pomidor", "uwagi": "", "kcal": {"oliwia": 560, "bartek": 750, "syn": 230}}, {"day": 12, "slot": 2, "name": "Bułka z miodem + banan", "oliwia": "80 g bułki, banan, 15 g miodu", "bartek": "120 g bułki, banan, 20 g miodu", "syn": "½ małej bułki, banan", "uwagi": "Przed tempem/interwałami", "kcal": {"oliwia": 420, "bartek": 600, "syn": 150}}, {"day": 12, "slot": 3, "name": "Gulasz wołowy z kaszą", "oliwia": "70 g kaszy, 160 g wołowiny i ½ sosu", "bartek": "110 g kaszy, 220 g wołowiny i ½ sosu", "syn": "25 g kaszy, 50 g mięsa, marchew i łagodny sos", "uwagi": "Ostatnia porcja", "kcal": {"oliwia": 750, "bartek": 1040, "syn": 350}}, {"day": 12, "slot": 4, "name": "Pasta z tuńczyka", "oliwia": "100 g chleba, 100 g tuńczyka, 50 g sosu i warzywa", "bartek": "160 g chleba, 140 g tuńczyka, 70 g sosu i warzywa", "syn": "40 g chleba, 25 g tuńczyka, 15 g sosu i warzywa", "uwagi": "", "kcal": {"oliwia": 530, "bartek": 760, "syn": 260}}, {"day": 13, "slot": 1, "name": "Wytrawne placuszki z cukinii i twarogu", "oliwia": "120 g twarogu, 1 jajko, 40 g płatków, 150 g cukinii, 15 g sera", "bartek": "180 g twarogu, 2 jajka, 60 g płatków, 200 g cukinii, 20 g sera", "syn": "50 g twarogu, ½ jajka, 20 g płatków, 60 g cukinii, 5 g sera", "uwagi": "", "kcal": {"oliwia": 500, "bartek": 700, "syn": 240}}, {"day": 13, "slot": 2, "name": "Kanapka z hummusem", "oliwia": "70 g chleba, 50 g hummusu, warzywa, owoc", "bartek": "130 g chleba, 80 g hummusu, warzywa, owoc", "syn": "35 g chleba, 20 g hummusu, miękki owoc", "uwagi": "Dla Bartka przed treningiem", "kcal": {"oliwia": 300, "bartek": 600, "syn": 140}}, {"day": 13, "slot": 3, "name": "Kremowy makaron z kurczakiem", "oliwia": "80 g makaronu, 160 g kurczaka i ½ sosu", "bartek": "120 g makaronu, 220 g kurczaka i ½ sosu", "syn": "30 g makaronu, 50 g kurczaka, szpinak i łagodny sos", "uwagi": "Batch B7", "kcal": {"oliwia": 750, "bartek": 1040, "syn": 350}}, {"day": 13, "slot": 4, "name": "Wrap z kurczakiem", "oliwia": "1 tortilla, 120 g kurczaka, warzywa, 50 g sosu", "bartek": "2 tortille, 180 g kurczaka, warzywa, 70 g sosu", "syn": "½ tortilli, 40 g kurczaka, warzywa, 15 g sosu", "uwagi": "Sos czosnkowy zblendowany", "kcal": {"oliwia": 500, "bartek": 780, "syn": 260}}, {"day": 14, "slot": 1, "name": "Jajecznica", "oliwia": "2 jajka, 100 g chleba, 50 g szynki, warzywa", "bartek": "3 jajka, 150 g chleba, 70 g szynki, warzywa", "syn": "1 jajko, 40 g chleba, pomidor", "uwagi": "", "kcal": {"oliwia": 520, "bartek": 700, "syn": 250}}, {"day": 14, "slot": 2, "name": "Koktajl mango + wafle", "oliwia": "20 g whey, 200 ml mleka, mango, 3 wafle", "bartek": "30 g whey, 300 ml mleka, mango, 5 wafli, 15 g masła orzechowego", "syn": "mleko, mango, 1–2 wafle z cienko masłem", "uwagi": "Przed opcjonalnym biegiem Oliwii", "kcal": {"oliwia": 380, "bartek": 450, "syn": 150}}, {"day": 14, "slot": 3, "name": "Kremowy makaron z kurczakiem", "oliwia": "80 g makaronu, 160 g kurczaka i ½ sosu", "bartek": "120 g makaronu, 220 g kurczaka i ½ sosu", "syn": "30 g makaronu, 50 g kurczaka, szpinak i łagodny sos", "uwagi": "Ostatnia porcja", "kcal": {"oliwia": 750, "bartek": 1040, "syn": 350}}, {"day": 14, "slot": 4, "name": "Zapiekane kanapki z indykiem", "oliwia": "100 g chleba, 80 g indyka, 35 g sera, warzywa", "bartek": "160 g chleba, 120 g indyka, 55 g sera, warzywa", "syn": "45 g chleba, 25 g indyka, 15 g sera, warzywa", "uwagi": "", "kcal": {"oliwia": 500, "bartek": 700, "syn": 260}}], "recipes": [{"id": "R01", "name": "Zapiekana tortilla z jajkiem i indykiem", "use": "śniadanie wytrawne, 2 dni", "ingr": "6 tortilli, 12 jajek, 340 g pieczonego indyka lub dobrej szynki, 140 g sera, 2 pomidory, 150 g szpinaku, słodka papryka, oregano, pieprz", "prep": "Tortille ułóż w małych naczyniach lub formie, dodaj jajka, indyka, warzywa i ser. Piecz 18–22 min w 185°C. Po ostudzeniu porcję na drugi dzień schowaj do lodówki."}, {"id": "R02", "name": "Muffiny jajeczne z warzywami i pieczywem", "use": "śniadanie wytrawne, 2 dni", "ingr": "12 jajek, 270 g indyka, 120 g sera, 2 papryki, 150 g szpinaku, szczypiorek; pieczywo według porcji z arkusza", "prep": "Jajka roztrzep, dodaj drobno pokrojone składniki. Piecz w foremkach 18–20 min w 180°C. Przechowuj do 2 dni, pieczywo podawaj świeże."}, {"id": "R03", "name": "Tortilla śniadaniowa", "use": "śniadanie wytrawne", "ingr": "tortille według porcji, jajka, ser, pomidor, papryka, szpinak; salsa: passata, oregano, czosnek", "prep": "Jajka zetnij na patelni, dodaj warzywa. Zawiń z serem w tortillę i podgrzej z obu stron. Dziecku podaj łagodną wersję."}, {"id": "R04", "name": "Kanapki z pastą z awokado i jajkiem", "use": "śniadanie wytrawne", "ingr": "pieczywo według porcji, jajka, awokado, pomidor, sok z cytryny, szczypiorek, pieprz", "prep": "Jajka ugotuj na twardo. Awokado rozgnieć z jajkiem i sokiem z cytryny, dodaj szczypiorek. Dopraw porcje dorosłych, podawaj z pieczywem i pomidorem."}, {"id": "R05", "name": "Wytrawne placuszki z cukinii i twarogu", "use": "śniadanie wytrawne", "ingr": "350 g twarogu, 3 jajka, 120 g zmielonych płatków, 410 g cukinii, 40 g sera, koperek, czosnek granulowany, pieprz", "prep": "Twaróg zblenduj z jajkami i płatkami. Cukinię zetrzyj, mocno odciśnij i połącz z masą oraz serem. Smaż na lekko natłuszczonej patelni."}, {"id": "R06", "name": "Omlet ze szpinakiem, fetą i indykiem", "use": "śniadanie wytrawne", "ingr": "jajka, pieczywo, feta, pieczony indyk, szpinak, pomidor, pieprz, oregano", "prep": "Indyka i szpinak krótko podgrzej, zalej roztrzepanymi jajkami. Dodaj fetę i smaż pod przykryciem. Dziecku odłóż wersję z mniejszą ilością fety."}, {"id": "R07", "name": "Koktajl owocowo-owsiany", "use": "posiłek 2", "ingr": "dorośli: mleko, whey, banan lub mango, płatki; dziecko: mleko, owoc i drobne płatki bez whey", "prep": "Zblenduj. Dorosłym odmierz whey i kreatynę osobno. Porcji dziecka nie przygotowuj z odżywką ani kreatyną."}, {"id": "R08", "name": "Ryż na mleku", "use": "paliwo przed long runem", "ingr": "ryż, mleko, banan, cynamon, miód dla dorosłych", "prep": "Ryż ugotuj bardzo miękko w mleku lub mleku z wodą. Jedz 90–150 min przed biegiem. Paliwo podczas biegu wlicz do dziennej energii."}, {"id": "R09", "name": "Bolognese z warzywami", "use": "obiad, batch B1", "ingr": "patrz arkusz Batch cooking", "prep": "Mięso podsmaż partiami. Dodaj drobno pokrojone warzywa, passatę i zioła. Duś 25 min. Makaron ugotuj na oba dni i szybko schłódź drugą porcję."}, {"id": "R10", "name": "Kurczak curry", "use": "obiad, batch B2", "ingr": "patrz arkusz Batch cooking", "prep": "Kurczaka obsmaż, dodaj warzywa i przyprawy. Zalej mleczkiem kokosowym i passatą, duś 12–15 min. Porcję syna odłóż przed soleniem."}, {"id": "R11", "name": "Łosoś z ziemniakami", "use": "obiad, batch B3", "ingr": "patrz arkusz Batch cooking", "prep": "Ziemniaki piecz 25 min w 200°C, dodaj łososia i warzywa na kolejne 12–15 min. Dokładnie sprawdź porcję syna pod kątem ości."}, {"id": "R12", "name": "Pulpeciki z indyka", "use": "obiad, batch B4", "ingr": "patrz arkusz Batch cooking", "prep": "Mięso połącz z jajkami i bułką, uformuj kulki. Piecz 15 min w 200°C, następnie duś 10 min w sosie pomidorowym."}, {"id": "R13", "name": "Chili con carne", "use": "obiad, batch B5", "ingr": "patrz arkusz Batch cooking", "prep": "Mięso podsmaż z cebulą. Dodaj paprykę, passatę, fasolę i kukurydzę. Porcję syna odłóż, chili i sól dodaj wyłącznie dorosłym."}, {"id": "R14", "name": "Quesadilla z kurczakiem", "use": "kolacja", "ingr": "tortille, kurczak, ser, papryka, pomidor, szpinak; sos pomidorowy lub czosnkowy", "prep": "Kurczaka usmaż z papryką słodką i czosnkiem. Nadzienie zamknij w tortilli, podgrzewaj po 2–3 min z każdej strony."}, {"id": "R15", "name": "Pasta z tuńczyka", "use": "kolacja", "ingr": "tuńczyk, jajko opcjonalnie, jogurt, niewielka ilość majonezu, koperek, sok z cytryny, pieprz", "prep": "Jogurt z majonezem zblenduj, wymieszaj z tuńczykiem. Dziecku podaj małą porcję ze względu na sól w produkcie."}, {"id": "R16", "name": "Sos czosnkowy", "use": "sos", "ingr": "150 g jogurtu, 20 g majonezu, ½ ząbka czosnku, koperek, sok z cytryny, pieprz", "prep": "Zblenduj na gładko. Porcję syna przygotuj z minimalną ilością czosnku i bez dosalania."}, {"id": "R17", "name": "Sos jogurtowo-majonezowy", "use": "sos", "ingr": "150 g jogurtu, 25 g majonezu, 10 g musztardy, sok z cytryny, koperek", "prep": "Zblenduj. W aplikacji licz jako oddzielny składnik dania."}, {"id": "R18", "name": "Sos pomidorowy do tortilli", "use": "sos", "ingr": "250 g passaty, 5 g oliwy, oregano, bazylia, czosnek", "prep": "Gotuj 8–10 min do lekkiego zgęstnienia."}, {"id": "R19", "name": "Wrap z indykiem lub kurczakiem", "use": "kolacja", "ingr": "tortille, upieczony drób, warzywa, ser opcjonalnie, sos czosnkowy", "prep": "Składniki ułóż na tortilli, zawiń i podgrzej. Dziecku pokrój na małe miękkie kawałki."}, {"id": "R20", "name": "Sałatka makaronowa z tuńczykiem", "use": "kolacja", "ingr": "makaron, tuńczyk, ogórek, pomidor, kukurydza, sos jogurtowo-majonezowy", "prep": "Makaron ostudź, wymieszaj z resztą. Warzywa dla syna pokrój odpowiednio do umiejętności gryzienia."}, {"id": "R21", "name": "Pasta jajeczna", "use": "kolacja", "ingr": "jajka, jogurt, odrobina majonezu, szczypiorek, pieprz", "prep": "Jajka posiekaj lub rozgnieć. Jogurt zblenduj z majonezem i częścią jajka, następnie połącz."}, {"id": "R22", "name": "Tortilla pizza", "use": "kolacja", "ingr": "tortilla, passata, szynka, mozzarella, papryka, pieczarki opcjonalnie, oregano", "prep": "Posmaruj passatą, dodaj składniki i zapiekaj 8–10 min w 200°C."}, {"id": "R23", "name": "Gulasz wołowy z kaszą", "use": "obiad, batch B6", "ingr": "patrz arkusz Batch cooking", "prep": "Wołowinę obsmaż partiami, dodaj cebulę, marchew i opcjonalnie pieczarki. Zalej bulionem i duś 60–90 min do miękkości. Kaszę ugotuj osobno. Porcję syna odłóż przed soleniem."}, {"id": "R24", "name": "Kremowy makaron z kurczakiem i szpinakiem", "use": "obiad, batch B7", "ingr": "patrz arkusz Batch cooking", "prep": "Kurczaka obsmaż, dodaj cebulę, passatę i przyprawy. Po 10 min dodaj śmietankę oraz szpinak. Wymieszaj z ugotowanym makaronem. Porcję syna dopraw łagodnie."}], "batches": [{"id": "B1", "days": "Dni 1–2", "name": "Bolognese", "ingr": "860 g chudego mięsa mielonego, 460 g makaronu, 1000 g passaty, 2 cebule, 2 marchewki, 1 łodyga selera, 20 g oliwy", "spice": "oregano 2 łyżeczki, bazylia 2, słodka papryka 1½, czosnek, pieprz; sól po odłożeniu porcji dziecka", "store": "Podziel na 2 pojemniki rodzinne. Drugą porcję szybko schłódź i przechowuj w lodówce."}, {"id": "B2", "days": "Dni 3–4", "name": "Łagodny kurczak curry", "ingr": "860 g kurczaka, 410 g ryżu, 500 ml lekkiego mleczka kokosowego, 300 g passaty, ok. 1000 g papryki/cukinii/marchwi/cebuli, 20 g oliwy", "spice": "curry 2 łyżeczki, kurkuma 1½, słodka papryka 1½, czosnek; bez ostrego chili dla dziecka", "store": "Podziel na 2 pojemniki rodzinne. Drugą porcję szybko schłódź i przechowuj w lodówce."}, {"id": "B3", "days": "Dni 5–6", "name": "Łosoś z ziemniakami", "ingr": "820 g łososia, 1920 g ziemniaków, 1000 g warzyw, 40 g oliwy, 1 cytryna", "spice": "koperek, czosnek granulowany, słodka papryka, pieprz; niewiele soli", "store": "Upiecz całość. Drugą porcję szybko schłódź i przechowuj szczelnie do następnego dnia."}, {"id": "B4", "days": "Dni 7–8", "name": "Pulpeciki z indyka", "ingr": "860 g mielonego indyka, 440 g makaronu, 2 jajka, 60 g bułki tartej, 1000 g passaty, 2 cebule, 2 marchewki, 20 g oliwy", "spice": "oregano, bazylia, słodka papryka, czosnek, pieprz", "store": "Podziel pulpeciki z sosem na 2 pojemniki rodzinne. Drugą porcję schłódź i przechowuj w lodówce."}, {"id": "B5", "days": "Dni 9–10", "name": "Chili con carne", "ingr": "810 g chudej wołowiny, 410 g ryżu, 800 g odsączonej fasoli, 300 g kukurydzy, 1000 g passaty, 2 cebule, 2 papryki, 20 g oliwy", "spice": "kumin 2 łyżeczki, słodka papryka 2, oregano 1½, czosnek; chili dopiero na talerzu dorosłych", "store": "Podziel na 2 pojemniki rodzinne. Drugą porcję szybko schłódź i przechowuj w lodówce."}, {"id": "B6", "days": "Dni 11–12", "name": "Gulasz wołowy z kaszą", "ingr": "860 g wołowiny gulaszowej, 410 g kaszy gryczanej lub jęczmiennej, 2 cebule, 3 marchewki, 500 g pieczarek opcjonalnie, 700 ml bulionu o małej zawartości soli, 20 g oliwy", "spice": "słodka papryka, liść laurowy, ziele angielskie, majeranek, czosnek, pieprz", "store": "Podziel gulasz i kaszę na 2 pojemniki rodzinne. Drugą porcję szybko schłódź."}, {"id": "B7", "days": "Dni 13–14", "name": "Kremowy makaron z kurczakiem i szpinakiem", "ingr": "860 g kurczaka, 460 g makaronu, 800 g passaty, 300 ml śmietanki 12%, 300 g szpinaku, 2 cebule, 20 g oliwy", "spice": "oregano, bazylia, czosnek, słodka papryka, pieprz", "store": "Podziel na 2 pojemniki rodzinne. Drugą porcję szybko schłódź i przechowuj w lodówce."}], "shop": {"w1": [{"cat": "Mięso i ryby", "prod": "kurczak", "qty": 2500, "unit": "g"}, {"cat": "Mięso i ryby", "prod": "mielony indyk", "qty": 900, "unit": "g"}, {"cat": "Mięso i ryby", "prod": "indyk/szynka z indyka", "qty": 1100, "unit": "g"}, {"cat": "Mięso i ryby", "prod": "łosoś świeży", "qty": 820, "unit": "g"}, {"cat": "Mięso i ryby", "prod": "łosoś wędzony", "qty": 200, "unit": "g"}, {"cat": "Mięso i ryby", "prod": "tuńczyk", "qty": 6, "unit": "puszek"}, {"cat": "Nabiał i jajka", "prod": "jajka", "qty": 32, "unit": "szt."}, {"cat": "Nabiał i jajka", "prod": "mleko", "qty": 5, "unit": "l"}, {"cat": "Nabiał i jajka", "prod": "jogurt naturalny", "qty": 900, "unit": "g"}, {"cat": "Nabiał i jajka", "prod": "twaróg", "qty": 400, "unit": "g"}, {"cat": "Nabiał i jajka", "prod": "mozzarella", "qty": 5, "unit": "x 125 g"}, {"cat": "Nabiał i jajka", "prod": "ser żółty/feta", "qty": 800, "unit": "g"}, {"cat": "Zbożowe", "prod": "chleb i bułki", "qty": 3500, "unit": "g"}, {"cat": "Zbożowe", "prod": "tortille", "qty": 22, "unit": "szt."}, {"cat": "Zbożowe", "prod": "makaron", "qty": 1200, "unit": "g"}, {"cat": "Zbożowe", "prod": "ryż", "qty": 1100, "unit": "g"}, {"cat": "Zbożowe", "prod": "płatki owsiane", "qty": 500, "unit": "g"}, {"cat": "Zbożowe", "prod": "ziemniaki", "qty": 2000, "unit": "g"}, {"cat": "Zbożowe", "prod": "wafle ryżowe", "qty": 2, "unit": "opak."}, {"cat": "Warzywa i owoce", "prod": "passata", "qty": 2500, "unit": "g"}, {"cat": "Warzywa i owoce", "prod": "banany", "qty": 18, "unit": "szt."}, {"cat": "Warzywa i owoce", "prod": "jabłka", "qty": 10, "unit": "szt."}, {"cat": "Warzywa i owoce", "prod": "awokado", "qty": 3, "unit": "szt."}, {"cat": "Warzywa i owoce", "prod": "mango/owoce mrożone", "qty": 1200, "unit": "g"}, {"cat": "Warzywa i owoce", "prod": "warzywa różne", "qty": 9000, "unit": "g"}, {"cat": "Pozostałe", "prod": "mleczko kokosowe light", "qty": 500, "unit": "ml"}, {"cat": "Pozostałe", "prod": "hummus", "qty": 300, "unit": "g"}, {"cat": "Pozostałe", "prod": "masło orzechowe", "qty": 300, "unit": "g"}, {"cat": "Pozostałe", "prod": "oliwa", "qty": 500, "unit": "ml"}, {"cat": "Pozostałe", "prod": "miód", "qty": 250, "unit": "g"}, {"cat": "Pozostałe", "prod": "majonez", "qty": 250, "unit": "g"}, {"cat": "Pozostałe", "prod": "bułka tarta", "qty": 100, "unit": "g"}], "w2": [{"cat": "Mięso i ryby", "prod": "wołowina gulaszowa", "qty": 900, "unit": "g"}, {"cat": "Mięso i ryby", "prod": "kurczak", "qty": 2400, "unit": "g"}, {"cat": "Mięso i ryby", "prod": "indyk/szynka", "qty": 1500, "unit": "g"}, {"cat": "Mięso i ryby", "prod": "tuńczyk", "qty": 4, "unit": "puszki"}, {"cat": "Nabiał i jajka", "prod": "jajka", "qty": 34, "unit": "szt."}, {"cat": "Nabiał i jajka", "prod": "mleko", "qty": 5, "unit": "l"}, {"cat": "Nabiał i jajka", "prod": "jogurt naturalny", "qty": 800, "unit": "g"}, {"cat": "Nabiał i jajka", "prod": "twaróg", "qty": 400, "unit": "g"}, {"cat": "Nabiał i jajka", "prod": "mozzarella", "qty": 5, "unit": "x 125 g"}, {"cat": "Nabiał i jajka", "prod": "ser żółty/feta", "qty": 800, "unit": "g"}, {"cat": "Zbożowe", "prod": "chleb i bułki", "qty": 3700, "unit": "g"}, {"cat": "Zbożowe", "prod": "tortille", "qty": 16, "unit": "szt."}, {"cat": "Zbożowe", "prod": "makaron", "qty": 1000, "unit": "g"}, {"cat": "Zbożowe", "prod": "ryż", "qty": 900, "unit": "g"}, {"cat": "Zbożowe", "prod": "kasza gryczana lub jęczmienna", "qty": 500, "unit": "g"}, {"cat": "Zbożowe", "prod": "płatki owsiane", "qty": 400, "unit": "g"}, {"cat": "Zbożowe", "prod": "wafle ryżowe", "qty": 2, "unit": "opak."}, {"cat": "Warzywa i owoce", "prod": "passata", "qty": 2500, "unit": "g"}, {"cat": "Warzywa i owoce", "prod": "fasola czerwona", "qty": 4, "unit": "puszki"}, {"cat": "Warzywa i owoce", "prod": "kukurydza", "qty": 2, "unit": "puszki"}, {"cat": "Warzywa i owoce", "prod": "banany", "qty": 16, "unit": "szt."}, {"cat": "Warzywa i owoce", "prod": "jabłka", "qty": 10, "unit": "szt."}, {"cat": "Warzywa i owoce", "prod": "awokado", "qty": 3, "unit": "szt."}, {"cat": "Warzywa i owoce", "prod": "mango/owoce mrożone", "qty": 1200, "unit": "g"}, {"cat": "Warzywa i owoce", "prod": "warzywa różne", "qty": 8500, "unit": "g"}, {"cat": "Warzywa i owoce", "prod": "pieczarki opcjonalnie", "qty": 500, "unit": "g"}, {"cat": "Warzywa i owoce", "prod": "szpinak", "qty": 300, "unit": "g"}, {"cat": "Pozostałe", "prod": "śmietanka 12%", "qty": 300, "unit": "ml"}, {"cat": "Pozostałe", "prod": "bulion o małej zawartości soli", "qty": 700, "unit": "ml"}, {"cat": "Pozostałe", "prod": "hummus", "qty": 300, "unit": "g"}, {"cat": "Pozostałe", "prod": "masło orzechowe", "qty": 300, "unit": "g"}, {"cat": "Pozostałe", "prod": "oliwa", "qty": 500, "unit": "ml"}, {"cat": "Pozostałe", "prod": "miód", "qty": 250, "unit": "g"}, {"cat": "Pozostałe", "prod": "majonez", "qty": 250, "unit": "g"}]}}];
+const MODULE_DATA={"pool":[{"id":"D01","name":"Kanapka z indykiem i owoc","cat":"ii_sniadanie","macro":{"oliwia":{"kcal":301.0,"p":21.3,"c":43.4,"f":3.4,"fb":8.0,"portionG":null,"batchWeight":null,"recipe":"D01-OLI","share":1.0},"bartek":{"kcal":400.0,"p":29.3,"c":56.5,"f":4.5,"fb":10.3,"portionG":null,"batchWeight":null,"recipe":"D01-BAR","share":1.0},"syn":{"kcal":149.0,"p":8.8,"c":23.4,"f":1.6,"fb":4.3,"portionG":null,"batchWeight":null,"recipe":"D01-TEO","share":1.0}},"recipes":{"oliwia":[{"pid":"P001","qty":58.0},{"pid":"P004","qty":50.0},{"pid":"P006","qty":80.0},{"pid":"P044","qty":120.0}],"bartek":[{"pid":"P001","qty":78.0},{"pid":"P004","qty":70.0},{"pid":"P006","qty":100.0},{"pid":"P044","qty":150.0}],"syn":[{"pid":"P001","qty":30.0},{"pid":"P004","qty":18.0},{"pid":"P006","qty":40.0},{"pid":"P044","qty":70.0}]},"prep":"Złóż kanapki. Owoc podaj osobno; dziecku pokrój odpowiednio do umiejętności gryzienia.","ingrText":"185 g pieczywa, 150 g indyka, warzywa, 2 owoce"},{"id":"D02","name":"Mini wrap z hummusem","cat":"ii_sniadanie","macro":{"oliwia":{"kcal":299.0,"p":10.1,"c":43.2,"f":9.3,"fb":6.5,"portionG":null,"batchWeight":null,"recipe":"D02-OLI","share":1.0},"bartek":{"kcal":400.0,"p":12.8,"c":61.6,"f":11.7,"fb":10.6,"portionG":null,"batchWeight":null,"recipe":"D02-BAR","share":1.0},"syn":{"kcal":150.0,"p":4.9,"c":22.2,"f":4.4,"fb":3.1,"portionG":null,"batchWeight":null,"recipe":"D02-TEO","share":1.0}},"recipes":{"oliwia":[{"pid":"P002","qty":61.0},{"pid":"P018","qty":45.0},{"pid":"P006","qty":100.0}],"bartek":[{"pid":"P002","qty":64.0},{"pid":"P018","qty":65.0},{"pid":"P006","qty":120.0},{"pid":"P044","qty":100.0}],"syn":[{"pid":"P002","qty":33.0},{"pid":"P018","qty":18.0},{"pid":"P006","qty":50.0}]},"prep":"Posmaruj tortille hummusem, dodaj warzywa. Dziecku pokrój na małe kawałki.","ingrText":"2 tortille, 128 g hummusu, warzywa, 1 owoc"},{"id":"D03","name":"Koktajl bananowo-owsiany","cat":"ii_sniadanie","macro":{"oliwia":{"kcal":300.0,"p":25.4,"c":37.1,"f":6.5,"fb":3.4,"portionG":null,"batchWeight":null,"recipe":"D03-OLI","share":1.0},"bartek":{"kcal":401.0,"p":31.8,"c":54.2,"f":8.1,"fb":5.0,"portionG":null,"batchWeight":null,"recipe":"D03-BAR","share":1.0},"syn":{"kcal":151.0,"p":6.6,"c":24.9,"f":3.6,"fb":2.2,"portionG":null,"batchWeight":null,"recipe":"D03-TEO","share":1.0}},"recipes":{"oliwia":[{"pid":"P020","qty":20.0},{"pid":"P021","qty":200.0},{"pid":"P009","qty":18.0},{"pid":"P019","qty":60.0}],"bartek":[{"pid":"P020","qty":25.0},{"pid":"P021","qty":250.0},{"pid":"P009","qty":19.0},{"pid":"P019","qty":120.0}],"syn":[{"pid":"P021","qty":150.0},{"pid":"P009","qty":6.0},{"pid":"P019","qty":60.0}]},"prep":"Zblenduj. Porcję dziecka przygotuj bez odżywki białkowej.","ingrText":"45 g whey, 600 ml mleka, 70 g płatków, 2 banany"},{"id":"D04","name":"Ryż na mleku z bananem","cat":"ii_sniadanie","macro":{"oliwia":{"kcal":301.0,"p":10.3,"c":55.7,"f":4.4,"fb":2.1,"portionG":null,"batchWeight":null,"recipe":"D04-OLI","share":1.0},"bartek":{"kcal":401.0,"p":13.1,"c":76.5,"f":5.6,"fb":3.7,"portionG":null,"batchWeight":null,"recipe":"D04-BAR","share":1.0},"syn":{"kcal":151.0,"p":5.5,"c":27.4,"f":2.6,"fb":1.5,"portionG":null,"batchWeight":null,"recipe":"D04-TEO","share":1.0}},"recipes":{"oliwia":[{"pid":"P022","qty":41.0},{"pid":"P021","qty":200.0},{"pid":"P019","qty":60.0}],"bartek":[{"pid":"P022","qty":47.0},{"pid":"P021","qty":250.0},{"pid":"P019","qty":120.0}],"syn":[{"pid":"P022","qty":13.0},{"pid":"P021","qty":120.0},{"pid":"P019","qty":50.0}]},"prep":"Ugotuj ryż bardzo miękko. Bez dosładzania porcji dziecka.","ingrText":"125 g ryżu, 570 ml mleka, 2 banany, cynamon"},{"id":"D05","name":"Mini mozzarella z pieczywem i pomidorem","cat":"ii_sniadanie","macro":{"oliwia":{"kcal":300.0,"p":16.6,"c":26.8,"f":13.3,"fb":4.5,"portionG":null,"batchWeight":null,"recipe":"D05-OLI","share":1.0},"bartek":{"kcal":401.0,"p":22.2,"c":35.7,"f":17.8,"fb":5.9,"portionG":null,"batchWeight":null,"recipe":"D05-BAR","share":1.0},"syn":{"kcal":151.0,"p":7.8,"c":15.5,"f":5.9,"fb":2.6,"portionG":null,"batchWeight":null,"recipe":"D05-TEO","share":1.0}},"recipes":{"oliwia":[{"pid":"P001","qty":51.0},{"pid":"P023","qty":60.0},{"pid":"P048","qty":120.0}],"bartek":[{"pid":"P001","qty":69.0},{"pid":"P023","qty":80.0},{"pid":"P048","qty":150.0}],"syn":[{"pid":"P001","qty":31.0},{"pid":"P023","qty":25.0},{"pid":"P048","qty":60.0}]},"prep":"Podaj na zimno lub krótko zapiecz. Dziecku ogranicz sól.","ingrText":"155 g pieczywa, 165 g mozzarelli, pomidory, bazylia"},{"id":"D06","name":"Kanapka z pastą z tuńczyka","cat":"ii_sniadanie","macro":{"oliwia":{"kcal":300.0,"p":22.8,"c":30.7,"f":7.3,"fb":5.3,"portionG":null,"batchWeight":null,"recipe":"D06-OLI","share":1.0},"bartek":{"kcal":399.0,"p":30.1,"c":39.5,"f":10.6,"fb":6.8,"portionG":null,"batchWeight":null,"recipe":"D06-BAR","share":1.0},"syn":{"kcal":150.0,"p":9.3,"c":20.5,"f":2.0,"fb":3.4,"portionG":null,"batchWeight":null,"recipe":"D06-TEO","share":1.0}},"recipes":{"oliwia":[{"pid":"P001","qty":62.0},{"pid":"P012","qty":60.0},{"pid":"P013","qty":25.0},{"pid":"P014","qty":5.0},{"pid":"P006","qty":80.0}],"bartek":[{"pid":"P001","qty":80.0},{"pid":"P012","qty":80.0},{"pid":"P013","qty":32.0},{"pid":"P014","qty":8.0},{"pid":"P006","qty":100.0}],"syn":[{"pid":"P001","qty":44.0},{"pid":"P012","qty":18.0},{"pid":"P013","qty":10.0},{"pid":"P006","qty":40.0}]},"prep":"Zblenduj bazę sosu, wymieszaj z tuńczykiem i podaj z pieczywem.","ingrText":"185 g pieczywa, 168 g tuńczyka, 80 g gładkiego sosu, warzywa"},{"id":"D07","name":"Koktajl mango z waflami","cat":"ii_sniadanie","macro":{"oliwia":{"kcal":300.0,"p":24.4,"c":39.7,"f":6.1,"fb":2.4,"portionG":null,"batchWeight":null,"recipe":"D07-OLI","share":1.0},"bartek":{"kcal":400.0,"p":31.0,"c":55.0,"f":7.8,"fb":3.4,"portionG":null,"batchWeight":null,"recipe":"D07-BAR","share":1.0},"syn":{"kcal":150.0,"p":6.3,"c":24.9,"f":3.5,"fb":1.6,"portionG":null,"batchWeight":null,"recipe":"D07-TEO","share":1.0}},"recipes":{"oliwia":[{"pid":"P020","qty":20.0},{"pid":"P021","qty":200.0},{"pid":"P024","qty":120.0},{"pid":"P025","qty":13.0}],"bartek":[{"pid":"P020","qty":25.0},{"pid":"P021","qty":250.0},{"pid":"P024","qty":160.0},{"pid":"P025","qty":21.0}],"syn":[{"pid":"P021","qty":150.0},{"pid":"P024","qty":80.0},{"pid":"P025","qty":7.0}]},"prep":"Zblenduj mleko, mango i whey dla dorosłych. Dziecku przygotuj część bez whey.","ingrText":"45 g whey, 600 ml mleka, 350 g mango, 6 wafli"},{"id":"D08","name":"Jogurt z płatkami i owocem","cat":"ii_sniadanie","macro":{"oliwia":{"kcal":299.0,"p":13.5,"c":37.2,"f":11.4,"fb":4.8,"portionG":null,"batchWeight":null,"recipe":"D08-OLI","share":1.0},"bartek":{"kcal":400.0,"p":17.4,"c":54.3,"f":13.5,"fb":7.2,"portionG":null,"batchWeight":null,"recipe":"D08-BAR","share":1.0},"syn":{"kcal":149.0,"p":6.3,"c":23.6,"f":3.6,"fb":3.1,"portionG":null,"batchWeight":null,"recipe":"D08-TEO","share":1.0}},"recipes":{"oliwia":[{"pid":"P013","qty":200.0},{"pid":"P009","qty":18.0},{"pid":"P044","qty":100.0},{"pid":"P026","qty":10.0}],"bartek":[{"pid":"P013","qty":250.0},{"pid":"P009","qty":30.0},{"pid":"P044","qty":150.0},{"pid":"P026","qty":10.0}],"syn":[{"pid":"P013","qty":100.0},{"pid":"P009","qty":14.0},{"pid":"P044","qty":70.0}]},"prep":"Wymieszaj. Porcję Oliwii można zblendować na gładko z owocem.","ingrText":"jogurt naturalny, płatki owsiane, owoce, masło orzechowe"},{"id":"D09","name":"Jajko, pieczywo i warzywa","cat":"ii_sniadanie","macro":{"oliwia":{"kcal":291.0,"p":16.4,"c":26.1,"f":11.3,"fb":5.0,"portionG":null,"batchWeight":null,"recipe":"D09-OLI","share":1.0},"bartek":{"kcal":389.0,"p":24.7,"c":26.8,"f":17.9,"fb":5.3,"portionG":null,"batchWeight":null,"recipe":"D09-BAR","share":1.0},"syn":{"kcal":149.0,"p":8.3,"c":15.1,"f":5.0,"fb":2.8,"portionG":null,"batchWeight":null,"recipe":"D09-TEO","share":1.0}},"recipes":{"oliwia":[{"pid":"P003","qty":55.0},{"pid":"P001","qty":50.0},{"pid":"P005","qty":15.0},{"pid":"P006","qty":100.0}],"bartek":[{"pid":"P003","qty":110.0},{"pid":"P001","qty":48.0},{"pid":"P005","qty":20.0},{"pid":"P006","qty":120.0}],"syn":[{"pid":"P003","qty":40.0},{"pid":"P001","qty":30.0},{"pid":"P006","qty":50.0}]},"prep":"Jajko ugotuj, podaj z pieczywem, serem i warzywami.","ingrText":"jajka, pieczywo, ser, pomidor, ogórek"},{"id":"D10","name":"Wafle z masłem orzechowym i bananem","cat":"ii_sniadanie","macro":{"oliwia":{"kcal":311.0,"p":8.0,"c":50.7,"f":10.2,"fb":4.9,"portionG":null,"batchWeight":null,"recipe":"D10-OLI","share":1.0},"bartek":{"kcal":409.0,"p":10.8,"c":64.8,"f":14.1,"fb":6.2,"portionG":null,"batchWeight":null,"recipe":"D10-BAR","share":1.0},"syn":{"kcal":148.0,"p":3.6,"c":26.1,"f":4.1,"fb":2.5,"portionG":null,"batchWeight":null,"recipe":"D10-TEO","share":1.0}},"recipes":{"oliwia":[{"pid":"P025","qty":30.0},{"pid":"P026","qty":18.0},{"pid":"P019","qty":100.0}],"bartek":[{"pid":"P025","qty":40.0},{"pid":"P026","qty":25.0},{"pid":"P019","qty":120.0}],"syn":[{"pid":"P025","qty":15.0},{"pid":"P026","qty":7.0},{"pid":"P019","qty":55.0}]},"prep":"Wafle posmaruj cienko masłem orzechowym, banana podaj osobno.","ingrText":"wafle ryżowe, masło orzechowe, banan"},{"id":"K01","name":"Quesadilla z kurczakiem","cat":"kolacja","macro":{"oliwia":{"kcal":499.0,"p":37.3,"c":44.0,"f":17.3,"fb":5.4,"portionG":null,"batchWeight":null,"recipe":"K01-OLI","share":1.0},"bartek":{"kcal":601.0,"p":47.0,"c":51.2,"f":20.6,"fb":6.5,"portionG":null,"batchWeight":null,"recipe":"K01-BAR","share":1.0},"syn":{"kcal":261.0,"p":15.0,"c":30.5,"f":7.9,"fb":3.0,"portionG":null,"batchWeight":null,"recipe":"K01-TEO","share":1.0}},"recipes":{"oliwia":[{"pid":"P002","qty":67.0},{"pid":"P028","qty":105.0},{"pid":"P005","qty":22.0},{"pid":"P006","qty":140.0},{"pid":"P015","qty":40.0},{"pid":"P029","qty":3.0}],"bartek":[{"pid":"P002","qty":77.0},{"pid":"P028","qty":135.0},{"pid":"P005","qty":28.0},{"pid":"P006","qty":170.0},{"pid":"P015","qty":50.0},{"pid":"P029","qty":3.0}],"syn":[{"pid":"P002","qty":51.0},{"pid":"P028","qty":35.0},{"pid":"P005","qty":7.0},{"pid":"P006","qty":60.0},{"pid":"P015","qty":20.0},{"pid":"P029","qty":1.0}]},"prep":"Kurczaka podsmaż, złóż tortille i podgrzej po 2–3 min z każdej strony.","ingrText":"3 tortille, 295 g kurczaka, 63 g sera, warzywa, passata"},{"id":"K02","name":"Pasta z tuńczyka i pieczywo","cat":"kolacja","macro":{"oliwia":{"kcal":499.0,"p":37.2,"c":53.7,"f":11.3,"fb":9.3,"portionG":null,"batchWeight":null,"recipe":"K02-OLI","share":1.0},"bartek":{"kcal":600.0,"p":45.6,"c":61.7,"f":14.6,"fb":10.8,"portionG":null,"batchWeight":null,"recipe":"K02-BAR","share":1.0},"syn":{"kcal":260.0,"p":14.7,"c":37.2,"f":3.5,"fb":6.1,"portionG":null,"batchWeight":null,"recipe":"K02-TEO","share":1.0}},"recipes":{"oliwia":[{"pid":"P001","qty":109.0},{"pid":"P012","qty":95.0},{"pid":"P013","qty":38.0},{"pid":"P014","qty":7.0},{"pid":"P006","qty":140.0}],"bartek":[{"pid":"P001","qty":124.0},{"pid":"P012","qty":120.0},{"pid":"P013","qty":45.0},{"pid":"P014","qty":10.0},{"pid":"P006","qty":170.0}],"syn":[{"pid":"P001","qty":82.0},{"pid":"P012","qty":25.0},{"pid":"P013","qty":12.0},{"pid":"P006","qty":60.0}]},"prep":"Zblenduj sos, wymieszaj z tuńczykiem i podaj z pieczywem.","ingrText":"260 g pieczywa, 250 g tuńczyka, 112 g gładkiego sosu, warzywa"},{"id":"K03","name":"Mozzarella, pieczywo i pomidor","cat":"kolacja","macro":{"oliwia":{"kcal":499.0,"p":25.9,"c":40.5,"f":25.0,"fb":6.8,"portionG":null,"batchWeight":null,"recipe":"K03-OLI","share":1.0},"bartek":{"kcal":600.0,"p":32.0,"c":47.5,"f":30.2,"fb":8.0,"portionG":null,"batchWeight":null,"recipe":"K03-BAR","share":1.0},"syn":{"kcal":260.0,"p":12.6,"c":29.7,"f":8.9,"fb":4.7,"portionG":null,"batchWeight":null,"recipe":"K03-TEO","share":1.0}},"recipes":{"oliwia":[{"pid":"P001","qty":77.0},{"pid":"P023","qty":95.0},{"pid":"P048","qty":180.0},{"pid":"P029","qty":4.0}],"bartek":[{"pid":"P001","qty":89.0},{"pid":"P023","qty":120.0},{"pid":"P048","qty":220.0},{"pid":"P029","qty":4.0}],"syn":[{"pid":"P001","qty":64.0},{"pid":"P023","qty":35.0},{"pid":"P048","qty":70.0}]},"prep":"Podaj na zimno lub krótko zapiecz.","ingrText":"250 g pieczywa, 260 g mozzarelli, pomidory, 10 g oliwy, bazylia"},{"id":"K04","name":"Wrap z indykiem i sosem czosnkowym","cat":"kolacja","macro":{"oliwia":{"kcal":499.0,"p":44.8,"c":39.8,"f":16.5,"fb":4.6,"portionG":null,"batchWeight":null,"recipe":"K04-OLI","share":1.0},"bartek":{"kcal":599.0,"p":55.6,"c":43.2,"f":20.8,"fb":5.3,"portionG":null,"batchWeight":null,"recipe":"K04-BAR","share":1.0},"syn":{"kcal":260.0,"p":17.5,"c":30.6,"f":6.9,"fb":2.8,"portionG":null,"batchWeight":null,"recipe":"K04-TEO","share":1.0}},"recipes":{"oliwia":[{"pid":"P002","qty":59.0},{"pid":"P004","qty":110.0},{"pid":"P005","qty":18.0},{"pid":"P006","qty":140.0},{"pid":"P013","qty":35.0},{"pid":"P014","qty":5.0}],"bartek":[{"pid":"P002","qty":62.0},{"pid":"P004","qty":140.0},{"pid":"P005","qty":22.0},{"pid":"P006","qty":170.0},{"pid":"P013","qty":42.0},{"pid":"P014","qty":8.0}],"syn":[{"pid":"P002","qty":52.0},{"pid":"P004","qty":35.0},{"pid":"P005","qty":7.0},{"pid":"P006","qty":60.0},{"pid":"P013","qty":10.0}]},"prep":"Zawiń i podgrzej. Porcję dziecka przygotuj bez surowego czosnku.","ingrText":"3 tortille, 305 g indyka, 53 g sera, warzywa, 105 g gładkiego sosu"},{"id":"K05","name":"Tortilla pizza z szynką","cat":"kolacja","macro":{"oliwia":{"kcal":500.0,"p":31.5,"c":49.5,"f":18.5,"fb":5.6,"portionG":null,"batchWeight":null,"recipe":"K05-OLI","share":1.0},"bartek":{"kcal":601.0,"p":39.5,"c":56.8,"f":22.7,"fb":6.8,"portionG":null,"batchWeight":null,"recipe":"K05-BAR","share":1.0},"syn":{"kcal":259.0,"p":12.4,"c":32.7,"f":8.3,"fb":3.1,"portionG":null,"batchWeight":null,"recipe":"K05-TEO","share":1.0}},"recipes":{"oliwia":[{"pid":"P002","qty":73.0},{"pid":"P016","qty":65.0},{"pid":"P023","qty":55.0},{"pid":"P015","qty":70.0},{"pid":"P006","qty":120.0}],"bartek":[{"pid":"P002","qty":81.0},{"pid":"P016","qty":85.0},{"pid":"P023","qty":70.0},{"pid":"P015","qty":90.0},{"pid":"P006","qty":150.0}],"syn":[{"pid":"P002","qty":54.0},{"pid":"P016","qty":18.0},{"pid":"P023","qty":18.0},{"pid":"P015","qty":30.0},{"pid":"P006","qty":50.0}]},"prep":"Zapiecz 8–10 min w 200°C.","ingrText":"3 tortille, 180 g szynki, 155 g mozzarelli, passata, warzywa, oregano"},{"id":"K06","name":"Sałatka makaronowa z tuńczykiem","cat":"kolacja","macro":{"oliwia":{"kcal":502.0,"p":35.1,"c":66.8,"f":8.9,"fb":5.6,"portionG":null,"batchWeight":null,"recipe":"K06-OLI","share":1.0},"bartek":{"kcal":601.0,"p":43.5,"c":75.9,"f":11.8,"fb":6.5,"portionG":null,"batchWeight":null,"recipe":"K06-BAR","share":1.0},"syn":{"kcal":260.0,"p":14.7,"c":45.1,"f":1.7,"fb":3.1,"portionG":null,"batchWeight":null,"recipe":"K06-TEO","share":1.0}},"recipes":{"oliwia":[{"pid":"P027","qty":79.0},{"pid":"P012","qty":85.0},{"pid":"P006","qty":160.0},{"pid":"P013","qty":38.0},{"pid":"P014","qty":7.0}],"bartek":[{"pid":"P027","qty":89.0},{"pid":"P012","qty":110.0},{"pid":"P006","qty":190.0},{"pid":"P013","qty":45.0},{"pid":"P014","qty":10.0}],"syn":[{"pid":"P027","qty":57.0},{"pid":"P012","qty":25.0},{"pid":"P006","qty":70.0},{"pid":"P013","qty":12.0}]},"prep":"Makaron ostudź i wymieszaj z resztą.","ingrText":"175 g makaronu, 230 g tuńczyka, warzywa, 112 g sosu"},{"id":"K07","name":"Zapiekane kanapki z indykiem","cat":"kolacja","macro":{"oliwia":{"kcal":499.0,"p":39.7,"c":47.6,"f":13.2,"fb":8.7,"portionG":null,"batchWeight":null,"recipe":"K07-OLI","share":1.0},"bartek":{"kcal":601.0,"p":50.6,"c":53.0,"f":16.8,"fb":9.8,"portionG":null,"batchWeight":null,"recipe":"K07-BAR","share":1.0},"syn":{"kcal":261.0,"p":16.5,"c":31.4,"f":5.7,"fb":5.3,"portionG":null,"batchWeight":null,"recipe":"K07-TEO","share":1.0}},"recipes":{"oliwia":[{"pid":"P001","qty":98.0},{"pid":"P004","qty":75.0},{"pid":"P005","qty":30.0},{"pid":"P006","qty":140.0}],"bartek":[{"pid":"P001","qty":107.0},{"pid":"P004","qty":100.0},{"pid":"P005","qty":40.0},{"pid":"P006","qty":170.0}],"syn":[{"pid":"P001","qty":69.0},{"pid":"P004","qty":25.0},{"pid":"P005","qty":10.0},{"pid":"P006","qty":60.0}]},"prep":"Zapiecz do roztopienia sera; dziecku podaj po ostudzeniu.","ingrText":"260 g pieczywa, 210 g indyka, 92 g sera, warzywa"},{"id":"K08","name":"Frittata ziemniaczana z warzywami","cat":"kolacja","macro":{"oliwia":{"kcal":510.0,"p":26.9,"c":45.7,"f":23.1,"fb":8.1,"portionG":null,"batchWeight":null,"recipe":"K08-OLI","share":1.0},"bartek":{"kcal":610.0,"p":35.1,"c":43.8,"f":30.8,"fb":8.3,"portionG":null,"batchWeight":null,"recipe":"K08-BAR","share":1.0},"syn":{"kcal":260.0,"p":13.1,"c":31.1,"f":8.8,"fb":4.8,"portionG":null,"batchWeight":null,"recipe":"K08-TEO","share":1.0}},"recipes":{"oliwia":[{"pid":"P003","qty":110.0},{"pid":"P031","qty":203.0},{"pid":"P005","qty":25.0},{"pid":"P006","qty":180.0},{"pid":"P029","qty":5.0}],"bartek":[{"pid":"P003","qty":165.0},{"pid":"P031","qty":178.0},{"pid":"P005","qty":30.0},{"pid":"P006","qty":220.0},{"pid":"P029","qty":6.0}],"syn":[{"pid":"P003","qty":55.0},{"pid":"P031","qty":155.0},{"pid":"P005","qty":8.0},{"pid":"P006","qty":70.0},{"pid":"P029","qty":1.0}]},"prep":"Składniki przełóż do patelni lub formy i piecz 18–22 min w 185°C.","ingrText":"jajka, ugotowane ziemniaki, ser, papryka, szpinak"},{"id":"K09","name":"Zupa pomidorowa z pulpecikami i pieczywem","cat":"kolacja","macro":{"oliwia":{"kcal":500.0,"p":38.8,"c":49.5,"f":13.2,"fb":9.9,"portionG":null,"batchWeight":null,"recipe":"K09-OLI","share":1.0},"bartek":{"kcal":601.0,"p":49.3,"c":55.4,"f":16.8,"fb":11.6,"portionG":null,"batchWeight":null,"recipe":"K09-BAR","share":1.0},"syn":{"kcal":261.0,"p":16.4,"c":32.2,"f":5.6,"fb":6.1,"portionG":null,"batchWeight":null,"recipe":"K09-TEO","share":1.0}},"recipes":{"oliwia":[{"pid":"P032","qty":120.0},{"pid":"P003","qty":15.0},{"pid":"P015","qty":250.0},{"pid":"P042","qty":50.0},{"pid":"P045","qty":200.0},{"pid":"P001","qty":79.0}],"bartek":[{"pid":"P032","qty":160.0},{"pid":"P003","qty":20.0},{"pid":"P015","qty":320.0},{"pid":"P042","qty":70.0},{"pid":"P045","qty":260.0},{"pid":"P001","qty":80.0}],"syn":[{"pid":"P032","qty":40.0},{"pid":"P003","qty":5.0},{"pid":"P015","qty":130.0},{"pid":"P042","qty":25.0},{"pid":"P045","qty":100.0},{"pid":"P001","qty":57.0}]},"prep":"Uformuj małe pulpeciki, ugotuj je w zupie pomidorowej. Dziecku odłóż porcję przed soleniem.","ingrText":"mielony indyk, jajko, passata, marchew, bulion niskosodowy, pieczywo"},{"id":"K10","name":"Kanapki z kurczakiem i awokado","cat":"kolacja","macro":{"oliwia":{"kcal":519.0,"p":36.2,"c":57.2,"f":12.9,"fb":12.6,"portionG":null,"batchWeight":null,"recipe":"K10-OLI","share":1.0},"bartek":{"kcal":620.0,"p":45.8,"c":65.0,"f":15.8,"fb":14.7,"portionG":null,"batchWeight":null,"recipe":"K10-BAR","share":1.0},"syn":{"kcal":260.0,"p":15.2,"c":34.1,"f":5.0,"fb":6.3,"portionG":null,"batchWeight":null,"recipe":"K10-TEO","share":1.0}},"recipes":{"oliwia":[{"pid":"P001","qty":111.0},{"pid":"P028","qty":105.0},{"pid":"P007","qty":40.0},{"pid":"P006","qty":150.0},{"pid":"P047","qty":8.0}],"bartek":[{"pid":"P001","qty":124.0},{"pid":"P028","qty":140.0},{"pid":"P007","qty":50.0},{"pid":"P006","qty":180.0},{"pid":"P047","qty":10.0}],"syn":[{"pid":"P001","qty":73.0},{"pid":"P028","qty":35.0},{"pid":"P007","qty":10.0},{"pid":"P006","qty":60.0},{"pid":"P047","qty":3.0}]},"prep":"Awokado rozgnieć z cytryną, złóż kanapki z kurczakiem i warzywami.","ingrText":"pieczywo, pieczony kurczak, awokado, pomidor, sałata, cytryna"},{"id":"L01","name":"Mini sałatka makaronowa z tuńczykiem","cat":"lekki_lunch","macro":{"bartek":{"kcal":401.0,"p":33.0,"c":48.6,"f":6.8,"fb":4.7,"portionG":null,"batchWeight":null,"recipe":"L01-BAR","share":1.0}},"recipes":{"bartek":[{"pid":"P027","qty":55.0},{"pid":"P012","qty":90.0},{"pid":"P006","qty":150.0},{"pid":"P013","qty":30.0},{"pid":"P014","qty":5.0}]},"prep":"Makaron ostudź i wymieszaj z pozostałymi składnikami.","ingrText":"65 g makaronu, 90 g tuńczyka, 150 g warzyw, 35 g sosu"},{"id":"L02","name":"Kanapki z masłem orzechowym i bananem","cat":"lekki_lunch","macro":{"bartek":{"kcal":400.0,"p":12.6,"c":56.5,"f":14.8,"fb":8.2,"portionG":null,"batchWeight":null,"recipe":"L02-BAR","share":1.0}},"recipes":{"bartek":[{"pid":"P001","qty":59.0},{"pid":"P026","qty":25.0},{"pid":"P019","qty":120.0}]},"prep":"Posmaruj pieczywo i podaj z bananem.","ingrText":"85 g pieczywa, 25 g masła orzechowego, 1 banan"},{"id":"L03","name":"Mini wrap z indykiem","cat":"lekki_lunch","macro":{"bartek":{"kcal":401.0,"p":37.5,"c":34.1,"f":11.4,"fb":4.2,"portionG":null,"batchWeight":null,"recipe":"L03-BAR","share":1.0}},"recipes":{"bartek":[{"pid":"P002","qty":52.0},{"pid":"P004","qty":90.0},{"pid":"P005","qty":20.0},{"pid":"P006","qty":100.0},{"pid":"P015","qty":40.0}]},"prep":"Zawiń i podgrzej na suchej patelni.","ingrText":"1 tortilla, 90 g indyka, 20 g sera, warzywa, passata"},{"id":"L04","name":"Ryż na mleku z whey","cat":"lekki_lunch","macro":{"bartek":{"kcal":399.0,"p":31.4,"c":52.7,"f":6.8,"fb":0.6,"portionG":null,"batchWeight":null,"recipe":"L04-BAR","share":1.0}},"recipes":{"bartek":[{"pid":"P022","qty":49.0},{"pid":"P021","qty":250.0},{"pid":"P020","qty":25.0}]},"prep":"Ugotuj ryż; whey wmieszaj po lekkim ostudzeniu.","ingrText":"60 g ryżu, 250 ml mleka, 25 g whey, cynamon"},{"id":"L05","name":"Koktajl z whey, płatkami i bananem","cat":"lekki_lunch","macro":{"bartek":{"kcal":400.0,"p":37.0,"c":44.7,"f":9.3,"fb":3.7,"portionG":null,"batchWeight":null,"recipe":"L05-BAR","share":1.0}},"recipes":{"bartek":[{"pid":"P020","qty":30.0},{"pid":"P021","qty":300.0},{"pid":"P009","qty":21.0},{"pid":"P019","qty":60.0}]},"prep":"Zblenduj na gładko.","ingrText":"30 g whey, 300 ml mleka, 40 g płatków, ½ banana"},{"id":"L06","name":"Kanapki z hummusem i indykiem","cat":"lekki_lunch","macro":{"bartek":{"kcal":399.0,"p":29.7,"c":45.4,"f":9.0,"fb":9.9,"portionG":null,"batchWeight":null,"recipe":"L06-BAR","share":1.0}},"recipes":{"bartek":[{"pid":"P001","qty":81.0},{"pid":"P018","qty":50.0},{"pid":"P004","qty":60.0},{"pid":"P006","qty":100.0}]},"prep":"Złóż kanapki; zapakuj jako posiłek do pracy.","ingrText":"90 g chleba, 50 g hummusu, 60 g indyka, warzywa"},{"id":"L07","name":"Tortilla z mozzarellą i pomidorem","cat":"lekki_lunch","macro":{"bartek":{"kcal":400.0,"p":21.1,"c":35.5,"f":19.4,"fb":3.9,"portionG":null,"batchWeight":null,"recipe":"L07-BAR","share":1.0}},"recipes":{"bartek":[{"pid":"P002","qty":51.0},{"pid":"P023","qty":80.0},{"pid":"P048","qty":120.0},{"pid":"P015","qty":60.0}]},"prep":"Zawiń i zapiecz lub podgrzej na patelni.","ingrText":"1 tortilla, 80 g mozzarelli, pomidor, 60 g passaty, oregano"},{"id":"L08","name":"Sałatka kuskus z kurczakiem","cat":"lekki_lunch","macro":{"bartek":{"kcal":412.0,"p":30.5,"c":42.5,"f":11.5,"fb":5.5,"portionG":null,"batchWeight":null,"recipe":"L08-BAR","share":1.0}},"recipes":{"bartek":[{"pid":"P030","qty":44.0},{"pid":"P028","qty":100.0},{"pid":"P006","qty":150.0},{"pid":"P029","qty":8.0},{"pid":"P047","qty":10.0}]},"prep":"Kuskus zalej wrzątkiem. Po ostudzeniu wymieszaj z kurczakiem, warzywami i dressingiem.","ingrText":"kuskus, kurczak, pomidor, ogórek, papryka, oliwa, cytryna"},{"id":"S01","name":"Zapiekana tortilla z jajkiem i indykiem","cat":"sniadanie","macro":{"oliwia":{"kcal":499.0,"p":38.0,"c":32.5,"f":22.6,"fb":3.9,"portionG":null,"batchWeight":null,"recipe":"S01-OLI","share":1.0},"bartek":{"kcal":651.0,"p":52.9,"c":37.6,"f":30.1,"fb":4.7,"portionG":null,"batchWeight":null,"recipe":"S01-BAR","share":1.0},"syn":{"kcal":249.0,"p":16.3,"c":20.1,"f":10.8,"fb":2.2,"portionG":null,"batchWeight":null,"recipe":"S01-TEO","share":1.0}},"recipes":{"oliwia":[{"pid":"P002","qty":49.0},{"pid":"P003","qty":110.0},{"pid":"P004","qty":50.0},{"pid":"P005","qty":15.0},{"pid":"P006","qty":120.0},{"pid":"P029","qty":3.0}],"bartek":[{"pid":"P002","qty":55.0},{"pid":"P003","qty":165.0},{"pid":"P004","qty":70.0},{"pid":"P005","qty":20.0},{"pid":"P006","qty":150.0},{"pid":"P029","qty":3.0}],"syn":[{"pid":"P002","qty":32.0},{"pid":"P003","qty":55.0},{"pid":"P004","qty":15.0},{"pid":"P005","qty":6.0},{"pid":"P006","qty":60.0},{"pid":"P029","qty":1.0}]},"prep":"Ułóż składniki w tortillach i piecz 18–22 min w 185°C. Porcję dziecka dopraw łagodnie.","ingrText":"3 tortille, 6 jajek, 160 g indyka, 55 g sera, pomidor, szpinak, oregano, słodka papryka"},{"id":"S02","name":"Muffiny jajeczne z pieczywem","cat":"sniadanie","macro":{"oliwia":{"kcal":500.0,"p":38.5,"c":39.8,"f":17.6,"fb":7.2,"portionG":null,"batchWeight":null,"recipe":"S02-OLI","share":1.0},"bartek":{"kcal":650.0,"p":53.6,"c":43.8,"f":25.1,"fb":8.1,"portionG":null,"batchWeight":null,"recipe":"S02-BAR","share":1.0},"syn":{"kcal":250.0,"p":17.4,"c":21.5,"f":8.8,"fb":3.8,"portionG":null,"batchWeight":null,"recipe":"S02-TEO","share":1.0}},"recipes":{"oliwia":[{"pid":"P003","qty":110.0},{"pid":"P001","qty":80.0},{"pid":"P004","qty":45.0},{"pid":"P005","qty":12.0},{"pid":"P006","qty":120.0}],"bartek":[{"pid":"P003","qty":165.0},{"pid":"P001","qty":85.0},{"pid":"P004","qty":65.0},{"pid":"P005","qty":18.0},{"pid":"P006","qty":150.0}],"syn":[{"pid":"P003","qty":55.0},{"pid":"P001","qty":44.0},{"pid":"P004","qty":15.0},{"pid":"P005","qty":6.0},{"pid":"P006","qty":60.0}]},"prep":"Muffiny piecz 18–20 min w 180°C. Pieczywo podawaj świeże. Drugą partię szybko schłódź.","ingrText":"12 jajek, 270 g indyka, 85 g sera, 500 g pieczywa, papryka, szpinak, szczypiorek"},{"id":"S03","name":"Kanapki z pastą z awokado i jajkiem","cat":"sniadanie","macro":{"oliwia":{"kcal":499.0,"p":24.2,"c":50.0,"f":21.2,"fb":10.8,"portionG":null,"batchWeight":null,"recipe":"S03-OLI","share":1.0},"bartek":{"kcal":649.0,"p":33.2,"c":59.8,"f":29.3,"fb":13.2,"portionG":null,"batchWeight":null,"recipe":"S03-BAR","share":1.0},"syn":{"kcal":250.0,"p":12.5,"c":26.8,"f":9.4,"fb":5.1,"portionG":null,"batchWeight":null,"recipe":"S03-TEO","share":1.0}},"recipes":{"oliwia":[{"pid":"P001","qty":96.0},{"pid":"P003","qty":110.0},{"pid":"P007","qty":50.0},{"pid":"P048","qty":120.0},{"pid":"P047","qty":10.0}],"bartek":[{"pid":"P001","qty":113.0},{"pid":"P003","qty":165.0},{"pid":"P007","qty":65.0},{"pid":"P048","qty":150.0},{"pid":"P047","qty":10.0}],"syn":[{"pid":"P001","qty":55.0},{"pid":"P003","qty":55.0},{"pid":"P007","qty":15.0},{"pid":"P048","qty":60.0},{"pid":"P047","qty":3.0}]},"prep":"Jajka ugotuj. Awokado rozgnieć z jajkiem i cytryną. Dopraw dorosłym na talerzu.","ingrText":"6 jajek, 265 g pieczywa, 140 g awokado, pomidory, cytryna, szczypiorek"},{"id":"S04","name":"Wytrawne placuszki z cukinii i twarogu","cat":"sniadanie","macro":{"oliwia":{"kcal":500.0,"p":40.8,"c":36.8,"f":21.5,"fb":5.5,"portionG":null,"batchWeight":null,"recipe":"S04-OLI","share":1.0},"bartek":{"kcal":651.0,"p":57.2,"c":38.5,"f":30.2,"fb":5.6,"portionG":null,"batchWeight":null,"recipe":"S04-BAR","share":1.0},"syn":{"kcal":250.0,"p":18.5,"c":22.8,"f":9.5,"fb":3.4,"portionG":null,"batchWeight":null,"recipe":"S04-TEO","share":1.0}},"recipes":{"oliwia":[{"pid":"P008","qty":130.0},{"pid":"P003","qty":55.0},{"pid":"P009","qty":40.0},{"pid":"P010","qty":150.0},{"pid":"P005","qty":10.0},{"pid":"P029","qty":4.0}],"bartek":[{"pid":"P008","qty":180.0},{"pid":"P003","qty":110.0},{"pid":"P009","qty":38.0},{"pid":"P010","qty":180.0},{"pid":"P005","qty":10.0},{"pid":"P029","qty":5.0}],"syn":[{"pid":"P008","qty":50.0},{"pid":"P003","qty":28.0},{"pid":"P009","qty":28.0},{"pid":"P010","qty":60.0},{"pid":"P005","qty":5.0},{"pid":"P029","qty":1.0}]},"prep":"Twaróg zblenduj. Cukinię odciśnij, połącz składniki i smaż na lekko natłuszczonej patelni.","ingrText":"360 g twarogu, 3½ jajka, 108 g płatków, 390 g cukinii, 25 g sera, koperek"},{"id":"S05","name":"Omlet ze szpinakiem, fetą i indykiem","cat":"sniadanie","macro":{"oliwia":{"kcal":500.0,"p":38.5,"c":37.5,"f":20.4,"fb":6.8,"portionG":null,"batchWeight":null,"recipe":"S05-OLI","share":1.0},"bartek":{"kcal":649.0,"p":52.4,"c":42.3,"f":28.4,"fb":7.9,"portionG":null,"batchWeight":null,"recipe":"S05-BAR","share":1.0},"syn":{"kcal":251.0,"p":17.6,"c":22.8,"f":9.0,"fb":4.0,"portionG":null,"batchWeight":null,"recipe":"S05-TEO","share":1.0}},"recipes":{"oliwia":[{"pid":"P003","qty":110.0},{"pid":"P001","qty":72.0},{"pid":"P011","qty":30.0},{"pid":"P004","qty":40.0},{"pid":"P039","qty":60.0},{"pid":"P048","qty":100.0}],"bartek":[{"pid":"P003","qty":165.0},{"pid":"P001","qty":78.0},{"pid":"P011","qty":40.0},{"pid":"P004","qty":55.0},{"pid":"P039","qty":80.0},{"pid":"P048","qty":120.0}],"syn":[{"pid":"P003","qty":55.0},{"pid":"P001","qty":47.0},{"pid":"P011","qty":8.0},{"pid":"P004","qty":15.0},{"pid":"P039","qty":25.0},{"pid":"P048","qty":50.0}]},"prep":"Indyka i szpinak podgrzej, zalej jajkami, dodaj fetę. Dziecku daj mniej słoną część.","ingrText":"6 jajek, 225 g pieczywa, 90 g fety, 120 g indyka, szpinak, pomidor"},{"id":"S06","name":"Kanapki z pastą jajeczną i tuńczykiem","cat":"sniadanie","macro":{"oliwia":{"kcal":500.0,"p":37.2,"c":39.2,"f":18.4,"fb":7.0,"portionG":null,"batchWeight":null,"recipe":"S06-OLI","share":1.0},"bartek":{"kcal":650.0,"p":50.4,"c":43.9,"f":26.5,"fb":7.9,"portionG":null,"batchWeight":null,"recipe":"S06-BAR","share":1.0},"syn":{"kcal":249.0,"p":16.4,"c":24.8,"f":7.5,"fb":4.3,"portionG":null,"batchWeight":null,"recipe":"S06-TEO","share":1.0}},"recipes":{"oliwia":[{"pid":"P001","qty":76.0},{"pid":"P003","qty":110.0},{"pid":"P012","qty":55.0},{"pid":"P013","qty":25.0},{"pid":"P014","qty":5.0},{"pid":"P006","qty":120.0}],"bartek":[{"pid":"P001","qty":82.0},{"pid":"P003","qty":165.0},{"pid":"P012","qty":75.0},{"pid":"P013","qty":30.0},{"pid":"P014","qty":8.0},{"pid":"P006","qty":150.0}],"syn":[{"pid":"P001","qty":51.0},{"pid":"P003","qty":55.0},{"pid":"P012","qty":15.0},{"pid":"P013","qty":10.0},{"pid":"P006","qty":60.0}]},"prep":"Jogurt zblenduj z częścią jajka i majonezem, potem połącz z resztą i tuńczykiem.","ingrText":"6 jajek, 265 g pieczywa, 155 g tuńczyka, 80 g sosu jogurtowo-majonezowego, warzywa"},{"id":"S07","name":"Szakszuka z indykiem i pieczywem","cat":"sniadanie","macro":{"oliwia":{"kcal":501.0,"p":37.0,"c":41.7,"f":17.2,"fb":9.4,"portionG":null,"batchWeight":null,"recipe":"S07-OLI","share":1.0},"bartek":{"kcal":651.0,"p":51.2,"c":47.5,"f":24.1,"fb":11.0,"portionG":null,"batchWeight":null,"recipe":"S07-BAR","share":1.0},"syn":{"kcal":249.0,"p":16.7,"c":23.1,"f":8.2,"fb":4.9,"portionG":null,"batchWeight":null,"recipe":"S07-TEO","share":1.0}},"recipes":{"oliwia":[{"pid":"P003","qty":110.0},{"pid":"P001","qty":61.0},{"pid":"P004","qty":45.0},{"pid":"P015","qty":220.0},{"pid":"P006","qty":120.0},{"pid":"P029","qty":3.0}],"bartek":[{"pid":"P003","qty":165.0},{"pid":"P001","qty":64.0},{"pid":"P004","qty":65.0},{"pid":"P015","qty":280.0},{"pid":"P006","qty":150.0},{"pid":"P029","qty":4.0}],"syn":[{"pid":"P003","qty":55.0},{"pid":"P001","qty":37.0},{"pid":"P004","qty":15.0},{"pid":"P015","qty":100.0},{"pid":"P006","qty":60.0},{"pid":"P029","qty":1.0}]},"prep":"Warzywa duś 12 min, dodaj indyka i jajka. Przykryj do ścięcia. Odłóż łagodną porcję dziecka.","ingrText":"6 jajek, 250 g pieczywa, 135 g indyka, 700 g pomidorów/passaty, 2 papryki, cebula"},{"id":"S08","name":"Tosty z jajkiem, szynką i serem","cat":"sniadanie","macro":{"oliwia":{"kcal":501.0,"p":36.2,"c":37.2,"f":20.2,"fb":6.7,"portionG":null,"batchWeight":null,"recipe":"S08-OLI","share":1.0},"bartek":{"kcal":650.0,"p":49.3,"c":42.8,"f":27.7,"fb":7.7,"portionG":null,"batchWeight":null,"recipe":"S08-BAR","share":1.0},"syn":{"kcal":251.0,"p":16.1,"c":22.6,"f":9.1,"fb":4.0,"portionG":null,"batchWeight":null,"recipe":"S08-TEO","share":1.0}},"recipes":{"oliwia":[{"pid":"P001","qty":71.0},{"pid":"P003","qty":110.0},{"pid":"P016","qty":50.0},{"pid":"P005","qty":20.0},{"pid":"P006","qty":120.0}],"bartek":[{"pid":"P001","qty":79.0},{"pid":"P003","qty":165.0},{"pid":"P016","qty":70.0},{"pid":"P005","qty":25.0},{"pid":"P006","qty":150.0}],"syn":[{"pid":"P001","qty":46.0},{"pid":"P003","qty":55.0},{"pid":"P016","qty":15.0},{"pid":"P005","qty":6.0},{"pid":"P006","qty":60.0}]},"prep":"Złóż tosty i zapiekaj 8–10 min w 190°C. Warzywa można dodać po zapieczeniu.","ingrText":"pieczywo, jajka, szynka, ser, pomidor, szpinak"},{"id":"S09","name":"Bajgiel z indykiem i jajkiem","cat":"sniadanie","macro":{"oliwia":{"kcal":511.0,"p":40.0,"c":53.4,"f":13.7,"fb":4.2,"portionG":null,"batchWeight":null,"recipe":"S09-OLI","share":1.0},"bartek":{"kcal":660.0,"p":54.3,"c":61.7,"f":19.6,"fb":5.0,"portionG":null,"batchWeight":null,"recipe":"S09-BAR","share":1.0},"syn":{"kcal":250.0,"p":16.7,"c":28.8,"f":6.7,"fb":2.2,"portionG":null,"batchWeight":null,"recipe":"S09-TEO","share":1.0}},"recipes":{"oliwia":[{"pid":"P017","qty":88.0},{"pid":"P003","qty":110.0},{"pid":"P004","qty":55.0},{"pid":"P006","qty":120.0}],"bartek":[{"pid":"P017","qty":100.0},{"pid":"P003","qty":165.0},{"pid":"P004","qty":75.0},{"pid":"P006","qty":150.0}],"syn":[{"pid":"P017","qty":48.0},{"pid":"P003","qty":55.0},{"pid":"P004","qty":15.0},{"pid":"P006","qty":60.0}]},"prep":"Jajka ugotuj lub usmaż. Bajgiel przekrój, podgrzej i złóż ze składnikami.","ingrText":"bajgiel, jajka, pieczony indyk, sałata, pomidor"},{"id":"S10","name":"Tortilla z tuńczykiem, jajkiem i awokado","cat":"sniadanie","macro":{"oliwia":{"kcal":519.0,"p":35.3,"c":51.6,"f":18.3,"fb":7.7,"portionG":null,"batchWeight":null,"recipe":"S10-OLI","share":1.0},"bartek":{"kcal":669.0,"p":50.8,"c":56.1,"f":25.6,"fb":9.1,"portionG":null,"batchWeight":null,"recipe":"S10-BAR","share":1.0},"syn":{"kcal":249.0,"p":15.6,"c":23.2,"f":9.8,"fb":3.0,"portionG":null,"batchWeight":null,"recipe":"S10-TEO","share":1.0}},"recipes":{"oliwia":[{"pid":"P002","qty":79.0},{"pid":"P012","qty":75.0},{"pid":"P003","qty":55.0},{"pid":"P007","qty":40.0},{"pid":"P006","qty":120.0},{"pid":"P047","qty":8.0}],"bartek":[{"pid":"P002","qty":82.0},{"pid":"P012","qty":105.0},{"pid":"P003","qty":110.0},{"pid":"P007","qty":50.0},{"pid":"P006","qty":150.0},{"pid":"P047","qty":10.0}],"syn":[{"pid":"P002","qty":36.0},{"pid":"P012","qty":18.0},{"pid":"P003","qty":55.0},{"pid":"P007","qty":10.0},{"pid":"P006","qty":60.0},{"pid":"P047","qty":3.0}]},"prep":"Awokado rozgnieć z jajkiem i cytryną, dodaj tuńczyka, zawiń z warzywami.","ingrText":"tortilla, tuńczyk, jajka, awokado, pomidor, sałata, cytryna"}],"blocks":[{"id":"O01","name":"Bolognese z warzywami","ingrAll":"780 g chudego mięsa mielonego, 390 g makaronu, 1000 g passaty, 2 cebule, 2 marchewki, 20 g oliwy","spice":"oregano, bazylia, słodka papryka, czosnek; sól po odłożeniu porcji dziecka","store":"Szybko schłodzić połowę. Przechowywać w lodówce do następnego dnia.","batchWeight":3000.0,"portions":6.0,"macro":{"oliwia":{"kcal":750.0,"p":48.4,"c":90.1,"f":21.3,"fb":8.3,"portionG":586.0,"batchWeight":3000.0,"recipe":"O01-BAT","share":0.19533333333333333},"bartek":{"kcal":850.0,"p":54.9,"c":102.1,"f":24.1,"fb":9.4,"portionG":664.0,"batchWeight":3000.0,"recipe":"O01-BAT","share":0.22133333333333333},"syn":{"kcal":320.0,"p":20.7,"c":38.5,"f":9.1,"fb":3.5,"portionG":250.0,"batchWeight":3000.0,"recipe":"O01-BAT","share":0.08333333333333333}},"prep":"Ugotuj makaron al dente. Przygotuj sos, połącz całość, dopiero potem zważ gotową partię i podziel wg arkusza.","recipeBatch":[{"pid":"P033","qty":780.0},{"pid":"P027","qty":515.0},{"pid":"P015","qty":1000.0},{"pid":"P043","qty":200.0},{"pid":"P042","qty":240.0},{"pid":"P029","qty":20.0},{"pid":"P049","qty":8.0}]},{"id":"O02","name":"Łagodny kurczak curry z ryżem","ingrAll":"810 g kurczaka, 390 g ryżu, 500 ml mleczka kokosowego light, 300 g passaty, 1000 g warzyw, 15 g oliwy","spice":"curry, kurkuma, słodka papryka, czosnek; bez ostrego chili dla dziecka","store":"Drugą połowę szybko schłodzić i przechowywać szczelnie w lodówce.","batchWeight":2900.0,"portions":6.0,"macro":{"oliwia":{"kcal":749.0,"p":47.2,"c":92.3,"f":17.4,"fb":6.9,"portionG":566.0,"batchWeight":2900.0,"recipe":"O02-BAT","share":0.19517241379310346},"bartek":{"kcal":850.0,"p":53.5,"c":104.7,"f":19.8,"fb":7.8,"portionG":642.0,"batchWeight":2900.0,"recipe":"O02-BAT","share":0.22137931034482758},"syn":{"kcal":320.0,"p":20.2,"c":39.5,"f":7.4,"fb":3.0,"portionG":242.0,"batchWeight":2900.0,"recipe":"O02-BAT","share":0.08344827586206896}},"prep":"Ryż ugotuj. Kurczaka i warzywa duś w sosie. Wymieszaj z ryżem, zważ całość i podziel wg arkusza.","recipeBatch":[{"pid":"P028","qty":810.0},{"pid":"P022","qty":494.0},{"pid":"P037","qty":500.0},{"pid":"P015","qty":300.0},{"pid":"P006","qty":1000.0},{"pid":"P029","qty":15.0},{"pid":"P049","qty":8.0}]},{"id":"O03","name":"Risotto z indykiem i warzywami","ingrAll":"810 g indyka, 410 g ryżu, 1200 ml bulionu niskosodowego, 1000 g warzyw, 50 g parmezanu, 15 g oliwy","spice":"tymianek, oregano, czosnek, pieprz; sól po odłożeniu porcji dziecka","store":"Schłodzić w płytkich pojemnikach. Odgrzać tylko raz.","batchWeight":2800.0,"portions":6.0,"macro":{"oliwia":{"kcal":750.0,"p":61.3,"c":96.5,"f":10.4,"fb":5.7,"portionG":547.0,"batchWeight":2800.0,"recipe":"O03-BAT","share":0.19535714285714287},"bartek":{"kcal":850.0,"p":69.5,"c":109.4,"f":11.8,"fb":6.4,"portionG":620.0,"batchWeight":2800.0,"recipe":"O03-BAT","share":0.22142857142857142},"syn":{"kcal":320.0,"p":26.1,"c":41.1,"f":4.4,"fb":2.4,"portionG":233.0,"batchWeight":2800.0,"recipe":"O03-BAT","share":0.08321428571428571}},"prep":"Duś jak risotto, dolewając bulion. Porcję dziecka odłóż przed końcowym doprawieniem. Zważ całość.","recipeBatch":[{"pid":"P004","qty":810.0},{"pid":"P022","qty":547.0},{"pid":"P045","qty":1200.0},{"pid":"P006","qty":1000.0},{"pid":"P040","qty":50.0},{"pid":"P029","qty":15.0},{"pid":"P049","qty":8.0}]},{"id":"O04","name":"Pulpeciki z indyka z makaronem","ingrAll":"810 g mielonego indyka, 390 g makaronu, 2 jajka, 50 g bułki tartej, 1000 g passaty, warzywa, 15 g oliwy","spice":"oregano, bazylia, słodka papryka, czosnek","store":"Pulpeciki, sos i makaron wymieszać przed ważeniem. Połowę szybko schłodzić.","batchWeight":3000.0,"portions":6.0,"macro":{"oliwia":{"kcal":750.0,"p":52.8,"c":88.7,"f":18.8,"fb":8.5,"portionG":586.0,"batchWeight":3000.0,"recipe":"O04-BAT","share":0.19533333333333333},"bartek":{"kcal":850.0,"p":59.8,"c":100.5,"f":21.3,"fb":9.6,"portionG":664.0,"batchWeight":3000.0,"recipe":"O04-BAT","share":0.22133333333333333},"syn":{"kcal":320.0,"p":22.5,"c":37.8,"f":8.0,"fb":3.6,"portionG":250.0,"batchWeight":3000.0,"recipe":"O04-BAT","share":0.08333333333333333}},"prep":"Pulpeciki upiecz i duś w sosie. Wymieszaj z makaronem, zważ gotową całość i podziel.","recipeBatch":[{"pid":"P032","qty":810.0},{"pid":"P027","qty":478.0},{"pid":"P003","qty":110.0},{"pid":"P041","qty":50.0},{"pid":"P015","qty":1000.0},{"pid":"P006","qty":500.0},{"pid":"P029","qty":15.0},{"pid":"P049","qty":8.0}]},{"id":"O05","name":"Chili con carne z ryżem","ingrAll":"740 g chudej wołowiny, 366 g ryżu, 650 g fasoli po odsączeniu, 250 g kukurydzy, 1000 g passaty, warzywa, 15 g oliwy","spice":"kumin, oregano, słodka papryka, czosnek; chili tylko dorosłym na talerzu","store":"Drugą połowę szybko schłodzić. Przechowywać szczelnie w lodówce.","batchWeight":2900.0,"portions":6.0,"macro":{"oliwia":{"kcal":749.0,"p":50.1,"c":84.9,"f":19.9,"fb":15.0,"portionG":566.0,"batchWeight":2900.0,"recipe":"O05-BAT","share":0.19517241379310346},"bartek":{"kcal":850.0,"p":56.8,"c":96.4,"f":22.6,"fb":17.1,"portionG":642.0,"batchWeight":2900.0,"recipe":"O05-BAT","share":0.22137931034482758},"syn":{"kcal":320.0,"p":21.4,"c":36.3,"f":8.5,"fb":6.4,"portionG":242.0,"batchWeight":2900.0,"recipe":"O05-BAT","share":0.08344827586206896}},"prep":"Ugotuj ryż, przygotuj chili bez ostrej papryki, wymieszaj. Chili dodawaj dorosłym na talerzu. Zważ całość.","recipeBatch":[{"pid":"P033","qty":740.0},{"pid":"P022","qty":275.0},{"pid":"P034","qty":650.0},{"pid":"P035","qty":250.0},{"pid":"P015","qty":1000.0},{"pid":"P006","qty":500.0},{"pid":"P029","qty":15.0},{"pid":"P049","qty":8.0}]},{"id":"O06","name":"Gulasz wołowy z kaszą","ingrAll":"790 g wołowiny gulaszowej, 390 g kaszy, 1000 g warzyw, 900 ml bulionu niskosodowego, 15 g oliwy","spice":"majeranek, liść laurowy, ziele angielskie, czosnek, pieprz","store":"Usunąć liście i ziele, wymieszać z kaszą, zważyć. Połowę szybko schłodzić.","batchWeight":2800.0,"portions":6.0,"macro":{"oliwia":{"kcal":750.0,"p":49.8,"c":87.6,"f":24.3,"fb":14.9,"portionG":547.0,"batchWeight":2800.0,"recipe":"O06-BAT","share":0.19535714285714287},"bartek":{"kcal":850.0,"p":56.4,"c":99.2,"f":27.5,"fb":16.9,"portionG":620.0,"batchWeight":2800.0,"recipe":"O06-BAT","share":0.22142857142857142},"syn":{"kcal":319.0,"p":21.2,"c":37.3,"f":10.3,"fb":6.4,"portionG":233.0,"batchWeight":2800.0,"recipe":"O06-BAT","share":0.08321428571428571}},"prep":"Duś mięso do miękkości. Ugotuj kaszę, wymieszaj z gulaszem, usuń liście i ziele, zważ całość.","recipeBatch":[{"pid":"P046","qty":790.0},{"pid":"P036","qty":545.0},{"pid":"P006","qty":1000.0},{"pid":"P045","qty":900.0},{"pid":"P029","qty":15.0},{"pid":"P049","qty":8.0}]},{"id":"O07","name":"Kremowy makaron z kurczakiem i szpinakiem","ingrAll":"810 g kurczaka, 390 g makaronu, 800 g passaty, 250 ml śmietanki 12%, 300 g szpinaku, 2 cebule, 15 g oliwy","spice":"oregano, bazylia, czosnek, słodka papryka, pieprz","store":"Wymieszać całość przed ważeniem. Drugą połowę szybko schłodzić.","batchWeight":2900.0,"portions":6.0,"macro":{"oliwia":{"kcal":749.0,"p":54.9,"c":95.9,"f":15.3,"fb":8.0,"portionG":566.0,"batchWeight":2900.0,"recipe":"O07-BAT","share":0.19517241379310346},"bartek":{"kcal":850.0,"p":62.3,"c":108.8,"f":17.3,"fb":9.1,"portionG":642.0,"batchWeight":2900.0,"recipe":"O07-BAT","share":0.22137931034482758},"syn":{"kcal":320.0,"p":23.5,"c":41.0,"f":6.5,"fb":3.4,"portionG":242.0,"batchWeight":2900.0,"recipe":"O07-BAT","share":0.08344827586206896}},"prep":"Przygotuj sos z kurczakiem, dodaj szpinak i śmietankę. Wymieszaj z makaronem, zważ całość.","recipeBatch":[{"pid":"P028","qty":810.0},{"pid":"P027","qty":572.0},{"pid":"P015","qty":800.0},{"pid":"P038","qty":250.0},{"pid":"P039","qty":300.0},{"pid":"P043","qty":200.0},{"pid":"P029","qty":15.0},{"pid":"P049","qty":8.0}]}],"products":{"P001":{"id":"P001","name":"Pieczywo pełnoziarniste","kcal":247.0,"p":8.5,"c":41.0,"f":3.3,"fb":6.0,"role":"węglowodany","step":5.0,"note":"wartość średnia; dla konkretnej marki użyć etykiety"},"P002":{"id":"P002","name":"Tortilla pszenna","kcal":310.0,"p":8.3,"c":52.0,"f":7.5,"fb":3.0,"role":"węglowodany","step":30.0,"note":"1 szt. przyjęto jako 60 g"},"P003":{"id":"P003","name":"Jajko kurze całe","kcal":143.0,"p":12.6,"c":0.7,"f":9.5,"fb":0,"role":"mieszane/dodatek","step":55.0,"note":"1 średnie jajko bez skorupki = 55 g"},"P004":{"id":"P004","name":"Indyk, pierś pieczona","kcal":135.0,"p":29.0,"c":0.0,"f":1.8,"fb":0,"role":"białko","step":5.0,"note":"masa produktu gotowego"},"P005":{"id":"P005","name":"Ser żółty","kcal":356.0,"p":25.0,"c":1.5,"f":27.0,"fb":0,"role":"mieszane/dodatek","step":5.0,"note":"wartość średnia"},"P006":{"id":"P006","name":"Warzywa mieszane","kcal":35.0,"p":1.5,"c":5.0,"f":0.4,"fb":2.0,"role":"warzywa/objętość","step":5.0,"note":"średnia dla pomidora, papryki, ogórka, sałaty"},"P007":{"id":"P007","name":"Awokado","kcal":160.0,"p":2.0,"c":8.5,"f":14.7,"fb":6.7,"role":"tłuszcz","step":5.0,"note":"część jadalna"},"P008":{"id":"P008","name":"Twaróg półtłusty","kcal":133.0,"p":18.7,"c":3.5,"f":5.0,"fb":0,"role":"białko","step":5.0,"note":"wartość średnia"},"P009":{"id":"P009","name":"Płatki owsiane","kcal":379.0,"p":13.2,"c":67.7,"f":6.5,"fb":10.1,"role":"węglowodany","step":5.0,"note":"produkt suchy"},"P010":{"id":"P010","name":"Cukinia","kcal":17.0,"p":1.2,"c":3.1,"f":0.3,"fb":1.0,"role":"warzywa/objętość","step":5.0,"note":"produkt surowy"},"P011":{"id":"P011","name":"Ser feta","kcal":265.0,"p":14.2,"c":3.9,"f":21.5,"fb":0,"role":"tłuszcz","step":5.0,"note":"wartość średnia"},"P012":{"id":"P012","name":"Tuńczyk w wodzie, odsączony","kcal":116.0,"p":25.5,"c":0.0,"f":1.0,"fb":0,"role":"białko","step":5.0,"note":"masa po odsączeniu"},"P013":{"id":"P013","name":"Jogurt naturalny 2–3%","kcal":60.0,"p":4.0,"c":5.0,"f":2.5,"fb":0,"role":"mieszane/dodatek","step":5.0,"note":"dla konkretnej marki użyć etykiety"},"P014":{"id":"P014","name":"Majonez","kcal":680.0,"p":1.0,"c":1.0,"f":75.0,"fb":0,"role":"tłuszcz","step":1.0,"note":"dla konkretnej marki użyć etykiety"},"P015":{"id":"P015","name":"Passata pomidorowa","kcal":29.0,"p":1.4,"c":4.5,"f":0.2,"fb":1.5,"role":"warzywa/objętość","step":5.0,"note":"1 ml przyjęto jako ok. 1 g"},"P016":{"id":"P016","name":"Szynka z indyka","kcal":110.0,"p":19.0,"c":2.0,"f":3.0,"fb":0,"role":"białko","step":5.0,"note":"produkt przetworzony; sprawdzić etykietę"},"P017":{"id":"P017","name":"Bajgiel","kcal":270.0,"p":9.5,"c":53.0,"f":2.0,"fb":2.0,"role":"węglowodany","step":5.0,"note":"dla konkretnej marki użyć etykiety"},"P018":{"id":"P018","name":"Hummus","kcal":166.0,"p":7.9,"c":14.3,"f":9.6,"fb":6.0,"role":"mieszane/dodatek","step":5.0,"note":"wartość średnia"},"P019":{"id":"P019","name":"Banan","kcal":89.0,"p":1.1,"c":22.8,"f":0.3,"fb":2.6,"role":"węglowodany","step":5.0,"note":"część jadalna"},"P020":{"id":"P020","name":"Odżywka białkowa whey","kcal":390.0,"p":78.0,"c":8.0,"f":6.0,"fb":0,"role":"białko","step":5.0,"note":"koniecznie zastąpić wartością z etykiety"},"P021":{"id":"P021","name":"Mleko 2%","kcal":50.0,"p":3.4,"c":4.8,"f":2.0,"fb":0,"role":"mieszane/dodatek","step":5.0,"note":"1 ml przyjęto jako ok. 1 g"},"P022":{"id":"P022","name":"Ryż biały","kcal":360.0,"p":7.0,"c":79.0,"f":0.6,"fb":1.3,"role":"węglowodany","step":5.0,"note":"waga sucha"},"P023":{"id":"P023","name":"Mozzarella","kcal":254.0,"p":18.7,"c":2.0,"f":19.0,"fb":0,"role":"tłuszcz","step":5.0,"note":"dla konkretnej marki użyć etykiety"},"P024":{"id":"P024","name":"Mango","kcal":60.0,"p":0.8,"c":15.0,"f":0.4,"fb":1.6,"role":"węglowodany","step":5.0,"note":"część jadalna"},"P025":{"id":"P025","name":"Wafle ryżowe","kcal":387.0,"p":8.0,"c":81.0,"f":3.0,"fb":4.0,"role":"węglowodany","step":8.0,"note":"1 wafel przyjęto jako 8 g"},"P026":{"id":"P026","name":"Masło orzechowe 100%","kcal":588.0,"p":25.0,"c":20.0,"f":50.0,"fb":6.0,"role":"tłuszcz","step":5.0,"note":"bez dodatku cukru"},"P027":{"id":"P027","name":"Makaron pszenny","kcal":350.0,"p":12.0,"c":72.0,"f":1.5,"fb":3.0,"role":"węglowodany","step":5.0,"note":"waga sucha"},"P028":{"id":"P028","name":"Kurczak, pierś surowa","kcal":120.0,"p":22.5,"c":0.0,"f":2.6,"fb":0,"role":"białko","step":5.0,"note":"waga przed obróbką"},"P029":{"id":"P029","name":"Oliwa z oliwek","kcal":884.0,"p":0.0,"c":0.0,"f":100.0,"fb":0,"role":"tłuszcz","step":1.0,"note":"tłuszcz dodany"},"P030":{"id":"P030","name":"Kuskus","kcal":376.0,"p":12.8,"c":77.4,"f":0.6,"fb":5.0,"role":"węglowodany","step":5.0,"note":"waga sucha"},"P031":{"id":"P031","name":"Ziemniaki","kcal":77.0,"p":2.0,"c":17.5,"f":0.1,"fb":2.2,"role":"węglowodany","step":5.0,"note":"waga surowa, obrane"},"P032":{"id":"P032","name":"Indyk mielony chudy","kcal":150.0,"p":21.0,"c":0.0,"f":7.0,"fb":0,"role":"białko","step":5.0,"note":"waga surowa"},"P033":{"id":"P033","name":"Wołowina mielona chuda","kcal":176.0,"p":21.4,"c":0.0,"f":10.0,"fb":0,"role":"białko","step":5.0,"note":"waga surowa"},"P034":{"id":"P034","name":"Fasola czerwona, odsączona","kcal":110.0,"p":7.5,"c":16.0,"f":0.6,"fb":6.0,"role":"mieszane/dodatek","step":5.0,"note":"masa po odsączeniu"},"P035":{"id":"P035","name":"Kukurydza, odsączona","kcal":86.0,"p":3.2,"c":16.0,"f":1.2,"fb":3.0,"role":"mieszane/dodatek","step":5.0,"note":"masa po odsączeniu"},"P036":{"id":"P036","name":"Kasza gryczana","kcal":343.0,"p":12.6,"c":71.5,"f":3.1,"fb":10.0,"role":"węglowodany","step":5.0,"note":"waga sucha"},"P037":{"id":"P037","name":"Mleczko kokosowe light","kcal":100.0,"p":1.0,"c":3.0,"f":9.0,"fb":0.5,"role":"tłuszcz","step":5.0,"note":"sprawdzić etykietę konkretnej marki"},"P038":{"id":"P038","name":"Śmietanka 12%","kcal":133.0,"p":3.0,"c":4.0,"f":12.0,"fb":0,"role":"tłuszcz","step":5.0,"note":"1 ml przyjęto jako ok. 1 g"},"P039":{"id":"P039","name":"Szpinak","kcal":23.0,"p":2.9,"c":3.6,"f":0.4,"fb":2.2,"role":"warzywa/objętość","step":5.0,"note":"świeży lub mrożony bez dodatków"},"P040":{"id":"P040","name":"Parmezan","kcal":431.0,"p":38.0,"c":4.0,"f":29.0,"fb":0,"role":"tłuszcz","step":5.0,"note":"wartość średnia"},"P041":{"id":"P041","name":"Bułka tarta","kcal":351.0,"p":13.0,"c":70.0,"f":5.0,"fb":4.5,"role":"mieszane/dodatek","step":5.0,"note":"wartość średnia"},"P042":{"id":"P042","name":"Marchew","kcal":41.0,"p":0.9,"c":9.6,"f":0.2,"fb":2.8,"role":"warzywa/objętość","step":5.0,"note":"produkt surowy"},"P043":{"id":"P043","name":"Cebula","kcal":40.0,"p":1.1,"c":9.3,"f":0.1,"fb":1.7,"role":"warzywa/objętość","step":5.0,"note":"produkt surowy"},"P044":{"id":"P044","name":"Owoc mieszany","kcal":52.0,"p":0.6,"c":13.0,"f":0.2,"fb":2.4,"role":"węglowodany","step":5.0,"note":"średnia orientacyjna dla owoców niesuszonych"},"P045":{"id":"P045","name":"Bulion niskosodowy","kcal":5.0,"p":0.5,"c":0.5,"f":0.1,"fb":0,"role":"mieszane/dodatek","step":5.0,"note":"1 ml przyjęto jako ok. 1 g"},"P046":{"id":"P046","name":"Wołowina gulaszowa chuda","kcal":180.0,"p":21.0,"c":0.0,"f":11.0,"fb":0,"role":"białko","step":5.0,"note":"waga surowa"},"P047":{"id":"P047","name":"Cytryna","kcal":29.0,"p":1.1,"c":9.3,"f":0.3,"fb":2.8,"role":"warzywa/objętość","step":5.0,"note":"część jadalna / sok"},"P048":{"id":"P048","name":"Pomidor","kcal":18.0,"p":0.9,"c":3.9,"f":0.2,"fb":1.2,"role":"warzywa/objętość","step":5.0,"note":"produkt surowy"},"P049":{"id":"P049","name":"Przyprawy suszone, mieszanka","kcal":250.0,"p":10.0,"c":50.0,"f":8.0,"fb":25.0,"role":"mieszane/dodatek","step":1.0,"note":"zwykle 2–8 g; sól ma 0 kcal"},"P050":{"id":"P050","name":"Woda","kcal":0.0,"p":0.0,"c":0.0,"f":0.0,"fb":0,"role":"mieszane/dodatek","step":5.0,"note":"0 kcal; ważna dla masy gotowej partii"}},"profiles":{"oliwia":{"name":"Oliwia","kcal":2150.0,"p":135.0,"c":280.0,"f":70.0,"fb":25.0},"bartek":{"name":"Bartek","kcal":3050.0,"p":150.0,"c":400.0,"f":90.0,"fb":30.0},"syn":{"name":"Teoś","kcal":1150.0,"p":null,"c":null,"f":null,"fb":15.0}}};
 
-// ============ CELE (z Excela: zakresy) ============
-const DEFAULT_TARGETS={
-  oliwia:{kcal:2200,protein:138},
-  bartek:{kcal:3050,protein:145},
-  syn:{kcal:1100,protein:0}
+// cele z profili (pełne makro B/W/T/błonnik)
+const MODULE_TARGETS=(function(){
+  const t={};
+  for(const[id,p]of Object.entries(MODULE_DATA.profiles)){
+    t[id]={kcal:p.kcal,protein:p.p,carbs:p.c,fat:p.f,fiber:p.fb};
+  }
+  return t;
+})();
+
+const MOD=structuredClone(MODULE_DATA);
+function poolByCat(cat){return MOD.pool.filter(d=>d.cat===cat);}
+function poolItem(id){return MOD.pool.find(d=>d.id===id);}
+function blockById(id){return MOD.blocks.find(b=>b.id===id);}
+function productById(pid){return MOD.products[pid];}
+
+// ===== MAKRO =====
+function calcMacroFromIngr(ingr){
+  const m={kcal:0,protein:0,carbs:0,fat:0,fiber:0};
+  (ingr||[]).forEach(it=>{
+    const p=productById(it.pid);if(!p||it.qty==null)return;
+    const f=it.qty/100;
+    m.kcal+=p.kcal*f;m.protein+=p.p*f;m.carbs+=p.c*f;m.fat+=p.f*f;m.fiber+=(p.fb||0)*f;
+  });
+  return m;
+}
+function poolMacro(item,personId){
+  if(item.macro&&item.macro[personId]){
+    const g=item.macro[personId];
+    return {kcal:g.kcal,protein:g.p,carbs:g.c,fat:g.f,fiber:g.fb,portionG:g.portionG};
+  }
+  if(item.recipes&&item.recipes[personId])return calcMacroFromIngr(item.recipes[personId]);
+  return null;
+}
+function blockMacro(block,personId){
+  const g=block.macro&&block.macro[personId];
+  if(!g)return null;
+  const actual=state.cookedWeight&&state.cookedWeight[block.id];
+  if(actual&&block.batchWeight&&actual!==block.batchWeight){
+    const ratio=block.batchWeight/actual;
+    return {kcal:Math.round(g.kcal*ratio),protein:+(g.p*ratio).toFixed(1),carbs:+(g.c*ratio).toFixed(1),
+      fat:+(g.f*ratio).toFixed(1),fiber:+(g.fb*ratio).toFixed(1),portionG:g.portionG,adjusted:true};
+  }
+  return {kcal:g.kcal,protein:g.p,carbs:g.c,fat:g.f,fiber:g.fb,portionG:g.portionG};
+}
+function poolByName(name){return MOD.pool.find(d=>d.name===name);}
+
+// ===== PARSER SKŁADNIKÓW (do listy zakupów z wylosowanych dni) =====
+// policz zakupy z listy dni — z receptur produktowych (precyzyjnie)
+function shoppingFromDays(daysList){
+  const totals={};  // productName -> {qty, unit}
+  const add=(name,qty)=>{if(!totals[name])totals[name]={qty:0,unit:'g'};totals[name].qty+=qty;};
+  daysList.forEach(day=>{
+    if(!day)return;
+    SLOTS_DEF.forEach(sdef=>{
+      if(sdef.isBlock)return;
+      const item=poolItem(day.slots[sdef.key]);if(!item||!item.recipes)return;
+      sdef.people.forEach(pid=>{
+        const rec=item.recipes[pid];if(!rec)return;
+        rec.forEach(ing=>{const p=productById(ing.pid);if(p&&ing.qty)add(p.name,ing.qty);});
+      });
+    });
+    const b=blockById(day.obiadBlock);
+    if(b&&b.recipeBatch){
+      b.recipeBatch.forEach(ing=>{const p=productById(ing.pid);if(p&&ing.qty)add(p.name,ing.qty/2);});
+    }
+  });
+  return totals;
+}
+const SHOP_CATS={
+  'Mięso i ryby':['indyk','kurczak','tuńczyk','szynka','wołowina','pulpeciki','łosoś'],
+  'Nabiał i jajka':['jajko','ser','mozzarella','feta','twaróg','jogurt','mleko','śmietanka','parmezan','masło','whey'],
+  'Pieczywo, zboża':['pieczywo','bułka','tortilla','bajgiel','ryż','makaron','kasza','kuskus','płatki','ziemniaki','wafle'],
+  'Warzywa i owoce':['warzywa','pomidor','cukinia','szpinak','papryka','awokado','owoc','banan','mango','cebula','marchew','fasola','kukurydza','passata','cytryna'],
+  'Pozostałe':['hummus','oliwa','miód','sos','mleczko','bulion','majonez','przyprawy']
 };
+function shopCatOf(name){
+  const n=name.toLowerCase();
+  for(const[cat,items]of Object.entries(SHOP_CATS))if(items.some(it=>n.includes(it)))return cat;
+  return 'Pozostałe';
+}
+
+// ============ CELE (z pliku modułowego) ============
+const DEFAULT_TARGETS=structuredClone(MODULE_TARGETS);
 
 // ============ KONFIGURACJA SUPABASE ============
 // >>> WKLEJ TUTAJ swoje dane z Supabase (Settings -> API) <<<
@@ -309,31 +478,80 @@ const SB_READY = SUPABASE_URL.startsWith('http') && SUPABASE_KEY.length>20;
 //  • nav       — LOKALNA nawigacja (dzień, tydzień, zakładka) → tylko to urządzenie
 const KEY='abm_dieta_v2';          // wspólny stan (cache lokalny)
 const NAV_KEY='abm_dieta_nav';     // lokalna nawigacja (osobna per urządzenie)
-const SCHEMA=2;
+const SCHEMA=5;  // model z makro
 let sbClient=null;
 let syncState='local';
 
-// biblioteka planów — zawsze świeża z pliku
-const LIBRARY=structuredClone(PLAN_LIBRARY);
-function curPlanId(){return nav.activePlan||'plan1';}
-function curPlan(){return LIBRARY.find(p=>p.id===curPlanId())||LIBRARY[0];}
+// biblioteka planów — model modułowy (pule + bloki), zawsze z pliku
+function curPlan(){return MOD;}  // zgodność ze starymi wywołaniami (przepisy/zakupy)
 
-// --- STAN WSPÓLNY (bez biblioteki, bez nawigacji) ---
+// ===== GENERATOR DNIA =====
+// day = { obiadBlock:'O01', slots:{ sniadanie:'P01', ii_sniadanie:'P18', lekki_lunch:'P21', kolacja:'P29' } }
+function randFrom(arr,exclude){
+  const pool=arr.filter(x=>x!==exclude);
+  const src=pool.length?pool:arr;
+  return src[Math.floor(Math.random()*src.length)];
+}
+// wygeneruj losowy dzień (obiad przypisywany na poziomie tygodnia)
+function genDay(prev){
+  const pick=(cat,ex)=>{const ids=poolByCat(cat).map(d=>d.id);return randFrom(ids,ex);};
+  const prevSlots=prev&&prev.slots||{};
+  return {
+    slots:{
+      sniadanie:pick('sniadanie',prevSlots.sniadanie),
+      ii_sniadanie:pick('ii_sniadanie',prevSlots.ii_sniadanie),
+      lekki_lunch:pick('lekki_lunch',prevSlots.lekki_lunch),
+      kolacja:pick('kolacja',prevSlots.kolacja)
+    }
+  };
+}
+const DAY_NAMES=['Poniedziałek','Wtorek','Środa','Czwartek','Piątek','Sobota','Niedziela'];
+const DAY_SHORT=['Pn','Wt','Śr','Cz','Pt','Sb','Nd'];
+const MAX_WEEKS=6;  // ile tygodni historii trzymać
+
+// wygeneruj cały tydzień (7 dni Pon-Nd). Obiady: bloki po 2 dni (3.5 bloku na tydzień).
+function genWeek(id){
+  const days=[];let prev=null;
+  // rozłóż bloki obiadowe: co 2 dni nowy blok, rotując po liście
+  let blockIdx=Math.floor(Math.random()*MOD.blocks.length);
+  for(let i=0;i<7;i++){
+    const d=genDay(prev);
+    d.obiadBlock=MOD.blocks[blockIdx%MOD.blocks.length].id;
+    if(i%2===1)blockIdx++;  // zmiana bloku co 2 dni
+    days.push(d);prev=d;
+  }
+  return {id,days,created:Date.now()};
+}
+
+// --- STAN WSPÓLNY ---
 function freshState(){
+  const w=genWeek(1);
   return {schema:SCHEMA,targets:structuredClone(DEFAULT_TARGETS),
-    log:{},shopChecked:{},trainOverride:{},snackLog:{}};
+    weeks:[w], curWeekId:1, nextWeekId:2,
+    log:{},shopChecked:{},trainOverride:{},snackLog:{},cookedWeight:{}};
 }
 function normalizeShared(s){
   if(!s||typeof s!=='object')return freshState();
   const f=freshState();
+  if(!Array.isArray(s.weeks)||!s.weeks.length)return f;  // brak tygodni -> świeży
+  // WALIDACJA: czy dania w tygodniach pasują do aktualnej puli (po zmianie modelu ID mogły się zmienić)
+  const weeksValid=s.weeks.every(w=>w.days&&w.days.every(d=>{
+    if(!d.slots)return false;
+    // każdy slot pulowy musi wskazywać istniejące danie
+    return ['sniadanie','ii_sniadanie','lekki_lunch','kolacja'].every(k=>!d.slots[k]||poolItem(d.slots[k]));
+  }));
+  if(!weeksValid)return f;  // stary format dań -> świeży tydzień z aktualnej puli
   return {schema:SCHEMA,
     targets:s.targets||f.targets,
+    weeks:s.weeks, curWeekId:s.curWeekId||s.weeks[s.weeks.length-1].id, nextWeekId:s.nextWeekId||(Math.max(...s.weeks.map(w=>w.id))+1),
     log:s.log||{},shopChecked:s.shopChecked||{},
-    trainOverride:s.trainOverride||{},snackLog:s.snackLog||{}};
+    trainOverride:s.trainOverride||{},snackLog:s.snackLog||{},cookedWeight:s.cookedWeight||{}};
 }
 
 // --- NAWIGACJA LOKALNA ---
-function freshNav(){return {activePlan:'plan1',activeWeek:1,activeDay:1,activeTab:'dzis',shopMode:'tydzien',shopDays:[1],person:null,unlocked:false};}
+function freshNav(){return {activeTab:'dzis',viewWeekId:null,activeDayIdx:todayIdx(),person:null,unlocked:false};}
+// indeks dzisiejszego dnia tygodnia (0=Pon..6=Nd)
+function todayIdx(){const g=new Date().getDay();return g===0?6:g-1;}
 function loadNav(){
   try{const r=localStorage.getItem(NAV_KEY);if(r){const n=JSON.parse(r);return Object.assign(freshNav(),n);}}catch(e){}
   return freshNav();
@@ -377,9 +595,12 @@ async function initCloud(){
     const {data,error}=await sbClient.from('dieta_state').select('data').eq('id',SHARED_ID).maybeSingle();
     if(error)throw error;
     if(data&&data.data){
+      const before=JSON.stringify(data.data.weeks||[]);
       state=normalizeShared(data.data);  // TYLKO wspólne dane — biblioteka zostaje z pliku
       render();
-      setSync('synced');
+      // jeśli migracja zmieniła tygodnie (stary format), zapisz naprawiony stan do chmury
+      if(JSON.stringify(state.weeks)!==before){saveCloud();}
+      else setSync('synced');
     }else{
       await saveCloud();
     }
@@ -401,172 +622,212 @@ function subscribeCloud(){
 }
 
 function toast(m){const t=document.getElementById('toast');t.textContent=m;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2200);}
-function globalDay(){return (nav.activeWeek-1)*7+nav.activeDay;}
-function dayInfo(gd){return curPlan().days.find(d=>d.day===gd);}
-function mealsForDay(gd){return curPlan().meals.filter(m=>m.day===gd).sort((a,b)=>a.slot-b.slot);}
+// ===== DOSTĘP DO TYGODNIA/DNIA (model tygodniowy) =====
+function weekById(id){return state.weeks.find(w=>w.id===id);}
+function curWeek(){return weekById(state.curWeekId)||state.weeks[state.weeks.length-1];}
+// tydzień oglądany (nav.viewWeekId — lokalne; domyślnie bieżący)
+function viewWeek(){const id=nav.viewWeekId||state.curWeekId;return weekById(id)||curWeek();}
+function curDay(){const w=viewWeek();return w.days[nav.activeDayIdx!=null?nav.activeDayIdx:todayIdx()];}
+// klucz odhaczenia/treningu: "weekId_dayIdx"
+function dayLogKey(weekId,dayIdx){return weekId+'_'+dayIdx;}
+function curLogKey(){return dayLogKey(viewWeek().id, nav.activeDayIdx!=null?nav.activeDayIdx:todayIdx());}
+
+// losuj nowy tydzień -> staje się bieżącym, stare do historii (limit MAX_WEEKS)
+function rollNewWeek(){
+  const w=genWeek(state.nextWeekId);
+  state.weeks.push(w);
+  state.curWeekId=w.id;
+  state.nextWeekId=w.id+1;
+  // przytnij historię
+  if(state.weeks.length>MAX_WEEKS){
+    const removed=state.weeks.splice(0,state.weeks.length-MAX_WEEKS);
+    // wyczyść logi usuniętych tygodni
+    removed.forEach(rw=>{
+      Object.keys(state.log).forEach(k=>{if(k.startsWith(rw.id+'_'))delete state.log[k];});
+      Object.keys(state.trainOverride).forEach(k=>{if(k.startsWith(rw.id+'_'))delete state.trainOverride[k];});
+      Object.keys(state.snackLog).forEach(k=>{if(k.startsWith(rw.id+'_'))delete state.snackLog[k];});
+    });
+  }
+  nav.viewWeekId=w.id;nav.activeDayIdx=0;saveNav();
+  save();
+}
+
+// dane slotu dla osoby
+function slotData(day,slotKey,personId){
+  const def=SLOTS_DEF.find(s=>s.key===slotKey);
+  if(!def||!def.people.includes(personId))return null;
+  if(def.isBlock){
+    const b=blockById(day.obiadBlock);if(!b)return null;
+    const m=blockMacro(b,personId);if(!m)return null;
+    return {name:b.name,block:b,macro:m,kcal:m.kcal,portion:m.portionG,isBlock:true};
+  }
+  const id=day.slots[slotKey];const item=poolItem(id);if(!item)return null;
+  const m=poolMacro(item,personId);if(!m)return null;
+  return {name:item.name,item,macro:m,kcal:m.kcal,portionG:m.portionG,prep:item.prep,ingrText:item.ingrText};
+}
 
 // ============ RENDER ============
 function render(){renderDzis();renderPlan();renderPrzepisy();renderBatch();renderZakupy();renderProfile();}
 
-// ---- TRENINGI (przekładanie) ----
-// domyslny trening z planu dla osoby danego dnia
-function planTrain(personId,gd){
-  const di=dayInfo(gd);if(!di)return'odpoczynek';
-  return personId==='oliwia'?di.trO : personId==='bartek'?di.trB : 'odpoczynek';
+// ---- TRENINGI (przekładanie) — teraz per dzień-data ----
+function trainFor(personId,key){
+  key=key||curLogKey();
+  const ov=state.trainOverride[key];
+  if(ov&&ov[personId]!==undefined)return ov[personId];
+  return 'odpoczynek';  // domyślnie brak; ustawiasz w widoku Dziś
 }
-// aktualny trening (uwzglednia przelozenie)
-function trainFor(personId,gd){
-  const ov=state.trainOverride[nav.activePlan];
-  if(ov&&ov[gd]&&ov[gd][personId]!==undefined)return ov[gd][personId];
-  return planTrain(personId,gd);
-}
-function setTrain(personId,gd,val){
-  const pid=nav.activePlan;
-  if(!state.trainOverride[pid])state.trainOverride[pid]={};
-  if(!state.trainOverride[pid][gd])state.trainOverride[pid][gd]={};
-  // jesli wrocil do domyslnego z planu, usun override (czysto)
-  if(val===planTrain(personId,gd))delete state.trainOverride[pid][gd][personId];
-  else state.trainOverride[pid][gd][personId]=val;
+function setTrain(personId,key,val){
+  if(!state.trainOverride[key])state.trainOverride[key]={};
+  if(val==='odpoczynek')delete state.trainOverride[key][personId];
+  else state.trainOverride[key][personId]=val;
   save();renderDzis();
 }
-// normalizacja treningu do porownan (Excel ma warianty typu "easy run","tempo/interwały")
 function trainHasSnack(t){
   if(!t)return false;
-  const s=t.toLowerCase();
-  if(s.includes('odpocz'))return false;
-  return true; // kazdy trening (bieg/long/silownia/tempo/easy) dostaje przekaske
+  return !t.toLowerCase().includes('odpocz');
 }
-function toggleSnack(personId,gd){
-  const pid=nav.activePlan;
-  if(!state.snackLog[pid])state.snackLog[pid]={};
-  if(!state.snackLog[pid][gd])state.snackLog[pid][gd]={};
-  if(state.snackLog[pid][gd][personId])delete state.snackLog[pid][gd][personId];
-  else state.snackLog[pid][gd][personId]=true;
+function toggleSnack(personId,key){
+  if(!state.snackLog[key])state.snackLog[key]={};
+  if(state.snackLog[key][personId])delete state.snackLog[key][personId];
+  else state.snackLog[key][personId]=true;
   save();renderDzis();
 }
 
 // ---- PRZEPIS W POP-UPIE ----
 function normName(s){return (s||'').toLowerCase().replace(/[^a-ząćęłńóśźż0-9 ]/g,'').trim();}
-// znajdz przepis dla dania (konserwatywnie - bez ryzykownych trafien)
-function findRecipe(danie){
-  const recs=curPlan().recipes;
-  const dn=normName(danie);
-  for(const r of recs)if(normName(r.name)===dn)return r;         // dokladne
-  for(const r of recs){const rn=normName(r.name);if(dn.length>=5&&(dn.includes(rn)||rn.includes(dn)))return r;} // zawiera
-  if(dn.includes('wrap'))return recs.find(r=>/wrap/i.test(r.name))||null;
-  return null;
+// otworz modal z przepisem dla dania (slotKey) danego dnia
+let cardView={dishId:null,person:'bartek',mode:'porcja'};
+function openRecipe(slotKey,personId){
+  const day=curDay();if(!day)return;
+  const def=SLOTS_DEF.find(s=>s.key===slotKey);
+  if(def.isBlock){openBlock(day.obiadBlock);return;}
+  const item=poolItem(day.slots[slotKey]);if(!item)return;
+  cardView={dishId:item.id,person:personId||'bartek',mode:'porcja'};
+  renderCard();
 }
-// znajdz sos powiazany z daniem (dania z tortilla/quesadilla/wrap)
-function findSos(danie){
-  const dn=normName(danie);
-  if(!/tortilla|quesadilla|wrap|pizza/.test(dn))return null;
-  // sosy to R16-R18
-  return curPlan().recipes.filter(r=>/sos/i.test(r.name));
-}
-// otworz modal z przepisem dla dania danego dnia
-function openRecipe(gd,slot){
-  const meals=mealsForDay(gd);
-  const m=meals.find(x=>x.slot===slot);
-  if(!m)return;
-  const rec=findRecipe(m.name);
-  const sosy=findSos(m.name);
-  const di=dayInfo(gd);
-
-  let body='';
-  // porcje O/B/S zawsze
-  body+=`<div class="modal-sec">Porcje na ten dzień</div>
-    <div class="modal-portions">
-      <div><span class="dot d-oliwia"></span> <b>Oliwia:</b> ${m.oliwia}</div>
-      <div><span class="dot d-bartek"></span> <b>Bartek:</b> ${m.bartek}</div>
-      <div><span class="dot d-syn"></span> <b>Syn:</b> ${m.syn}</div>
-    </div>`;
-  if(m.kcal){body+=`<div class="modal-kcal">${m.kcal.oliwia} / ${m.kcal.bartek} / ${m.kcal.syn} kcal (O/B/S)</div>`;}
-
-  if(rec){
-    body+=`<div class="modal-sec">Składniki</div><div class="modal-txt">${rec.ingr}</div>
-      <div class="modal-sec">Przygotowanie</div><div class="modal-txt">${rec.prep}</div>`;
+function renderCard(){
+  const item=poolItem(cardView.dishId);if(!item)return;
+  const person=cardView.person, mode=cardView.mode;
+  const eaters=PEOPLE.filter(p=>item.macro&&item.macro[p.id]);
+  if(!eaters.find(e=>e.id===person)&&eaters.length)cardView.person=eaters[0].id;
+  const personTabs=eaters.map(p=>`<button class="card-tab ${cardView.person===p.id?'active':''}" onclick="setCardPerson('${p.id}')"><span class="dot d-${p.color}"></span>${p.name}</button>`).join('');
+  const modeTabs=[['porcja','Moja porcja'],['100g','Na 100 g'],['przepis','Cały przepis']]
+    .map(([m,l])=>`<button class="card-tab ${mode===m?'active':''}" onclick="setCardMode('${m}')">${l}</button>`).join('');
+  const recipe=item.recipes&&item.recipes[cardView.person];
+  let macroBox='';
+  if(mode==='porcja'){
+    const m=poolMacro(item,cardView.person);
+    macroBox=macroTable(m, item.macro[cardView.person]&&item.macro[cardView.person].portionG);
+  }else if(mode==='100g'){
+    const m=calcMacroFromIngr(recipe);
+    const totalG=(recipe||[]).reduce((s,i)=>s+(i.qty||0),0);
+    const per100=totalG?{kcal:m.kcal/totalG*100,protein:m.protein/totalG*100,carbs:m.carbs/totalG*100,fat:m.fat/totalG*100,fiber:m.fiber/totalG*100}:m;
+    macroBox=macroTable(per100,100)+`<div class="modal-txt" style="font-size:12px;color:var(--slate)">Cała porcja waży ~${Math.round(totalG)} g</div>`;
   }else{
-    body+=`<div class="modal-note">To danie nie ma osobnego przepisu — składasz je z porcji powyżej.</div>`;
+    const m=calcMacroFromIngr(recipe);
+    let ingrList=(recipe||[]).map(i=>{const p=productById(i.pid);return `<div class="ingr-row"><span>${p?p.name:i.pid}</span><span class="ingr-g">${i.qty} g</span></div>`;}).join('');
+    macroBox=`<div class="ingr-list">${ingrList}</div>`+macroTable(m,null);
   }
-  if(sosy&&sosy.length){
-    body+=`<div class="modal-sec">Pasujące sosy</div>`;
-    sosy.forEach(s=>{body+=`<div class="modal-sos"><b>${s.name}</b><div class="modal-txt">${s.ingr}${s.prep&&s.prep!=='nan'?' — '+s.prep:''}</div></div>`;});
-  }
-
-  const batchFlag=/Batch B\d/i.test(m.uwagi)?` · ${m.uwagi.match(/B\d/i)[0]}`:'';
-  document.getElementById('modalTitle').innerHTML=`${m.name}<span class="modal-sub">${SLOT_NAMES[slot-1]}${batchFlag}${rec?' · '+rec.id:''}</span>`;
+  let body=`<div class="card-tabs">${personTabs}</div>
+    <div class="card-tabs card-modes">${modeTabs}</div>${macroBox}`;
+  if(item.prep){body+=`<div class="modal-sec">Przygotowanie</div><div class="modal-txt">${item.prep}</div>`;}
+  document.getElementById('modalTitle').innerHTML=`${item.name}<span class="modal-sub">${catLabel(item.cat)}</span>`;
   document.getElementById('modalBody').innerHTML=body;
   document.getElementById('modal').classList.add('open');
 }
+function setCardPerson(p){cardView.person=p;renderCard();}
+function setCardMode(m){cardView.mode=m;renderCard();}
+function catLabel(c){return {sniadanie:'Śniadanie',ii_sniadanie:'II śniadanie',lekki_lunch:'Lekki lunch',kolacja:'Kolacja',obiad:'Obiad'}[c]||c;}
+function macroTable(m,portionG){
+  if(!m)return '<div class="modal-note">Brak danych makro.</div>';
+  return `<div class="macro-table">
+    ${portionG?`<div class="macro-cell"><span class="mc-val">${Math.round(portionG)}</span><span class="mc-lbl">g porcja</span></div>`:''}
+    <div class="macro-cell hl"><span class="mc-val">${Math.round(m.kcal)}</span><span class="mc-lbl">kcal</span></div>
+    <div class="macro-cell"><span class="mc-val">${m.protein.toFixed(0)}</span><span class="mc-lbl">białko</span></div>
+    <div class="macro-cell"><span class="mc-val">${m.carbs.toFixed(0)}</span><span class="mc-lbl">węgle</span></div>
+    <div class="macro-cell"><span class="mc-val">${m.fat.toFixed(0)}</span><span class="mc-lbl">tłuszcz</span></div>
+    <div class="macro-cell"><span class="mc-val">${m.fiber.toFixed(0)}</span><span class="mc-lbl">błonnik</span></div>
+  </div>`;
+}
 function closeModal(){document.getElementById('modal').classList.remove('open');}
 
-// ---- DZIŚ ----
+// ---- DZIŚ (model rotacyjny) ----
 function renderDzis(){
   const el=document.getElementById('dzis');
-  const gd=globalDay();
-  const di=dayInfo(gd);
-  const meals=mealsForDay(gd);
-  if(!di){el.innerHTML='<div class="empty">Brak danych dla tego dnia.</div>';return;}
-  const weekTabs=`<div class="week-tabs">
-    <button class="week-tab ${nav.activeWeek===1?'active':''}" onclick="setWeek(1)">Tydzień 1</button>
-    <button class="week-tab ${nav.activeWeek===2?'active':''}" onclick="setWeek(2)">Tydzień 2</button></div>`;
-  const dayBtns=[1,2,3,4,5,6,7].map(d=>{
-    const g=(nav.activeWeek-1)*7+d;const inf=dayInfo(g);
-    return `<button class="day-btn ${nav.activeDay===d?'active':''}" onclick="setDay(${d})">
-      D${g}<small>${inf?inf.name.slice(0,3):''}</small></button>`;
-  }).join('');
-  const prep=di.prep&&di.prep!=='nan'?`<div class="prep-banner">🍲 <b>Przygotowanie:</b> ${di.prep}</div>`:'';
-  const log=(state.log[nav.activePlan]&&state.log[nav.activePlan][gd])||{};
+  const week=viewWeek();
+  const dayIdx=nav.activeDayIdx!=null?nav.activeDayIdx:todayIdx();
+  const day=week.days[dayIdx];
+  const logKey=dayLogKey(week.id,dayIdx);
+  const log=state.log[logKey]||{};
+  const isCurWeek=week.id===state.curWeekId;
+  const isToday=isCurWeek && dayIdx===todayIdx();
+
+  // pasek wyboru dnia Pon-Nd
+  const dayBtns=DAY_SHORT.map((nm,i)=>`<button class="day-btn ${i===dayIdx?'active':''}" onclick="setDayIdx(${i})">${nm}</button>`).join('');
+
   const people=PEOPLE.map(p=>{
     const t=state.targets[p.id];
-    let eaten={kcal:0};
+    let eaten={kcal:0,protein:0,carbs:0,fat:0,fiber:0};
     const plog=log[p.id]||{};
-    const curTrain=trainFor(p.id,gd);
+    const curTrain=trainFor(p.id,logKey);
     const showSnack = p.id!=='syn' && trainHasSnack(curTrain);
-    const snackDone = state.snackLog[nav.activePlan]&&state.snackLog[nav.activePlan][gd]&&state.snackLog[nav.activePlan][gd][p.id];
+    const snackDone = state.snackLog[logKey]&&state.snackLog[logKey][p.id];
 
-    const mealsHtml=meals.map(m=>{
-      const key=m.day+'_'+m.slot;const done=plog[key];const kcal=m.kcal[p.id]||0;
-      if(done)eaten.kcal+=kcal;
-      const portion=m[p.id]||'—';
-      const batchFlag=/Batch B\d/i.test(m.uwagi)?`<span class="batch-flag">${m.uwagi.match(/B\d/i)[0]}</span>`:'';
-      const mealRow=`<div class="meal-item ${done?'done':''}">
-        <input type="checkbox" class="chk" ${done?'checked':''} onchange="toggleMeal('${p.id}',${m.day},${m.slot})">
-        <div class="mbody"><span class="mslot">${SLOT_NAMES[m.slot-1]}</span>
-        <div class="mname mclick" onclick="openRecipe(${gd},${m.slot})">${m.name}${batchFlag} <span class="recipe-arrow">›</span></div>
-        <div class="mportion">${portion}</div></div>
-        <span class="mkcal">${kcal} kcal</span></div>`;
-      // po posilku 2 wstaw przekaske przedtreningowa (jesli trening dnia ja uzasadnia)
-      if(m.slot===2 && showSnack){
-        const snackRow=`<div class="meal-item snack ${snackDone?'done':''}">
-          <input type="checkbox" class="chk" ${snackDone?'checked':''} onchange="toggleSnack('${p.id}',${gd})">
+    const slots=SLOTS_DEF.filter(s=>s.people.includes(p.id));
+    let rows='';
+    slots.forEach(sdef=>{
+      const sd=slotData(day,sdef.key,p.id);
+      if(!sd)return;
+      const mkey=sdef.key;const done=plog[mkey];const m=sd.macro;
+      if(done&&m){eaten.kcal+=m.kcal;eaten.protein+=m.protein;eaten.carbs+=m.carbs;eaten.fat+=m.fat;eaten.fiber+=m.fiber;}
+      const canSwap=!sd.isBlock;
+      const portionTxt = sd.isBlock ? `porcja ${sd.portion||'?'} g${m&&m.adjusted?' (przeliczone)':''}` : (sd.portionG?`~${sd.portionG} g`:'');
+      const macroLine = m ? `<span class="macro-mini">B${Math.round(m.protein)} W${Math.round(m.carbs)} T${Math.round(m.fat)} bł${Math.round(m.fiber)}</span>` : '';
+      rows+=`<div class="meal-item ${done?'done':''}">
+        <input type="checkbox" class="chk" ${done?'checked':''} onchange="toggleMeal('${p.id}','${mkey}')">
+        <div class="mbody"><span class="mslot">${sdef.label}</span>
+        <div class="mname mclick" onclick="openRecipe('${mkey}','${p.id}')">${sd.name} <span class="recipe-arrow">›</span></div>
+        ${portionTxt?`<div class="mportion">${portionTxt}</div>`:''}
+        ${macroLine}</div>
+        <div class="mright">
+          <span class="mkcal">${Math.round(sd.kcal)} kcal</span>
+          ${canSwap?`<button class="swap-btn" onclick="event.stopPropagation();swapSlot(${dayIdx},'${mkey}')" title="inne danie">🎲</button>`:''}
+        </div></div>`;
+      if(mkey==='ii_sniadanie' && showSnack){
+        rows+=`<div class="meal-item snack ${snackDone?'done':''}">
+          <input type="checkbox" class="chk" ${snackDone?'checked':''} onchange="toggleSnack('${p.id}','${logKey}')">
           <div class="mbody"><span class="mslot">Przed treningiem</span>
           <div class="mname">${PRE_SNACK.name}</div>
           <div class="mportion">${PRE_SNACK.hint}</div></div>
-          <span class="mkcal">w pos. 2</span></div>`;
-        return mealRow+snackRow;
+          <span class="mkcal">+ wg biegu</span></div>`;
       }
-      return mealRow;
-    }).join('');
+    });
 
-    // przelacznik treningu (Oliwia/Bartek); syn bez treningu
     const trainSwitch = p.id==='syn' ? '' : `
       <div class="train-switch">
-        ${TRAIN_OPTS.map(o=>`<button class="train-opt ${curTrain===o?'active':''}" onclick="setTrain('${p.id}',${gd},'${o.replace(/'/g,"\\'")}')">${o}</button>`).join('')}
+        ${TRAIN_OPTS.map(o=>`<button class="train-opt ${curTrain===o?'active':''}" onclick="setTrain('${p.id}','${logKey}','${o.replace(/'/g,"\\'")}')">${o}</button>`).join('')}
       </div>`;
-    // etykieta gdy trening przelozony (rozni sie od planu)
-    const moved = p.id!=='syn' && curTrain!==planTrain(p.id,gd);
-    const movedTag = moved ? `<span class="moved-tag">przełożony</span>` : '';
+
+    let bars=bar('Kalorie',Math.round(eaten.kcal),t.kcal,'kcal');
+    if(t.protein){bars+=bar('Białko',Math.round(eaten.protein),Math.round(t.protein),'g');}
+    if(t.carbs){bars+=bar('Węgle',Math.round(eaten.carbs),Math.round(t.carbs),'g');}
+    if(t.fat){bars+=bar('Tłuszcz',Math.round(eaten.fat),Math.round(t.fat),'g');}
+    if(t.fiber){bars+=bar('Błonnik',Math.round(eaten.fiber),Math.round(t.fiber),'g');}
 
     return `<div class="card person-track">
-      <div class="person-head"><span class="dot d-${p.color}"></span>${p.name} ${movedTag}</div>
+      <div class="person-head"><span class="dot d-${p.color}"></span>${p.name}</div>
       ${trainSwitch}
-      ${bar('Kalorie',eaten.kcal,t.kcal,'kcal')}
-      <div style="margin-top:12px">${mealsHtml}</div></div>`;
+      ${bars}
+      <div style="margin-top:12px">${rows}</div></div>`;
   }).join('');
-  el.innerHTML=`<h2 class="section-h">Dziś — ${di.name}, dzień ${gd}/14</h2>
-    <div class="section-sub">${curPlan().name}. Odhaczaj zjedzone posiłki — pasek pokazuje kalorie względem celu.</div>
-    ${weekTabs}<div class="day-picker">${dayBtns}</div>${prep}
+
+  const block=blockById(day.obiadBlock);
+  const weekLabel = isCurWeek ? 'Bieżący tydzień' : `Tydzień ${week.id}`;
+  el.innerHTML=`<h2 class="section-h">${DAY_NAMES[dayIdx]}${isToday?' — dziś':''}</h2>
+    <div class="section-sub">${weekLabel}. Kliknij 🎲 przy daniu, by wylosować inne z tej samej puli. Kalorie orientacyjne.</div>
+    <div class="day-picker">${dayBtns}</div>
+    <div class="obiad-banner">🍲 <b>Obiad:</b> ${block?block.name:'—'} <span class="obiad-sub">— gotowany blokiem na 2 dni. <button class="link-btn" onclick="rerollBlock(${dayIdx})">zmień blok</button></span></div>
+    <div class="btn-row" style="margin:0 0 18px"><button class="btn" onclick="rerollDay(${dayIdx})">🎲 Wylosuj ten dzień od nowa</button></div>
     <div class="grid g3">${people}</div>`;
 }
 function bar(label,val,target,unit){
@@ -575,45 +836,181 @@ function bar(label,val,target,unit){
   return `<div class="bar-wrap"><div class="bar-label"><span>${label}</span><b>${val} / ${target} ${unit}</b></div>
     <div class="bar"><div class="bar-fill ${cls}" style="width:${pct}%"></div></div></div>`;
 }
-function setWeek(w){nav.activeWeek=w;nav.activeDay=1;saveNav();renderDzis();}
-function setDay(d){nav.activeDay=d;saveNav();renderDzis();}
-function toggleMeal(person,day,slot){
-  const pid=nav.activePlan;
-  if(!state.log[pid])state.log[pid]={};
-  if(!state.log[pid][day])state.log[pid][day]={};
-  if(!state.log[pid][day][person])state.log[pid][day][person]={};
-  const key=day+'_'+slot;
-  if(state.log[pid][day][person][key])delete state.log[pid][day][person][key];
-  else state.log[pid][day][person][key]=true;
+function setDayIdx(i){nav.activeDayIdx=i;saveNav();renderDzis();}
+// odhaczanie posiłku (klucz = weekId_dayIdx)
+function toggleMeal(person,slotKey){
+  const key=curLogKey();
+  if(!state.log[key])state.log[key]={};
+  if(!state.log[key][person])state.log[key][person]={};
+  if(state.log[key][person][slotKey])delete state.log[key][person][slotKey];
+  else state.log[key][person][slotKey]=true;
+  save();renderDzis();
+}
+// podmień jedno danie w slocie danego dnia tygodnia
+function swapSlot(dayIdx,slotKey){
+  const week=viewWeek();const day=week.days[dayIdx];if(!day)return;
+  const def=SLOTS_DEF.find(s=>s.key===slotKey);if(!def||def.isBlock)return;
+  const ids=poolByCat(def.key).map(d=>d.id);
+  day.slots[slotKey]=randFrom(ids,day.slots[slotKey]);
+  save();renderDzis();
+}
+function rerollDay(dayIdx){
+  const week=viewWeek();const prev=week.days[dayIdx];
+  const nd=genDay(prev);nd.obiadBlock=prev.obiadBlock;
+  week.days[dayIdx]=nd;save();renderDzis();
+}
+function rerollBlock(dayIdx){
+  const week=viewWeek();const day=week.days[dayIdx];if(!day)return;
+  const idx=MOD.blocks.findIndex(b=>b.id===day.obiadBlock);
+  day.obiadBlock=MOD.blocks[(idx+1)%MOD.blocks.length].id;
   save();renderDzis();
 }
 
-// ---- PLAN 14 DNI ----
+// ---- PLAN (przegląd puli dań) ----
 function renderPlan(){
-  const el=document.getElementById('plan');const plan=curPlan();
-  const weekTabs=`<div class="week-tabs">
-    <button class="week-tab ${nav.activeWeek===1?'active':''}" onclick="setWeekPlan(1)">Tydzień 1</button>
-    <button class="week-tab ${nav.activeWeek===2?'active':''}" onclick="setWeekPlan(2)">Tydzień 2</button></div>`;
-  const start=(nav.activeWeek-1)*7+1,end=start+6;let daysHtml='';
-  for(let gd=start;gd<=end;gd++){
-    const di=dayInfo(gd);if(!di)continue;const meals=mealsForDay(gd);
-    const mealRows=meals.map(m=>`<div class="meal-item" style="padding:8px 0">
-      <div class="mbody"><span class="mslot">${SLOT_NAMES[m.slot-1]}</span>
-      <div class="mname">${m.name}</div>
-      <div class="mportion"><b>O:</b> ${m.oliwia} &nbsp;·&nbsp; <b>B:</b> ${m.bartek} &nbsp;·&nbsp; <b>S:</b> ${m.syn}</div></div></div>`).join('');
-    const prep=di.prep&&di.prep!=='nan'?`<div class="prep-banner" style="margin:10px 0 0">🍲 ${di.prep}</div>`:'';
-    daysHtml+=`<div class="card" style="margin-bottom:14px">
-      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
-        <div style="font-weight:700;font-size:16px">Dzień ${gd} — ${di.name}</div>
-        <div style="font-size:12px;color:var(--slate)">O ${di.kcal.oliwia} · B ${di.kcal.bartek} · syn ${di.kcal.syn} kcal</div></div>
-      <div style="font-size:12px;color:var(--slate);margin-bottom:6px">🏃 Oliwia: ${di.trO} &nbsp;·&nbsp; Bartek: ${di.trB}</div>
-      ${mealRows}${prep}</div>`;
-  }
-  el.innerHTML=`<h2 class="section-h">Plan 14 dni</h2>
-    <div class="section-sub">${plan.name} — stały plan z batch cookingiem. Gramatury per osoba (O / B / S).</div>
-    ${weekTabs}${daysHtml}`;
+  const el=document.getElementById('plan');
+  if(!nav.planMode)nav.planMode='tydzien';
+  const modeTabs=`<div class="week-tabs">
+    <button class="week-tab ${nav.planMode==='tydzien'?'active':''}" onclick="setPlanMode('tydzien')">Tydzień</button>
+    <button class="week-tab ${nav.planMode==='pule'?'active':''}" onclick="setPlanMode('pule')">Pule dań</button></div>`;
+
+  if(nav.planMode==='tydzien'){el.innerHTML=`<h2 class="section-h">Plan tygodnia</h2>
+    <div class="section-sub">Podgląd wylosowanych dni. Podmieniaj dania 🎲, a lista zakupów policzy się z tego, co wybierzecie.</div>
+    ${modeTabs}${renderWeekView()}`;return;}
+
+  // --- TRYB PULE ---
+  const cats=[
+    {key:'sniadanie',label:'Śniadania'},
+    {key:'ii_sniadanie',label:'II śniadania'},
+    {key:'lekki_lunch',label:'Lekkie lunche (Bartek)'},
+    {key:'kolacja',label:'Kolacje'}
+  ];
+  let html=cats.map(c=>{
+    const dania=poolByCat(c.key);
+    const rows=dania.map(d=>`<div class="meal-item" style="padding:9px 0">
+      <div class="mbody">
+        <div class="mname mclick" onclick="openPoolItem('${d.id}')">${d.name} <span class="recipe-arrow">›</span></div>
+        <div class="mportion">O ${d.macro&&d.macro.oliwia?Math.round(d.macro.oliwia.kcal):'—'} · B ${d.macro&&d.macro.bartek?Math.round(d.macro.bartek.kcal):'—'} · Teoś ${d.macro&&d.macro.syn?Math.round(d.macro.syn.kcal):'—'} kcal</div>
+      </div></div>`).join('');
+    return `<div class="card" style="margin-bottom:14px">
+      <div style="font-weight:700;font-size:16px;margin-bottom:8px">${c.label} <span style="color:var(--slate);font-size:13px;font-weight:500">(${dania.length})</span></div>
+      ${rows}</div>`;
+  }).join('');
+  const blockRows=MOD.blocks.map(b=>`<div class="meal-item" style="padding:9px 0">
+    <div class="mbody">
+      <div class="mname mclick" onclick="openBlock('${b.id}')">${b.name} <span class="recipe-arrow">›</span></div>
+      <div class="mportion">partia ~${b.batchWeight} g / ${b.portions} porcji · porcja B ${b.macro&&b.macro.bartek?Math.round(b.macro.bartek.kcal):'—'} kcal</div>
+    </div></div>`).join('');
+  html+=`<div class="card"><div style="font-weight:700;font-size:16px;margin-bottom:8px">Obiady — bloki na 2 dni <span style="color:var(--slate);font-size:13px;font-weight:500">(${MOD.blocks.length})</span></div>${blockRows}</div>`;
+
+  el.innerHTML=`<h2 class="section-h">Pule dań</h2>
+    <div class="section-sub">Wszystkie dania do rotacji. Kliknij danie, by zobaczyć przepis i porcje.</div>
+    ${modeTabs}${html}`;
 }
-function setWeekPlan(w){nav.activeWeek=w;saveNav();renderPlan();}
+function setPlanMode(m){nav.planMode=m;saveNav();renderPlan();}
+// widok tygodnia Pon-Nd z historią
+function renderWeekView(){
+  const week=viewWeek();
+  const isCur=week.id===state.curWeekId;
+  // selektor tygodnia (historia)
+  const weekOpts=state.weeks.slice().reverse().map(w=>{
+    const label=w.id===state.curWeekId?`Tydzień ${w.id} (bieżący)`:`Tydzień ${w.id}`;
+    return `<option value="${w.id}" ${w.id===week.id?'selected':''}>${label}</option>`;
+  }).join('');
+
+  let html=week.days.map((day,idx)=>{
+    const block=blockById(day.obiadBlock);
+    const slotRows=SLOTS_DEF.map(sdef=>{
+      if(sdef.isBlock){
+        return `<div class="week-slot"><span class="week-slot-label">${sdef.label}</span>
+          <span class="week-slot-name mclick" onclick="openBlock('${day.obiadBlock}')">${block?block.name:'—'}</span>
+          <button class="swap-btn" onclick="swapDayBlock(${idx})" title="zmień blok">🎲</button></div>`;
+      }
+      const it=poolItem(day.slots[sdef.key]);
+      return `<div class="week-slot"><span class="week-slot-label">${sdef.label}</span>
+        <span class="week-slot-name mclick" onclick="openPoolItem('${it?it.id:''}')">${it?it.name:'—'}</span>
+        <button class="swap-btn" onclick="swapDaySlot(${idx},'${sdef.key}')" title="inne danie">🎲</button></div>`;
+    }).join('');
+    const isToday=isCur && idx===todayIdx();
+    return `<div class="card week-day ${isToday?'today':''}" style="margin-bottom:12px">
+      <div class="week-day-head"><b>${DAY_NAMES[idx]}</b>${isToday?' <span class="today-tag">dziś</span>':''}
+        <button class="link-btn" style="margin-left:auto" onclick="rerollDayInWeek(${idx})">🎲 losuj dzień</button></div>
+      ${slotRows}</div>`;
+  }).join('');
+
+  const controls=`<div class="week-controls">
+    <select class="week-select" onchange="viewWeekSelect(this.value)">${weekOpts}</select>
+    <button class="btn" onclick="confirmNewWeek()">🎲 Losuj nowy tydzień</button>
+  </div>`;
+  return controls+html;
+}
+function viewWeekSelect(id){nav.viewWeekId=+id;saveNav();renderPlan();}
+function confirmNewWeek(){
+  rollNewWeek();
+  toast('Wylosowano nowy tydzień');
+  renderPlan();
+}
+function swapDaySlot(dayIdx,slotKey){
+  const week=viewWeek();const day=week.days[dayIdx];if(!day)return;
+  const def=SLOTS_DEF.find(s=>s.key===slotKey);if(!def||def.isBlock)return;
+  const ids=poolByCat(def.key).map(d=>d.id);
+  day.slots[slotKey]=randFrom(ids,day.slots[slotKey]);
+  save();renderPlan();
+}
+function swapDayBlock(dayIdx){
+  const week=viewWeek();const day=week.days[dayIdx];if(!day)return;
+  const idx=MOD.blocks.findIndex(b=>b.id===day.obiadBlock);
+  day.obiadBlock=MOD.blocks[(idx+1)%MOD.blocks.length].id;
+  save();renderPlan();
+}
+function rerollDayInWeek(dayIdx){
+  const week=viewWeek();const prev=week.days[dayIdx];
+  const nd=genDay(prev);nd.obiadBlock=prev.obiadBlock;
+  week.days[dayIdx]=nd;save();renderPlan();
+}
+// otwórz przepis dla dania z puli (z widoku Plan)
+function openPoolItem(id){
+  const it=poolItem(id);if(!it)return;
+  cardView={dishId:id,person:'bartek',mode:'porcja'};
+  renderCard();
+}
+function openBlock(id){
+  const b=blockById(id);if(!b)return;
+  const actual=(state.cookedWeight&&state.cookedWeight[id])||b.batchWeight;
+  let portionsHtml='';
+  PEOPLE.forEach(p=>{
+    const m=blockMacro(b,p.id);if(!m)return;
+    portionsHtml+=`<div class="block-portion"><span class="dot d-${p.color}"></span> <b>${p.name}:</b>
+      porcja ~${Math.round(m.portionG||0)} g · ${Math.round(m.kcal)} kcal · B${Math.round(m.protein)} W${Math.round(m.carbs)} T${Math.round(m.fat)} bł${Math.round(m.fiber)}${m.adjusted?' <span class="adj-tag">przeliczone</span>':''}</div>`;
+  });
+  let body=`<div class="cooked-box">
+      <div class="modal-sec" style="margin-top:0">Masa ugotowanego garnka</div>
+      <div class="modal-txt" style="font-size:13px;margin-bottom:8px">Planowana: ~${b.batchWeight} g. Po ugotowaniu zważ garnek i wpisz rzeczywistą masę — makro porcji przeliczy się (kalorie całej partii zostają, zmienia się gęstość).</div>
+      <div class="cooked-input">
+        <input type="number" id="cookedInput" value="${actual}" placeholder="${b.batchWeight}"> g
+        <button class="btn sm" onclick="setCookedWeight('${id}')">Zapisz masę</button>
+        ${state.cookedWeight&&state.cookedWeight[id]?`<button class="btn ghost sm" onclick="resetCookedWeight('${id}')">reset</button>`:''}
+      </div>
+    </div>
+    <div class="modal-sec">Porcje na osobę</div>${portionsHtml}
+    <div class="modal-sec">Składniki całej partii</div><div class="modal-txt">${b.ingrAll}</div>
+    <div class="modal-sec">Przyprawy</div><div class="modal-txt">${b.spice||'—'}</div>
+    <div class="modal-sec">Przechowywanie</div><div class="modal-txt">${b.store||'—'}</div>`;
+  if(b.prep)body+=`<div class="modal-sec">Przygotowanie</div><div class="modal-txt">${b.prep}</div>`;
+  document.getElementById('modalTitle').innerHTML=`${b.name}<span class="modal-sub">obiad · blok 2 dni</span>`;
+  document.getElementById('modalBody').innerHTML=body;
+  document.getElementById('modal').classList.add('open');
+}
+function setCookedWeight(id){
+  const v=+document.getElementById('cookedInput').value;
+  if(!v||v<=0){toast('Podaj poprawną masę');return;}
+  if(!state.cookedWeight)state.cookedWeight={};
+  state.cookedWeight[id]=v;save();openBlock(id);renderDzis();toast('Zapisano masę garnka');
+}
+function resetCookedWeight(id){
+  if(state.cookedWeight)delete state.cookedWeight[id];
+  save();openBlock(id);renderDzis();
+}
 
 // ---- PRZEPISY ----
 // kategoria przepisu na podstawie pola "use"
@@ -638,229 +1035,115 @@ let recipeFilter='all';
 
 function renderPrzepisy(){
   const el=document.getElementById('przepisy');
-  const all=curPlan().recipes;
-  // policz ile w kazdej kategorii (do etykiet i chowania pustych filtrow)
-  const counts={};all.forEach(x=>{const c=recipeCat(x.use);counts[c]=(counts[c]||0)+1;});
-  const filtered=recipeFilter==='all'?all:all.filter(x=>recipeCat(x.use)===recipeFilter);
+  const cats=[
+    {id:'all',label:'Wszystkie'},
+    {id:'sniadanie',label:'Śniadania'},
+    {id:'ii_sniadanie',label:'II śniadania'},
+    {id:'lekki_lunch',label:'Lunche'},
+    {id:'kolacja',label:'Kolacje'},
+    {id:'obiad',label:'Obiady'}
+  ];
+  const allItems=[...MOD.pool, ...MOD.blocks.map(b=>({...b,cat:'obiad',isBlock:true}))];
+  const counts={};allItems.forEach(x=>{counts[x.cat]=(counts[x.cat]||0)+1;});
+  const filtered=recipeFilter==='all'?allItems:allItems.filter(x=>x.cat===recipeFilter);
 
-  const chips=RECIPE_FILTERS.filter(f=>f.id==='all'||counts[f.id]).map(f=>{
-    const n=f.id==='all'?all.length:counts[f.id];
+  const chips=cats.filter(f=>f.id==='all'||counts[f.id]).map(f=>{
+    const n=f.id==='all'?allItems.length:counts[f.id];
     return `<button class="filter-chip ${recipeFilter===f.id?'active':''}" onclick="setRecipeFilter('${f.id}')">${f.label} <span class="fc-count">${n}</span></button>`;
   }).join('');
 
-  const r=filtered.map(x=>`<div class="recipe">
-    <div class="recipe-h"><span class="recipe-id">${x.id}</span>${x.name}</div>
-    <div class="recipe-use">${x.use}</div>
-    <div class="recipe-sec">Składniki</div><div class="recipe-txt">${x.ingr}</div>
-    <div class="recipe-sec">Przygotowanie</div><div class="recipe-txt">${x.prep}</div></div>`).join('');
+  const r=filtered.map(x=>{
+    const onclick = x.isBlock ? `openBlock('${x.id}')` : `openPoolItem('${x.id}')`;
+    const macroHint = x.isBlock ? `porcja B ${x.macro&&x.macro.bartek?Math.round(x.macro.bartek.kcal):'—'} kcal`
+      : `B: ${x.macro&&x.macro.bartek?Math.round(x.macro.bartek.kcal):'—'} kcal · O: ${x.macro&&x.macro.oliwia?Math.round(x.macro.oliwia.kcal):'—'} kcal`;
+    return `<div class="recipe mclick" onclick="${onclick}" style="cursor:pointer">
+      <div class="recipe-h"><span class="recipe-id">${x.id}</span>${x.name} <span class="recipe-arrow">›</span></div>
+      <div class="recipe-use">${catLabel(x.cat)} · ${macroHint}</div>
+      ${x.prep?`<div class="recipe-txt" style="font-size:13px;color:var(--slate)">${x.prep.slice(0,90)}${x.prep.length>90?'…':''}</div>`:''}</div>`;
+  }).join('');
 
   el.innerHTML=`<h2 class="section-h">Przepisy</h2>
-    <div class="section-sub">Pełne bazy dań z sosami. Dokładne porcje osobowe są w zakładce Plan 14 dni.</div>
+    <div class="section-sub">Wszystkie dania z pełnym makro. Kliknij, by zobaczyć porcje, składniki i widoki (moja porcja / na 100 g / cały przepis).</div>
     <div class="filter-bar">${chips}</div>
-    ${r||'<div class="empty">Brak przepisów w tej kategorii.</div>'}`;
+    ${r||'<div class="empty">Brak w tej kategorii.</div>'}`;
 }
 function setRecipeFilter(f){recipeFilter=f;renderPrzepisy();}
 
 // ---- BATCH ----
 function renderBatch(){
   const el=document.getElementById('batch');
-  const b=curPlan().batches.map(x=>`<div class="batch-card">
-    <div class="batch-h"><span class="batch-days">${x.days}</span>${x.name}</div>
-    <div class="recipe-sec">Składniki całej partii</div><div class="recipe-txt">${x.ingr}</div>
-    <div class="recipe-sec">Przyprawy</div><div class="recipe-txt">${x.spice}</div>
-    <div class="recipe-sec">Przechowywanie</div><div class="recipe-txt">${x.store}</div></div>`).join('');
-  el.innerHTML=`<h2 class="section-h">Batch cooking</h2>
-    <div class="section-sub">Pięć dużych gotowań na 14 dni — obiad przygotowujecie tylko 5 razy.</div>${b}`;
+  const b=MOD.blocks.map(x=>{
+    const mo=blockMacro(x,'oliwia'),mb=blockMacro(x,'bartek'),ms=blockMacro(x,'syn');
+    const actual=(state.cookedWeight&&state.cookedWeight[x.id]);
+    return `<div class="batch-card">
+    <div class="batch-h mclick" onclick="openBlock('${x.id}')">${x.name} <span class="recipe-arrow">›</span></div>
+    <div class="batch-weight">Gotowa partia ~<b>${actual||x.batchWeight} g</b>${actual?' (zważona)':''} na ${x.portions} porcji:</div>
+    <div class="batch-portions">
+      <span class="dot d-oliwia"></span> Oliwia ${mo?Math.round(mo.portionG||0):'?'} g &nbsp;·&nbsp;
+      <span class="dot d-bartek"></span> Bartek ${mb?Math.round(mb.portionG||0):'?'} g &nbsp;·&nbsp;
+      <span class="dot d-syn"></span> Teoś ${ms?Math.round(ms.portionG||0):'?'} g
+    </div>
+    <div class="recipe-sec">Składniki całej partii</div><div class="recipe-txt">${x.ingrAll}</div>
+    <div class="recipe-sec">Przyprawy</div><div class="recipe-txt">${x.spice||'—'}</div></div>`;}).join('');
+  el.innerHTML=`<h2 class="section-h">Bloki obiadowe (batch)</h2>
+    <div class="section-sub">Siedem dużych gotowań, każde na 2 dni. Kliknij blok, by wpisać rzeczywistą masę garnka — makro porcji się przeliczy.</div>${b}`;
 }
 
 // ---- ZAKUPY ----
-// ---- ZAKUPY PER DZIEŃ ----
-// parser skladnika z tekstu: "100 g chleba" -> {name:'chleb', qty:100, unit:'g'}
-// normalizacja dopelniacza -> mianownik dla grupowania
-const INGR_NORM={
-  'płatków':'płatki','banan':'banan','banana':'banan','jajko':'jajko','jajka':'jajka',
-  'mleka':'mleko','jogurtu':'jogurt','masła orzechowego':'masło orzechowe','chleba':'chleb',
-  'pieczywa':'pieczywo','szynki':'szynka','sera':'ser żółty','tuńczyka':'tuńczyk',
-  'kurczaka':'kurczak','indyka':'indyk','łososia':'łosoś','mozzarelli':'mozzarella',
-  'twarogu':'twaróg','miodu':'miód','oliwy':'oliwa','sosu':'sos','warzyw':'warzywa',
-  'warzywa':'warzywa','pomidor':'pomidor','bułki':'bułka','hummusu':'hummus',
-  'ryżu':'ryż','makaronu':'makaron','ziemniaków':'ziemniaki','wołowiny':'wołowina',
-  'mięsa':'mięso mielone','serka':'serek','tortilla':'tortilla','tortille':'tortilla',
-  'tortilli':'tortilla','wafle':'wafle ryżowe','wafli':'wafle ryżowe','mango':'mango',
-  'owoce':'owoc','owoc':'owoc','banan':'banan','fasoli':'fasola','passata':'passata',
-  'kukurydza':'kukurydza','szpinak':'szpinak','papryka':'papryka'
-};
-function normIngr(raw){
-  const w=raw.trim().toLowerCase();
-  if(INGR_NORM[w])return INGR_NORM[w];
-  // sprobuj usunac koncowke dopelniacza pojedynczych slow
-  return raw.trim();
-}
-function parseIngr(part){
-  let p=part.trim();
-  if(!p)return null;
-  // odetnij ogony typu "+ 30-45 g węgli/h biegu", "i warzywa", "z cienką..."
-  p=p.replace(/\s*\+.*/,'').replace(/\s+i\s+.*/,'').replace(/\s+z\s+.*/,'').trim();
-  // "100 g chleba" / "100 ml mleka"
-  let m=p.match(/^(\d+)\s*(g|ml)\s+(.+)$/i);
-  if(m)return {name:normIngr(m[3]),qty:+m[1],unit:m[2].toLowerCase()};
-  // "1 banan" / "2 jajka" / "3 wafle" / "1 tortilla"
-  m=p.match(/^(\d+)\s+(.+)$/);
-  if(m)return {name:normIngr(m[2]),qty:+m[1],unit:'szt'};
-  // "½ banana", "½ tortilli" -> traktuj jako 0.5 szt
-  m=p.match(/^[½]\s+(.+)$/);
-  if(m)return {name:normIngr(m[1]),qty:0.5,unit:'szt'};
-  // sama nazwa: "warzywa", "pomidor", "banan"
-  if(p.length>1 && !/^\d/.test(p))return {name:normIngr(p),unit:'wg potrzeb'};
-  return null;
-}
-// ktory batch obejmuje obiad danego dnia + ktory dzien jest "dniem zakupu"
-function batchInfoForDay(gd){
-  const meals=mealsForDay(gd);
-  const obiad=meals.find(m=>m.slot===3);
-  if(!obiad)return null;
-  const bm=(obiad.uwagi||'').match(/B(\d)/i);
-  // znajdz pierwszy dzien tego dania obiadowego (dzien zakupu batcha)
-  const sameName=curPlan().meals.filter(m=>m.slot===3 && m.name===obiad.name);
-  const firstDay=Math.min(...sameName.map(m=>m.day));
-  const lastDay=Math.max(...sameName.map(m=>m.day));
-  const batch=curPlan().batches.find(b=>bm && b.id==='B'+bm[1]) ||
-              curPlan().batches.find(b=>b.name.toLowerCase().includes(obiad.name.toLowerCase().split(' ')[0]));
-  return {obiad,batch,firstDay,lastDay,isFirstDay:gd===firstDay};
-}
-// zbierz skladniki sniadania/pos2/kolacji dla dnia (surowe, zsumowane, bez osob)
-function daySnbcIngredients(gd){
-  const meals=mealsForDay(gd).filter(m=>m.slot!==3); // bez obiadu
-  const totals={}; // name -> {qty, unit}
-  meals.forEach(m=>{
-    // bierzemy wersje Bartka jako "pelna" referencje surowych skladnikow dnia
-    // (chodzi o liste produktow, nie o dokladny gram per osoba)
-    (m.bartek||'').split(',').forEach(part=>{
-      const ing=parseIngr(part);
-      if(!ing)return;
-      const key=ing.name;
-      if(!totals[key])totals[key]={qty:0,unit:ing.unit,hasNum:false};
-      if(ing.qty!=null){totals[key].qty+=ing.qty;totals[key].hasNum=true;totals[key].unit=ing.unit;}
-    });
-  });
-  return totals;
-}
-
 function renderZakupy(){
   const el=document.getElementById('zakupy');
-  if(!nav.shopMode)nav.shopMode='tydzien';
-  const modeTabs=`<div class="week-tabs">
-    <button class="week-tab ${nav.shopMode==='tydzien'?'active':''}" onclick="setShopMode('tydzien')">Cały tydzień</button>
-    <button class="week-tab ${nav.shopMode==='dzien'?'active':''}" onclick="setShopMode('dzien')">Wg dni</button></div>`;
+  const week=viewWeek();
+  if(!nav.shopDays||!Array.isArray(nav.shopDays))nav.shopDays=[0,1,2,3,4,5,6];
+  const sel=nav.shopDays;
+  const selectedDays=sel.map(i=>week.days[i]).filter(Boolean);
+  const totals=shoppingFromDays(selectedDays);
 
-  if(nav.shopMode==='dzien'){el.innerHTML=`<h2 class="section-h">Lista zakupów</h2>
-    <div class="section-sub">Zakupy na wybrany dzień lub zakres. Obiady liczone raz — w dniu gotowania batcha.</div>
-    ${modeTabs}${renderShopDays()}`;return;}
-
-  // --- TRYB TYGODNIOWY (jak dotad) ---
-  const shop=curPlan().shop;
-  const wk=nav.activeWeek===2?shop.w2:shop.w1;
-  const cats={};wk.forEach(i=>{(cats[i.cat]=cats[i.cat]||[]).push(i);});
+  const byCat={};
+  Object.entries(totals).forEach(([name,v])=>{
+    const cat=shopCatOf(name);(byCat[cat]=byCat[cat]||[]).push([name,v]);
+  });
+  const catOrder=['Mięso i ryby','Nabiał i jajka','Pieczywo, zboża','Warzywa i owoce','Pozostałe'];
   let html='';
-  for(const[cat,items]of Object.entries(cats)){
+  catOrder.forEach(cat=>{
+    if(!byCat[cat])return;
     html+=`<div class="shop-cat">${cat}</div>`;
-    items.forEach((i,idx)=>{
-      const id=nav.activeWeek+'_'+cat+'_'+idx;
-      const done=state.shopChecked[id];
+    byCat[cat].sort((a,b)=>a[0].localeCompare(b[0])).forEach(([name,v])=>{
+      const id='p_'+week.id+'_'+name;const done=state.shopChecked[id];
+      const q = v.qty>=1000 ? (v.qty/1000).toFixed(v.qty%1000?1:0)+' kg' : Math.round(v.qty)+' g';
       html+=`<div class="shop-item ${done?'done':''}">
         <input type="checkbox" ${done?'checked':''} onchange="toggleShop('${id.replace(/'/g,"\\'")}')">
-        <span class="shop-name">${i.prod}</span>
-        <span class="shop-q">${i.qty} ${i.unit}</span></div>`;
+        <span class="shop-name">${name}</span><span class="shop-q">${q}</span></div>`;
     });
-  }
-  const weekTabs=`<div class="week-tabs" style="margin-top:10px">
-    <button class="week-tab ${nav.activeWeek===1?'active':''}" onclick="setWeekShop(1)">Tydzień 1</button>
-    <button class="week-tab ${nav.activeWeek===2?'active':''}" onclick="setWeekShop(2)">Tydzień 2</button></div>`;
+  });
+
+  const weekOpts=state.weeks.slice().reverse().map(w=>{
+    const label=w.id===state.curWeekId?`Tydzień ${w.id} (bieżący)`:`Tydzień ${w.id}`;
+    return `<option value="${w.id}" ${w.id===week.id?'selected':''}>${label}</option>`;
+  }).join('');
+  const dayChecks=DAY_SHORT.map((nm,i)=>`<button class="shopday-btn ${sel.includes(i)?'active':''}" onclick="toggleShopDay(${i})">${nm}</button>`).join('');
+
   el.innerHTML=`<h2 class="section-h">Lista zakupów</h2>
-    <div class="section-sub">Orientacyjne ilości z niewielkim zapasem. Produkty sypkie przechodzą na kolejny tydzień.</div>
-    ${modeTabs}${weekTabs}<div class="card">${html}</div>`;
+    <div class="section-sub">Liczona z receptur wylosowanych dań wybranego tygodnia, dla całej rodziny. Obiady liczone jako pół partii na dzień.</div>
+    <div class="card" style="margin-bottom:14px">
+      <select class="week-select" style="margin-bottom:10px;width:100%" onchange="viewWeekSelect(this.value)">${weekOpts}</select>
+      <div style="font-size:13px;color:var(--slate);margin-bottom:6px">Które dni kupujemy:</div>
+      <div class="shopday-picker">${dayChecks}</div>
+      <div class="range-quick" style="margin-top:8px">
+        <button class="btn ghost sm" onclick="setShopDays([0,1,2,3,4,5,6])">Cały tydzień</button>
+        <button class="btn ghost sm" onclick="setShopDays([0,1,2,3,4])">Pon–Pt</button>
+        <button class="btn ghost sm" onclick="setShopDays([5,6])">Weekend</button>
+      </div>
+    </div>
+    <div class="card">${html||'<div class="empty">Zaznacz dni powyżej.</div>'}</div>`;
 }
-
-// wybor dni + render zakupow dla wybranego zakresu
-function renderShopDays(){
-  if(!nav.shopDays)nav.shopDays=[globalDay()];
-  const sel=nav.shopDays;
-  // przyciski wyboru dni 1-14
-  const dayBtns=Array.from({length:14},(_,i)=>i+1).map(d=>{
-    const inf=dayInfo(d);
-    return `<button class="shopday-btn ${sel.includes(d)?'active':''}" onclick="toggleShopDay(${d})">${d}<small>${inf?inf.name.slice(0,2):''}</small></button>`;
-  }).join('');
-
-  if(!sel.length)return `<div class="shopday-picker">${dayBtns}</div><div class="empty">Zaznacz dzień lub kilka dni powyżej.</div>`;
-
-  // zbierz skladniki sniadania/pos2/kolacji ze wszystkich wybranych dni
-  const snbc={};
-  sel.forEach(gd=>{
-    const t=daySnbcIngredients(gd);
-    for(const[name,v]of Object.entries(t)){
-      if(!snbc[name])snbc[name]={qty:0,unit:v.unit,hasNum:false};
-      if(v.hasNum){snbc[name].qty+=v.qty;snbc[name].hasNum=true;snbc[name].unit=v.unit;}
-    }
-  });
-
-  // obiady: dla kazdego wybranego dnia sprawdz batch
-  const batchIncluded=[];   // batche kupowane (pierwszy dzien batcha jest zaznaczony)
-  const batchNotes=[];      // komunikaty "juz w zakupach z dnia X"
-  const seenBatch={};
-  sel.slice().sort((a,b)=>a-b).forEach(gd=>{
-    const bi=batchInfoForDay(gd);
-    if(!bi||!bi.batch)return;
-    const bid=bi.batch.id;
-    if(seenBatch[bid])return; seenBatch[bid]=true;
-    if(bi.isFirstDay){
-      batchIncluded.push(bi);
-    }else{
-      const inf=dayInfo(bi.firstDay);
-      const where=sel.includes(bi.firstDay)
-        ? `w tych zakupach (dzień ${bi.firstDay})`
-        : `w zakupach z dnia ${bi.firstDay} (${inf?inf.name:''})`;
-      batchNotes.push(`<b>${bi.obiad.name}</b> — gotowane raz na dni ${bi.firstDay}–${bi.lastDay}, składniki ${where}.`);
-    }
-  });
-
-  // render skladnikow sniadania/pos2/kolacji
-  let snbcHtml=Object.entries(snbc).sort((a,b)=>a[0].localeCompare(b[0])).map(([name,v])=>{
-    const q=v.hasNum?`${Math.round(v.qty)} ${v.unit==='szt'?'szt':v.unit}`:v.unit;
-    const id='d_'+sel.join('-')+'_'+name;
-    const done=state.shopChecked[id];
-    return `<div class="shop-item ${done?'done':''}">
-      <input type="checkbox" ${done?'checked':''} onchange="toggleShop('${id.replace(/'/g,"\\'")}')">
-      <span class="shop-name">${name}</span><span class="shop-q">${q}</span></div>`;
-  }).join('');
-
-  // render obiadow-batchy do kupienia
-  let batchHtml=batchIncluded.map(bi=>`
-    <div class="batch-buy">
-      <div class="batch-buy-h">🍲 ${bi.batch.name} <span class="batch-buy-days">dni ${bi.firstDay}–${bi.lastDay}</span></div>
-      <div class="batch-buy-warn">UWAGA: składniki na całą partię (${bi.lastDay-bi.firstDay+1} dni obiadów)</div>
-      <div class="batch-buy-ingr">${bi.batch.ingr}</div>
-    </div>`).join('');
-
-  const notesHtml=batchNotes.length?`<div class="shop-note">${batchNotes.map(n=>`<div>ℹ️ ${n}</div>`).join('')}</div>`:'';
-
-  const label=sel.length===1?`dzień ${sel[0]}`:`dni ${sel.slice().sort((a,b)=>a-b).join(', ')}`;
-  return `<div class="shopday-picker">${dayBtns}</div>
-    <div class="shop-sel-label">Zakupy na ${label}</div>
-    ${notesHtml}
-    <div class="card">
-      <div class="shop-cat">Śniadania, posiłek 2, kolacje</div>
-      ${snbcHtml||'<div class="section-sub">brak</div>'}
-      ${batchHtml?`<div class="shop-cat" style="margin-top:18px">Obiady — duże gotowania</div>${batchHtml}`:''}
-    </div>`;
-}
-function setShopMode(m){nav.shopMode=m;saveNav();renderZakupy();}
-function toggleShopDay(d){
-  if(!nav.shopDays)nav.shopDays=[];
-  const i=nav.shopDays.indexOf(d);
-  if(i>=0)nav.shopDays.splice(i,1);else nav.shopDays.push(d);
+function setShopWeek(w){nav.shopWeek=w;saveNav();renderZakupy();}
+function toggleShopDay(i){
+  if(!nav.shopDays)nav.shopDays=[0,1,2,3,4,5,6];
+  const idx=nav.shopDays.indexOf(i);
+  if(idx>=0)nav.shopDays.splice(idx,1);else nav.shopDays.push(i);
   saveNav();renderZakupy();
 }
-function setWeekShop(w){nav.activeWeek=w;saveNav();renderZakupy();}
+function setShopDays(arr){nav.shopDays=arr.slice();saveNav();renderZakupy();}
 function toggleShop(id){
   if(state.shopChecked[id])delete state.shopChecked[id];
   else state.shopChecked[id]=true;
@@ -872,23 +1155,27 @@ function renderProfile(){
   const el=document.getElementById('profile');
   const cards=PEOPLE.map(p=>{
     const t=state.targets[p.id];
-    const protRow=t.protein>0?`<div class="macro-row"><label>Białko / dzień</label><div><input type="number" value="${t.protein}" onchange="setTarget('${p.id}','protein',this.value)"><span class="unit">g</span></div></div>`:'';
+    const row=(k,label,unit)=> (t[k]!=null&&t[k]!==0)||k==='kcal' ?
+      `<div class="macro-row"><label>${label}</label><div><input type="number" value="${t[k]||''}" onchange="setTarget('${p.id}','${k}',this.value)"><span class="unit">${unit}</span></div></div>`:'';
     return `<div class="card profile-card p-${p.color}">
       <div class="profile-name"><span class="dot d-${p.color}"></span>${p.name}</div>
       <div class="profile-goal">${p.goal}</div>
-      <div class="macro-row"><label>Cel kalorii</label><div><input type="number" value="${t.kcal}" onchange="setTarget('${p.id}','kcal',this.value)"><span class="unit">kcal</span></div></div>
-      ${protRow}</div>`;
+      ${row('kcal','Kalorie','kcal')}
+      ${row('protein','Białko','g')}
+      ${row('carbs','Węgle','g')}
+      ${row('fat','Tłuszcz','g')}
+      ${row('fiber','Błonnik','g')}</div>`;
   }).join('');
   el.innerHTML=`<h2 class="section-h">Profile i cele</h2>
-    <div class="section-sub">Cele orientacyjne (średnia z zakresów w planie). Nie trzeba trzymać się co do kcal — chodzi o kierunek: redukcja u Oliwii, masa u Bartka.</div>
+    <div class="section-sub">Cele dzienne z pliku (edytowalne). Teoś ma tylko kalorie i błonnik — porcje dziecka są orientacyjne i zależne od apetytu.</div>
     <div class="grid g3">${cards}</div>
-    <div class="note">Plan to praktyczny punkt startowy dla zdrowych osób. Przy chorobach, zaburzeniach cyklu, nieprawidłowym wzrastaniu dziecka lub problemach z jedzeniem — konsultacja z lekarzem lub dietetykiem. Oceniajcie średnią masę ciała z 2–3 tygodni.</div>
+    <div class="note">Plan to praktyczny punkt startowy dla zdrowych osób. Przy chorobach, zaburzeniach cyklu, nieprawidłowym wzrastaniu dziecka lub problemach z jedzeniem — konsultacja z lekarzem lub dietetykiem. Oceniajcie średnią masę ciała z 2–3 tygodni. Wartości produktów są średnie — dla marek warto sprawdzić etykietę (zwłaszcza whey, pieczywo, nabiał).</div>
     <div class="btn-row">
       <button class="btn ghost" onclick="exportData()">Eksport danych (JSON)</button>
       <button class="btn ghost" onclick="document.getElementById('imp').click()">Import danych</button>
       <input type="file" id="imp" accept=".json" style="display:none" onchange="importData(event)"></div>
     <div class="note" style="background:#eef0f4;border-color:var(--slate)">
-      <b>Kolejne plany:</b> za 2 tygodnie zrób z ChatGPT nowy 14-dniowy plan i wyślij mi go — dołączę go jako „Plan 2" do biblioteki. Z czasem uzbieracie kilka gotowych bloków do rotacji.</div>`;
+      <b>Kolejne paczki dań:</b> nowy plik od ChatGPT w tym samym formacie (Produkty, Składniki receptur, Porcje i makro, Profile) — wyślij mi go, dołączę nowe dania z pełnym makro.</div>`;
 }
 function setTarget(p,k,v){state.targets[p][k]=+v||0;save();renderDzis();}
 function exportData(){
