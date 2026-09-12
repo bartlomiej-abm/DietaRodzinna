@@ -563,6 +563,9 @@ function normalizeShared(s){
     return ['sniadanie','ii_sniadanie','lekki_lunch','kolacja'].every(k=>!d.slots[k]||poolItem(d.slots[k]));
   }));
   if(!weeksValid)return f;  // stary format dań -> świeży tydzień z aktualnej puli
+  // WYMUŚ stałe II śniadanie (D11) także w istniejących tygodniach — nadpisz wylosowane/stare Dxx
+  const fixedII=fixedSecondBreakfast();
+  s.weeks.forEach(w=>{if(w.days)w.days.forEach(d=>{if(d.slots)d.slots.ii_sniadanie=d.slots.ii_sniadanie&&(d.slots.ii_sniadanie==='D12')?'D12':fixedII;});});
   return {schema:SCHEMA,
     targets:s.targets||f.targets,
     weeks:s.weeks, curWeekId:s.curWeekId||s.weeks[s.weeks.length-1].id, nextWeekId:s.nextWeekId||(Math.max(...s.weeks.map(w=>w.id))+1),
@@ -805,7 +808,7 @@ function renderDzis(){
       if(!sd)return;
       const mkey=sdef.key;const done=plog[mkey];const m=sd.macro;
       if(done&&m){eaten.kcal+=m.kcal;eaten.protein+=m.protein;eaten.carbs+=m.carbs;eaten.fat+=m.fat;eaten.fiber+=m.fiber;}
-      const canSwap=!sd.isBlock;
+      const canSwap=!sd.isBlock && sdef.key!=='ii_sniadanie';  // II śniadanie stałe — bez losowania
       const portionTxt = sd.isBlock ? `porcja ${sd.portion||'?'} g${m&&m.adjusted?' (przeliczone)':''}` : (sd.portionG?`~${sd.portionG} g`:'');
       const macroLine = m ? `<span class="macro-mini">B${Math.round(m.protein)} W${Math.round(m.carbs)} T${Math.round(m.fat)} bł${Math.round(m.fiber)}</span>` : '';
       rows+=`<div class="meal-item ${done?'done':''}">
@@ -952,9 +955,10 @@ function renderWeekView(){
           <button class="swap-btn" onclick="swapDayBlock(${idx})" title="zmień blok">🎲</button></div>`;
       }
       const it=poolItem(day.slots[sdef.key]);
+      const noSwap = sdef.key==='ii_sniadanie';  // II śniadanie stałe
       return `<div class="week-slot"><span class="week-slot-label">${sdef.label}</span>
         <span class="week-slot-name mclick" onclick="openPoolItem('${it?it.id:''}')">${it?it.name:'—'}</span>
-        <button class="swap-btn" onclick="swapDaySlot(${idx},'${sdef.key}')" title="inne danie">🎲</button></div>`;
+        ${noSwap?'':`<button class="swap-btn" onclick="swapDaySlot(${idx},'${sdef.key}')" title="inne danie">🎲</button>`}</div>`;
     }).join('');
     const isToday=isCur && idx===todayIdx();
     return `<div class="card week-day ${isToday?'today':''}" style="margin-bottom:12px">
